@@ -530,11 +530,6 @@ endif; ?>
                 </div>
 
                 <a id="action-btn" href="#" class="cta-btn">Commander</a>
-
-                <div class="info-box">
-                    <strong><i class="fas fa-info-circle"></i> Retour de matériel</strong><br>
-                    Si du matériel a été prêté, il doit être restitué dès réception de la commande. Passé 10 jours ouvrés, des frais de <strong>600 €</strong> s'appliquent (voir CGV).
-                </div>
             </div>
         </div>
     </div>
