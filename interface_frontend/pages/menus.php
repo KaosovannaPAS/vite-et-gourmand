@@ -462,8 +462,8 @@ function renderMenuCard($menu, $dishesByMenu)
                                 <h3 class="menu-title">' . htmlspecialchars($menu['titre']) . '</h3>
                                 <p class="menu-desc">' . htmlspecialchars($desc) . '</p>
                                 <div class="menu-pills">
-                                    <span class="menu-pill"><i class="fas fa-users"></i> Min. ' . $menu['min_personnes'] . ' pers.</span>
-                                    <span class="menu-pill"><i class="fas fa-leaf"></i> ' . htmlspecialchars($menu['regime'] ?: 'Classique') . '</span>
+                                    <span class="menu-pill"><i class="fas fa-users"></i> Min. ' . max(2, $menu['min_personnes']) . ' pers.</span>
+                                    <span class="menu-pill"><i class="fas fa-leaf"></i> ' . htmlspecialchars(str_replace('Végan', 'Végétal', $menu['regime'] ?: 'Classique')) . '</span>
                                     ' . ($menu['theme'] ? '<span class="menu-pill"><i class="fas fa-star"></i> ' . htmlspecialchars($menu['theme']) . '</span>' : '') . '
                                 </div>
                                 ' . $dishesHtml . '
