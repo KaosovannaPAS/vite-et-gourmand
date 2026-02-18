@@ -254,8 +254,7 @@ function fixImg($url)
     padding: 2rem;
     box-shadow: 0 6px 24px rgba(0,0,0,0.09);
     border: 1px solid #f0f0f0;
-    position: sticky;
-    top: 100px;
+    /* Removed sticky from here, moving to wrapper */
 }
 .sidebar-price {
     font-size: 2.2rem;
@@ -590,7 +589,8 @@ endif; ?>
 
         <!-- RIGHT: Sidebar Simulator -->
         <div>
-            <div class="sidebar-card">
+            <div style="position: sticky; top: 100px;">
+                <div class="sidebar-card">
                 <div class="sidebar-price">
                     <?php echo number_format($menu['prix'], 2); ?> €
                     <span>/ personne</span>
@@ -600,12 +600,12 @@ endif; ?>
                 <hr class="sidebar-divider">
 
                 <div class="simulator-label">Simulateur de budget</div>
-                <div class="simulator-value"><span id="guest_display"><?php echo max($menu['min_personnes'], 10); ?></span> pers.</div>
+                <div class="simulator-value"><span id="guest_display"><?php echo max($menu['min_personnes'], 2); ?></span> pers.</div>
 
                 <input type="range" id="guest_count"
                        min="<?php echo $menu['min_personnes']; ?>"
-                       max="200"
-                       value="<?php echo max($menu['min_personnes'], 10); ?>"
+                       max="100"
+                       value="<?php echo max($menu['min_personnes'], 2); ?>"
                        class="gold-slider">
 
                 <div style="margin-top:1.25rem;background:#fafafa;border-radius:10px;padding:1rem 1.25rem;border:1px solid #eee;">
@@ -650,6 +650,7 @@ endif; ?>
                     5,00 € <small>(majoré de 0,59€ / km)</small> si livraison hors Bordeaux.
                 </p>
             </div>
+            </div> <!-- End sticky wrapper -->
         </div>
     </div>
 </div>
