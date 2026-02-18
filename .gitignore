@@ -1,0 +1,35 @@
+# XAMPP / PHP
+/debug_images.php
+/debug_report.txt
+/debug_report_utf8.txt
+/final_debug_report.txt
+/final_debug_report_utf8.txt
+/composition_report.txt
+/composition_report_utf8.txt
+/final_report.txt
+/final_report_utf8.txt
+/dishes_output.txt
+/dishes_report.txt
+/target_starters.txt
+/check_*.php
+/fix_*.php
+/update_*.php
+/divide_*.php
+/list_*.php
+/clean_*.php
+/describe_*.php
+
+# Environment / OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+/noyau_backend/logs/*
+
+# Temp / Dependencies
+/temp_setup/
+node_modules/
+.npm/
+.gemini/
