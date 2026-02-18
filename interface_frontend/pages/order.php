@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../noyau_backend/configuration/db.php';
+include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
 if (!isset($_SESSION['user'])) {
     header('Location: /interface_frontend/pages/login.php');
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 }
 
-include '../composants/header.php';
+include __DIR__ . '/../composants/header.php';
 ?>
 
 <div class="container" style="padding: 4rem 0; max-width: 800px;">

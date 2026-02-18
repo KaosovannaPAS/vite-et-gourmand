@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../noyau_backend/configuration/db.php';
+include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
 // Check if ID is provided
 if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -37,7 +37,7 @@ catch (PDOException $e) {
     die("Erreur de base de données : " . $e->getMessage());
 }
 ?>
-<?php include '../composants/header.php'; ?>
+<?php include __DIR__ . '/../composants/header.php'; ?>
 
 <div class="container" style="padding: 2rem 0;">
     <a href="menus.php" style="display: inline-block; margin-bottom: 2rem; color: var(--secondary-color); text-decoration: none;">
@@ -187,11 +187,11 @@ endif; ?>
 
                             if (count < 30) {
                                 actionBtn.textContent = "Commander";
-                                actionBtn.href = `/Vite-et-gourmand/interface_frontend/pages/order.php?menu_id=${menuId}&quantite=${count}`;
+                                actionBtn.href = `${BASE_URL}/interface_frontend/pages/order.php?menu_id=${menuId}&quantite=${count}`;
                                 actionBtn.style.backgroundColor = "var(--primary-color)";
                             } else {
                                 actionBtn.textContent = "Demander un devis";
-                                actionBtn.href = `/Vite-et-gourmand/interface_frontend/pages/contact.php?sujet=Devis&menu=${encodeURIComponent(menuTitle)}&guests=${count}`;
+                                actionBtn.href = `${BASE_URL}/interface_frontend/pages/contact.php?sujet=Devis&menu=${encodeURIComponent(menuTitle)}&guests=${count}`;
                                 actionBtn.style.backgroundColor = "#2c3e50"; 
                             }
                         }

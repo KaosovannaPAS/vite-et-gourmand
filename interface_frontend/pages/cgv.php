@@ -1,6 +1,6 @@
 <?php
-include '../../noyau_backend/configuration/db.php';
-include '../composants/header.php';
+include __DIR__ . '/../../noyau_backend/configuration/db.php';
+include __DIR__ . '/../composants/header.php';
 ?>
 
 <div class="container" style="padding: 4rem 0; line-height: 1.6;">

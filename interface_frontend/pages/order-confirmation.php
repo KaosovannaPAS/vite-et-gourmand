@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../noyau_backend/configuration/db.php';
+include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
 if (!isset($_GET['id']) || !isset($_SESSION['user'])) {
     header('Location: /');
@@ -17,7 +17,7 @@ if (!$order) {
     die("Commande introuvable.");
 }
 
-include '../composants/header.php';
+include __DIR__ . '/../composants/header.php';
 ?>
 
 <div class="container" style="padding: 4rem 0; text-align: center;">

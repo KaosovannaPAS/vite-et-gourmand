@@ -4,7 +4,7 @@
 // PARTIE NOYAU (BACK-END) : TRAITEMENT AUTHENTIFICATION
 // ============================================
 session_start();
-include '../../noyau_backend/configuration/db.php';
+include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
 if (isset($_SESSION['user'])) {
     header('Location: /pages/dashboard.php');
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-include '../composants/header.php';
+include __DIR__ . '/../composants/header.php';
 ?>
 
 <!-- ============================================

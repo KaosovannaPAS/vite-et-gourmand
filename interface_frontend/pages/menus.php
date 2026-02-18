@@ -1,8 +1,8 @@
 <?php
 session_start();
-include '../../noyau_backend/configuration/db.php';
+include __DIR__ . '/../../noyau_backend/configuration/db.php';
 ?>
-<?php include '../composants/header.php'; ?>
+<?php include __DIR__ . '/../composants/header.php'; ?>
 
 <style>
     /* Slider Ovale Doré */

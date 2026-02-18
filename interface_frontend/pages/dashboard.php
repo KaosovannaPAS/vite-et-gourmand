@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../noyau_backend/configuration/db.php';
+include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
 if (!isset($_SESSION['user'])) {
     header('Location: /interface_frontend/pages/login.php');
@@ -23,7 +23,7 @@ $stmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY created_a
 $stmt->execute([$user['id']]);
 $orders = $stmt->fetchAll();
 
-include '../composants/header.php';
+include __DIR__ . '/../composants/header.php';
 ?>
 
 <div class="container" style="padding: 4rem 0;">

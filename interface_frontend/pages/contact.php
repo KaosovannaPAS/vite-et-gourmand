@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../noyau_backend/configuration/db.php';
+include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
 $success = '';
 $error = '';
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-include '../composants/header.php';
+include __DIR__ . '/../composants/header.php';
 ?>
 
 <div class="container" style="padding: 4rem 0; max-width: 1200px;">
