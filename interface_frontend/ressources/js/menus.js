@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${menu.theme ? `<span class="menu-pill"><i class="fas fa-star"></i> ${menu.theme}</span>` : ''}
                     </div>
                     ${dishesHtml}
-                    ${menu.conditions_reservation ? `<p class="menu-conditions"><i class="fas fa-info-circle"></i> ${menu.conditions_reservation}</p>` : ''}
+                    ${dishesHtml}
                     <a href="${BASE_URL}/interface_frontend/pages/menu-detail.php?id=${menu.id}" class="menu-cta">
                         Voir le détail <i class="fas fa-arrow-right"></i>
                     </a>
@@ -200,5 +200,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Init
     updateLogistics();
-    fetchMenus();
+
+    // SSR Check: If grid has content (not empty and not just "Chargement"), skip initial fetch
+    if (menusGrid.children.length > 0 && !menusGrid.textContent.includes('Chargement')) {
+        updateSimulatorTotals();
+    } else {
+        fetchMenus();
+    }
 });

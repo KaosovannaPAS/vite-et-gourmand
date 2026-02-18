@@ -343,12 +343,135 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         </div>
     </aside>
 
-    <!-- Liste des Menus -->
     <section style="flex: 1;">
         <h2 style="margin-bottom: 2rem;">Nos propositions gourmandes</h2>
         <div id="menus-grid" style="display: block;">
-            <!-- Les menus seront injectés ici par JS -->
-            <p>Chargement des menus...</p>
+            <?php
+// SSR LOGIC
+// 1. Fetch Menus
+$stmt = $pdo->query("SELECT * FROM menus WHERE actif = 1 ORDER BY FIELD(theme, 'Noël', 'Prestige', 'Saint Valentin', 'Voyage en Asie', 'Végane', 'Mer', 'Terroir', 'Classique', 'Événement'), titre");
+$menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 2. Fetch Condensed Dishes
+$dishesByMenu = [];
+if (!empty($menus)) {
+    $menuIds = array_column($menus, 'id');
+    $inQuery = implode(',', array_fill(0, count($menuIds), '?'));
+    $dStmt = $pdo->prepare("
+                    SELECT md.menu_id, d.type, d.nom
+                    FROM menu_dishes md
+                    JOIN dishes d ON md.dish_id = d.id
+                    WHERE md.menu_id IN ($inQuery)
+                    ORDER BY FIELD(d.type, 'apero', 'entree', 'plat', 'dessert')
+                ");
+    $dStmt->execute($menuIds);
+    while ($row = $dStmt->fetch(PDO::FETCH_ASSOC)) {
+        $mid = $row['menu_id'];
+        $type = $row['type'];
+        if (!isset($dishesByMenu[$mid]))
+            $dishesByMenu[$mid] = [];
+        // Keep one dish per type as representative
+        if (!isset($dishesByMenu[$mid][$type])) {
+            $dishesByMenu[$mid][$type] = $row['nom'];
+        }
+    }
+}
+
+// 3. Helper Render Function
+function renderMenuCard($menu, $dishesByMenu)
+{
+    $imgSrc = str_replace('/Vite-et-gourmand/', '/', $menu['image_url'] ?? '');
+    if (!$imgSrc)
+        $imgSrc = 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80';
+
+    $stockBadge = '';
+    if ($menu['stock'] === 0) {
+        $stockBadge = '<span class="menu-badge badge-rupture"><i class="fas fa-times-circle"></i> Rupture</span>';
+    }
+    elseif ($menu['stock'] < 10) {
+        $stockBadge = '<span class="menu-badge badge-urgent"><i class="fas fa-fire"></i> Plus que ' . $menu['stock'] . ' !</span>';
+    }
+
+    $dishesHtml = '';
+    if (isset($dishesByMenu[$menu['id']])) {
+        $cd = $dishesByMenu[$menu['id']];
+        $dishesHtml = '<div class="menu-dishes">';
+        if (isset($cd['entree']))
+            $dishesHtml .= '<div class="dish-row"><span class="dish-label">Entrée</span><span>' . htmlspecialchars($cd['entree']) . '</span></div>';
+        if (isset($cd['plat']))
+            $dishesHtml .= '<div class="dish-row"><span class="dish-label">Plat</span><span>' . htmlspecialchars($cd['plat']) . '</span></div>';
+        if (isset($cd['dessert']))
+            $dishesHtml .= '<div class="dish-row"><span class="dish-label">Dessert</span><span>' . htmlspecialchars($cd['dessert']) . '</span></div>';
+        $dishesHtml .= '</div>';
+    }
+
+    // Clean description
+    $desc = str_replace("En attente du retour de matériel", "", $menu['description']);
+    if (strlen($desc) > 150)
+        $desc = substr($desc, 0, 150) . '...';
+
+    // We intentionally SKIP rendering conditions_reservation here to solve user issue
+
+    return '
+                    <div class="menu-card" data-price="' . $menu['prix'] . '" data-min="' . $menu['min_personnes'] . '">
+                        <div class="menu-card-inner">
+                            <div class="menu-img-wrap">
+                                <img src="' . htmlspecialchars($imgSrc) . '" alt="' . htmlspecialchars($menu['titre']) . '" loading="lazy"
+                                     onerror="this.src=\'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80\'">
+                                <div class="menu-img-overlay"></div>
+                                <div class="menu-price-badge">' . number_format($menu['prix'], 2) . '€<span>/pers.</span></div>
+                                ' . $stockBadge . '
+                            </div>
+                            <div class="menu-body">
+                                <h3 class="menu-title">' . htmlspecialchars($menu['titre']) . '</h3>
+                                <p class="menu-desc">' . htmlspecialchars($desc) . '</p>
+                                <div class="menu-pills">
+                                    <span class="menu-pill"><i class="fas fa-users"></i> Min. ' . $menu['min_personnes'] . ' pers.</span>
+                                    <span class="menu-pill"><i class="fas fa-leaf"></i> ' . htmlspecialchars($menu['regime'] ?: 'Classique') . '</span>
+                                    ' . ($menu['theme'] ? '<span class="menu-pill"><i class="fas fa-star"></i> ' . htmlspecialchars($menu['theme']) . '</span>' : '') . '
+                                </div>
+                                ' . $dishesHtml . '
+                                <a href="' . BASE_URL . '/interface_frontend/pages/menu-detail.php?id=' . $menu['id'] . '" class="menu-cta">
+                                    Voir le détail <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>';
+}
+
+// 4. Group & Render
+if (empty($menus)) {
+    echo '<p style="color:#888;padding:2rem;text-align:center;">Aucun menu disponible pour le moment.</p>';
+}
+else {
+    $groups = [];
+    foreach ($menus as $m) {
+        $t = $m['theme'] ?: 'Autres';
+        $groups[$t][] = $m;
+    }
+
+    // If only 1 group, flat grid (SSR handles this by context, but grouped is safer default)
+    // Use grouped layout by default for SSR
+    $themeIcons = [
+        'Noël' => '🎄', 'Prestige' => '⭐', 'Saint Valentin' => '❤️',
+        'Voyage en Asie' => '🌏', 'Végane' => '🌿', 'Mer' => '🌊',
+        'Terroir' => '🍷', 'Classique' => '🍽️', 'Événement' => '🎉'
+    ];
+
+    foreach ($groups as $groupTheme => $groupMenus) {
+        $icon = $themeIcons[$groupTheme] ?? '🍽️';
+        echo '<div class="theme-section-header">';
+        echo '<span class="theme-icon">' . $icon . '</span><span>' . htmlspecialchars($groupTheme) . '</span>';
+        echo '</div>';
+
+        echo '<div class="theme-cards-row">';
+        foreach ($groupMenus as $m) {
+            echo renderMenuCard($m, $dishesByMenu);
+        }
+        echo '</div>';
+    }
+}
+?>
         </div>
     </section>
 
