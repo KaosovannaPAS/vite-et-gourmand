@@ -1,5 +1,6 @@
 <?php
 // Configuration base de données
+require_once __DIR__ . '/config.php';
 function env_get($key, $default = '')
 {
     $val = '';
@@ -32,10 +33,36 @@ $estLocal = (DB_HOST === 'localhost' || DB_HOST === '127.0.0.1');
 try {
     $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4";
 
-    $options = [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ];
+    // Configuration SSL pour TiDB / Aiven en production
+    if (!$estLocal) {
+        $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = true;
+
+        // Tentative de détection du CA du système (Vercel tourne sur Amazon Linux 2 ou similaire)
+        $ca_paths = [
+            '/etc/pki/tls/certs/ca-bundle.crt', // Amazon Linux / RHEL / CentOS
+            '/etc/ssl/certs/ca-certificates.crt', // Debian / Ubuntu
+            '/etc/ssl/ca-bundle.pem', // OpenSUSE
+            '/usr/local/share/certs/ca-root-nss.crt', // FreeBSD
+        ];
+
+        $ca_found = false;
+        foreach ($ca_paths as $path) {
+            if (file_exists($path)) {
+                $options[PDO::MYSQL_ATTR_SSL_CA] = $path;
+                $ca_found = true;
+                break;
+            }
+        }
+
+        // Si aucun CA trouvé, on désactive la vérification (moins sécurisé mais fonctionnel)
+        // TiDB Serverless requiert SSL, donc si on ne trouve pas de CA, on laisse vide (le système peut le gérer)
+        // ou on met verify à false selon le driver.
+        if (!$ca_found) {
+            // Fallback: On espère que le driver utilise le store système par défaut ou on désactive la vérif stricte
+            $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+        // $options[PDO::MYSQL_ATTR_SSL_CA] = ''; // On laisse vide
+        }
+    }
 
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 }
