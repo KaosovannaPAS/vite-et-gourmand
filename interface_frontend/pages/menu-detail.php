@@ -181,7 +181,7 @@ function fixImg($url)
     display: flex;
     gap: 1.25rem;
     align-items: flex-start;
-    background: #121212;
+    background: #5a0015; /* Bordeaux BG */
     border-radius: 4px;
     padding: 1.25rem;
     margin-bottom: 1rem;
@@ -261,7 +261,7 @@ function fixImg($url)
 /* Sidebar */
 /* Sidebar */
 .sidebar-card {
-    background: #121212;
+    background: #5a0015; /* Bordeaux BG */
     border-radius: 4px;
     padding: 2rem;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -658,7 +658,7 @@ endif; ?>
             </div>
 
             <!-- Conditions & Livraison -->
-            <div style="margin-top: 1.5rem; background: #121212; border-radius: 4px; border: 1px solid var(--secondary-color); padding: 1.5rem; font-size: 0.9rem; color: #ccc; position: relative;">
+            <div style="margin-top: 1.5rem; background: #5a0015; border-radius: 4px; border: 1px solid var(--secondary-color); padding: 1.5rem; font-size: 0.9rem; color: #ccc; position: relative;">
                 <h4 style="color:var(--secondary-color); font-size:1rem; margin:0 0 1rem; font-family:'Playfair Display',serif; font-weight:700; border-bottom:1px solid rgba(212,175,55,0.3); padding-bottom:0.5rem;">
                     <i class="fas fa-info-circle" style="color:var(--secondary-color); margin-right:8px;"></i> Informations
                 </h4>

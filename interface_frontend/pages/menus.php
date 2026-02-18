@@ -38,7 +38,7 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
     /* ===== MENU CARDS (BAROQUE STYLE) ===== */
     .menu-card-inner {
-        background: #121212; /* Dark BG */
+        background: #5a0015; /* Bordeaux BG */
         border: 2px solid var(--secondary-color); /* Gold Border */
         border-radius: 4px; /* Sharper corners for greek style */
         overflow: hidden;
@@ -93,7 +93,7 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         position: absolute;
         top: 14px;
         right: 14px;
-        background: #121212;
+        background: #5a0015; /* Bordeaux */
         color: var(--secondary-color);
         border: 1px solid var(--secondary-color);
         font-weight: 900;
@@ -276,6 +276,23 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         gap: 1.75rem;
     }
     .menu-card { height: 100%; }
+
+    /* Sidebar (Baroque) */
+    .baroque-card {
+        background: #5a0015;
+        border: 2px solid var(--secondary-color);
+        border-radius: 4px;
+        color: #fff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        position: relative;
+    }
+    .baroque-card::after {
+        content: '';
+        position: absolute;
+        inset: 4px;
+        border: 1px solid var(--secondary-color);
+        pointer-events: none;
+    }
 </style>
 
 <div class="container" style="padding: 2rem 0; display: flex; gap: 2rem;">
@@ -318,7 +335,7 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
             <div class="filter-group" style="margin-bottom: 1.5rem;">
                 <label for="max_price" style="display: block; margin-bottom: 0.8rem; font-weight: bold; color: var(--secondary-color);">Budget Max / Pers. (€)</label>
-                <input type="range" id="max_price" min="10" max="150" value="150" class="oval-slider" style="background: rgba(255,255,255,0.1);">
+                <input type="range" id="max_price" min="42.5" max="150" step="0.5" value="150" class="oval-slider" style="background: rgba(255,255,255,0.1);">
                 <div style="text-align: center; font-weight: bold; margin-top: 0.5rem;"><span id="price_display">150 €</span></div>
             </div>
             
