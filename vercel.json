@@ -2,14 +2,6 @@
     "version": 2,
     "builds": [
         {
-            "src": "**/*.php",
-            "use": "vercel-php@0.7.2"
-        },
-        {
-            "src": "add_reviews.php",
-            "use": "vercel-php@0.7.2"
-        },
-        {
             "src": "interface_frontend/**/*.{css,js,jpg,jpeg,png,gif,svg,ico,woff,woff2,ttf,eot}",
             "use": "@vercel/static"
         }
@@ -18,14 +10,6 @@
         {
             "src": "/interface_frontend/(.*)",
             "dest": "/interface_frontend/$1"
-        },
-        {
-            "src": "/noyau_backend/(.*)",
-            "dest": "/noyau_backend/$1"
-        },
-        {
-            "src": "/add_reviews.php",
-            "dest": "/add_reviews.php"
         },
         {
             "handle": "filesystem"
