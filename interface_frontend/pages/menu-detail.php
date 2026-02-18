@@ -612,6 +612,24 @@ endif; ?>
 
                 <a id="action-btn" href="#" class="cta-btn">Commander</a>
             </div>
+
+            <!-- Conditions & Livraison -->
+            <div style="margin-top: 1.5rem; background: #fffcf0; border-radius: 12px; border: 1px solid var(--secondary-color); padding: 1.5rem; font-size: 0.9rem; color: #555; position: relative;">
+                <h4 style="color:var(--primary-color); font-size:1rem; margin:0 0 1rem; font-family:'Playfair Display',serif; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.1); padding-bottom:0.5rem;">
+                    <i class="fas fa-info-circle" style="color:var(--secondary-color); margin-right:8px;"></i> Informations
+                </h4>
+                
+                <p style="margin-bottom:0.5rem; font-weight:700; color:var(--primary-color);">Conditions de commande :</p>
+                <ul style="margin:0 0 1.25rem 1.2rem; padding:0;">
+                    <li style="margin-bottom:0.25rem;">1 semaine à l'avance pour < 30 pers.</li>
+                    <li>2 semaines à l'avance pour > 30 pers.</li>
+                </ul>
+
+                <p style="margin-bottom:0.5rem; font-weight:700; color:var(--primary-color);">Frais de livraison :</p>
+                <p style="margin:0; line-height:1.5;">
+                    5,00 € <small>(majoré de 0,59€ / km)</small> si livraison hors Bordeaux.
+                </p>
+            </div>
         </div>
     </div>
 </div>
