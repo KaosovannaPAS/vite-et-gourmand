@@ -6,7 +6,7 @@
             "use": "vercel-php@0.7.2"
         },
         {
-            "src": "diag_data.php",
+            "src": "fix_data_all.php",
             "use": "vercel-php@0.7.2"
         },
         {
@@ -24,8 +24,8 @@
             "dest": "/noyau_backend/$1"
         },
         {
-            "src": "/diag_data.php",
-            "dest": "/diag_data.php"
+            "src": "/fix_data_all.php",
+            "dest": "/fix_data_all.php"
         },
         {
             "handle": "filesystem"
