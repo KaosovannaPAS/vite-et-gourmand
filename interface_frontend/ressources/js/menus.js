@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="menu-desc">${menu.description || ''}</p>
                     <div class="menu-pills">
                         <span class="menu-pill"><i class="fas fa-users"></i> Min. ${Math.max(2, menu.min_personnes)} pers.</span>
-                        <span class="menu-pill"><i class="fas fa-leaf"></i> ${(menu.regime || 'Classique').replace('Végan', 'Végétal')}</span>
+                        <span class="menu-pill"><i class="fas fa-leaf"></i> ${(menu.regime || 'Classique').replace(/V.gan/u, 'Végétal')}</span>
                         ${menu.theme ? `<span class="menu-pill"><i class="fas fa-star"></i> ${menu.theme}</span>` : ''}
                     </div>
                     ${dishesHtml}
