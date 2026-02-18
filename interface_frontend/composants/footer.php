@@ -16,8 +16,8 @@
                 </div>
                 <div class="footer-section">
                     <h3>Légal</h3>
-                    <a href="/Vite-et-gourmand/interface_frontend/pages/mentions-legales.php" style="margin: 0 10px;">Mentions Légales</a> |
-                    <a href="/Vite-et-gourmand/interface_frontend/pages/cgv.php" style="margin: 0 10px;">CGV</a>
+                    <a href="<?php echo BASE_URL; ?>/interface_frontend/pages/mentions-legales.php" style="margin: 0 10px;">Mentions Légales</a> |
+                    <a href="<?php echo BASE_URL; ?>/interface_frontend/pages/cgv.php" style="margin: 0 10px;">CGV</a>
                 </div>
             </div>
             <div style="width: 100%; border-top: 1px solid rgba(0,0,0,0.1); margin-top: 2rem; padding-top: 2rem; text-align: center; font-size: 1rem; color: #000;">
@@ -34,12 +34,12 @@
                 </p>
                 <p>
                     &copy; <?php echo date('Y'); ?> Vite & Gourmand - Tous droits réservés. | 
-                    <a href="/Vite-et-gourmand/interface_frontend/pages/mentions-legales.php">Mentions Légales et CGV</a> | 
-                    <a href="/Vite-et-gourmand/interface_frontend/pages/politique-confidentialite.php">Politique de Confidentialité</a>
+                    <a href="<?php echo BASE_URL; ?>/interface_frontend/pages/mentions-legales.php">Mentions Légales et CGV</a> | 
+                    <a href="<?php echo BASE_URL; ?>/interface_frontend/pages/politique-confidentialite.php">Politique de Confidentialité</a>
                 </p>
             </div>
         </div>
     </footer>
-    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/main.js"></script>
+    <script src="<?php echo BASE_URL; ?>/interface_frontend/ressources/js/main.js"></script>
 </body>
 </html>

@@ -7,9 +7,12 @@
     <!-- Polices Google -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- CSS Principal -->
-    <link rel="stylesheet" href="/Vite-et-gourmand/interface_frontend/ressources/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/interface_frontend/ressources/css/style.css">
     <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        const BASE_URL = "<?php echo BASE_URL; ?>";
+    </script>
 </head>
 <body>
     <!-- Static Background Controlled via CSS -->
@@ -17,7 +20,7 @@
     <header>
         <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
             <div class="logo">
-                <a href="/Vite-et-gourmand/" style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--secondary-color); text-decoration: none; display: flex; align-items: center; gap: 0.8rem; letter-spacing: 2px;">
+                <a href="<?php echo BASE_URL; ?>/" style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--secondary-color); text-decoration: none; display: flex; align-items: center; gap: 0.8rem; letter-spacing: 2px;">
                     <div style="border: 2px solid var(--secondary-color); padding: 5px 10px; border-radius: 50% 50% 0 0; border-bottom: none;">
                         <i class="fas fa-utensils" style="color: var(--secondary-color);"></i>
                     </div>
@@ -26,25 +29,25 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="/Vite-et-gourmand/#history">Notre Histoire</a></li>
-                    <li><a href="/Vite-et-gourmand/interface_frontend/pages/menus.php">Nos Menus</a></li>
-                    <li><a href="/Vite-et-gourmand/#news">Nos Actualités</a></li>
-                    <li><a href="/Vite-et-gourmand/interface_frontend/pages/contact.php">Contact</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/#history">Notre Histoire</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/interface_frontend/pages/menus.php">Nos Menus</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/#news">Nos Actualités</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/interface_frontend/pages/contact.php">Contact</a></li>
                     <?php if (isset($_SESSION['user'])): ?>
                         <?php if ($_SESSION['user']['role'] === 'admin'): ?>
-                            <li><a href="/Vite-et-gourmand/interface_frontend/admin/dashboard.php">Espace Admin</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>/interface_frontend/admin/dashboard.php">Espace Admin</a></li>
                         <?php
     elseif ($_SESSION['user']['role'] === 'employe'): ?>
-                            <li><a href="/Vite-et-gourmand/interface_frontend/employe/dashboard.php">Espace Employé</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>/interface_frontend/employe/dashboard.php">Espace Employé</a></li>
                         <?php
     else: ?>
-                            <li><a href="/Vite-et-gourmand/interface_frontend/pages/dashboard.php">Mon Compte</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>/interface_frontend/pages/dashboard.php">Mon Compte</a></li>
                         <?php
     endif; ?>
-                        <li><a href="/Vite-et-gourmand/interface_frontend/pages/logout.php" class="btn btn-primary">Déconnexion</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>/interface_frontend/pages/logout.php" class="btn btn-primary">Déconnexion</a></li>
                     <?php
 else: ?>
-                        <li><a href="/Vite-et-gourmand/interface_frontend/pages/login.php" class="btn btn-primary">Connexion</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>/interface_frontend/pages/login.php" class="btn btn-primary">Connexion</a></li>
                     <?php
 endif; ?>
                 </ul>

@@ -129,5 +129,5 @@ include '../../noyau_backend/configuration/db.php';
 
 </div>
 
-<script src="/Vite-et-gourmand/interface_frontend/ressources/js/menus.js"></script>
+<script src="<?php echo BASE_URL; ?>/interface_frontend/ressources/js/menus.js"></script>
 <?php include '../composants/footer.php'; ?>

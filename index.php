@@ -97,7 +97,7 @@ include 'interface_frontend/composants/header.php';
     <div style="background: rgba(255,255,255,0.6); padding: 3rem; border-radius: 2px; border: 2px solid var(--secondary-color); max-width: 800px; position: relative; z-index: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
         <h1 style="font-size: 3.5rem; margin-bottom: 1rem; color: var(--primary-color); font-family: var(--font-heading);">Vite & Gourmand</h1>
         <p style="font-size: 1.4rem; margin-bottom: 2.5rem; font-family: var(--font-heading); font-style: italic; color: #000000;">"L'art de recevoir, l'excellence de servir."</p>
-        <a href="/Vite-et-gourmand/interface_frontend/pages/menus.php" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 30px; border: 1px solid var(--secondary-color); color: #000000;">Découvrir nos Collections</a>
+        <a href="<?php echo BASE_URL; ?>/interface_frontend/pages/menus.php" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 30px; border: 1px solid var(--secondary-color); color: #000000;">Découvrir nos Collections</a>
     </div>
 </section>
 
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         <!-- News 1 -->
         <article style="background: rgba(255,255,255,0.95); box-shadow: 0 4px 20px rgba(0,0,0,0.15); border-radius: 5px; overflow: hidden; transition: transform 0.3s; border: 1px solid var(--secondary-color);">
-            <div style="height: 200px; background: url('/Vite-et-gourmand/interface_frontend/ressources/images/news/spring_menu.png') center/cover; filter: contrast(1.1) brightness(1.05); border-bottom: 1px solid var(--secondary-color);"></div>
+            <div style="height: 200px; background: url('<?php echo BASE_URL; ?>/interface_frontend/ressources/images/news/spring_menu.png') center/cover; filter: contrast(1.1) brightness(1.05); border-bottom: 1px solid var(--secondary-color);"></div>
             <div style="padding: 2rem;">
                 <span style="color: var(--primary-color); font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">15 Février 2026</span>
                 <h3 style="margin: 0.5rem 0 1rem 0; font-size: 1.5rem; color: var(--primary-color);">La Carte Printemps-Été</h3>
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <!-- News 2 -->
         <article style="background: rgba(255,255,255,0.95); box-shadow: 0 4px 20px rgba(0,0,0,0.15); border-radius: 5px; overflow: hidden; transition: transform 0.3s; border: 1px solid var(--secondary-color);">
-            <div style="height: 200px; background: url('/Vite-et-gourmand/interface_frontend/ressources/images/news/label_rse.png') center/cover; filter: contrast(1.1) brightness(1.05); border-bottom: 1px solid var(--secondary-color);"></div>
+            <div style="height: 200px; background: url('<?php echo BASE_URL; ?>/interface_frontend/ressources/images/news/label_rse.png') center/cover; filter: contrast(1.1) brightness(1.05); border-bottom: 1px solid var(--secondary-color);"></div>
             <div style="padding: 2rem;">
                 <span style="color: var(--primary-color); font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">02 Février 2026</span>
                 <h3 style="margin: 0.5rem 0 1rem 0; font-size: 1.5rem; color: var(--primary-color);">Label "Traiteur Responsable"</h3>
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <!-- News 3 -->
         <article style="background: rgba(255,255,255,0.95); box-shadow: 0 4px 20px rgba(0,0,0,0.15); border-radius: 5px; overflow: hidden; transition: transform 0.3s; border: 1px solid var(--secondary-color);">
-            <div style="height: 200px; background: url('/Vite-et-gourmand/interface_frontend/ressources/images/news/chateau_margaux.png') center/cover; filter: contrast(1.1) brightness(1.05); border-bottom: 1px solid var(--secondary-color);"></div>
+            <div style="height: 200px; background: url('<?php echo BASE_URL; ?>/interface_frontend/ressources/images/news/chateau_margaux.png') center/cover; filter: contrast(1.1) brightness(1.05); border-bottom: 1px solid var(--secondary-color);"></div>
             <div style="padding: 2rem;">
                 <span style="color: var(--primary-color); font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">20 Janvier 2026</span>
                 <h3 style="margin: 0.5rem 0 1rem 0; font-size: 1.5rem; color: var(--primary-color);">Partenariat Château Margaux</h3>
