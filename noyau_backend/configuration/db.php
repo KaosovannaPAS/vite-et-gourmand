@@ -1,12 +1,23 @@
 <?php
 // Configuration base de données
-// Railway fournit les variables d'environnement automatiquement
-// En local (XAMPP), on utilise les valeurs par défaut
-define('DB_HOST', getenv('MYSQLHOST') ?: 'localhost');
-define('DB_PORT', getenv('MYSQLPORT') ?: '3306');
-define('DB_NAME', getenv('MYSQLDATABASE') ?: 'vite_et_gourmand');
-define('DB_USER', getenv('MYSQLUSER') ?: 'root');
-define('DB_PASS', getenv('MYSQLPASSWORD') ?: '');
+// Vercel expose les env vars via $_ENV, $_SERVER ou getenv()
+function env_get($key, $default = '')
+{
+    if (isset($_ENV[$key]) && $_ENV[$key] !== '')
+        return $_ENV[$key];
+    if (isset($_SERVER[$key]) && $_SERVER[$key] !== '')
+        return $_SERVER[$key];
+    $val = getenv($key);
+    if ($val !== false && $val !== '')
+        return $val;
+    return $default;
+}
+
+define('DB_HOST', env_get('MYSQLHOST', 'localhost'));
+define('DB_PORT', env_get('MYSQLPORT', '3306'));
+define('DB_NAME', env_get('MYSQLDATABASE', 'vite_et_gourmand'));
+define('DB_USER', env_get('MYSQLUSER', 'root'));
+define('DB_PASS', env_get('MYSQLPASSWORD', ''));
 
 try {
     $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4";
@@ -20,8 +31,8 @@ catch (PDOException $e) {
         die("Erreur de connexion : " . $e->getMessage());
     }
     else {
-        // En production, on ne montre pas l'erreur précise
-        die("Erreur de connexion à la base de données.");
+        // En production, afficher l'hôte pour debug (à retirer après)
+        die("Erreur de connexion à la base de données. Host: " . DB_HOST . " DB: " . DB_NAME);
     }
 }
 ?>
