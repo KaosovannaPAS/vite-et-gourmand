@@ -359,6 +359,77 @@ function fixImg($url)
     cursor: pointer;
     border: 2px solid white;
 }
+
+/* 2-column dish grid */
+.dish-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+@media (max-width: 700px) {
+    .dish-grid { grid-template-columns: 1fr; }
+}
+.dish-card { margin-bottom: 0; }
+
+/* Quantity stepper */
+.qty-stepper-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+    margin: 0.5rem 0 1.5rem;
+}
+.qty-stepper-row label {
+    font-size: 0.82rem;
+    color: #666;
+    margin-right: 10px;
+    font-weight: 600;
+}
+.qty-stepper {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--secondary-color);
+    border-radius: 30px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(212,175,55,0.15);
+}
+.qty-btn {
+    background: #fff;
+    border: none;
+    width: 34px;
+    height: 34px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    line-height: 1;
+}
+.qty-btn:hover { background: #f5e6c8; }
+.qty-num {
+    min-width: 36px;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    padding: 0 4px;
+    border-left: 1.5px solid var(--secondary-color);
+    border-right: 1.5px solid var(--secondary-color);
+    background: #fffcf0;
+}
+
+/* Gold discount info */
+.discount-info-text {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    font-style: italic;
+}
 </style>
 
 <div class="container" style="padding: 2rem 0 4rem;">
@@ -435,9 +506,9 @@ function renderDish($dish, $extraClass = '')
 
 // ---- STANDARD MENU ----
 $types = [
-    'entree' => ['label' => 'Entrées', 'icon' => 'fa-seedling'],
-    'plat' => ['label' => 'Plats Principaux', 'icon' => 'fa-drumstick-bite'],
-    'dessert' => ['label' => 'Desserts', 'icon' => 'fa-ice-cream'],
+    'entree' => ['label' => 'Entrées', 'icon' => 'fa-seedling', 'id' => 'qty_entree'],
+    'plat' => ['label' => 'Plats Principaux', 'icon' => 'fa-drumstick-bite', 'id' => 'qty_plat'],
+    'dessert' => ['label' => 'Desserts', 'icon' => 'fa-ice-cream', 'id' => 'qty_dessert'],
 ];
 foreach ($types as $type => $meta):
     if (!empty($standard[$type])):
@@ -446,9 +517,19 @@ foreach ($types as $type => $meta):
                 <i class="fas <?php echo $meta['icon']; ?>"></i>
                 <span><?php echo $meta['label']; ?></span>
             </div>
+            <div class="dish-grid">
             <?php foreach ($standard[$type] as $dish):
             renderDish($dish);
         endforeach; ?>
+            </div>
+            <div class="qty-stepper-row">
+                <label>Nb. <?php echo $meta['label']; ?> :</label>
+                <div class="qty-stepper">
+                    <button class="qty-btn" onclick="qtyChange('<?php echo $meta['id']; ?>',-1)">−</button>
+                    <span class="qty-num" id="<?php echo $meta['id']; ?>">0</span>
+                    <button class="qty-btn" onclick="qtyChange('<?php echo $meta['id']; ?>',1)">+</button>
+                </div>
+            </div>
             <?php
     endif;
 endforeach; ?>
@@ -524,8 +605,8 @@ endif; ?>
                         <span>Total estimé</span>
                         <span id="total_price">0,00 €</span>
                     </div>
-                    <div id="discount_info" style="margin-top:0.5rem;font-size:0.8rem;color:var(--primary-color);font-style:italic;">
-                        <i class="fas fa-tag"></i> Encore <span id="needed_for_discount">X</span> pers. pour −10% !
+                    <div id="discount_info" style="margin-top:0.75rem;">
+                        <span class="discount-info-text"><i class="fas fa-tag"></i> Encore <span id="needed_for_discount">X</span> pers. pour −10% !</span>
                     </div>
                 </div>
 
@@ -591,6 +672,15 @@ document.addEventListener('DOMContentLoaded', () => {
     guestInput.addEventListener('input', update);
     update();
 });
+
+// Quantity steppers
+function qtyChange(id, delta) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let v = parseInt(el.textContent) || 0;
+    v = Math.max(0, v + delta);
+    el.textContent = v;
+}
 </script>
 
 <?php include __DIR__ . '/../composants/footer.php'; ?>
