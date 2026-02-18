@@ -518,12 +518,25 @@ function renderDish($dish, $extraClass = '')
         ? '<img class="dish-img" src="' . htmlspecialchars($img) . '" alt="' . htmlspecialchars($dish['nom']) . '" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="dish-img-placeholder" style="display:none"><i class="fas fa-utensils"></i></div>'
         : '<div class="dish-img-placeholder"><i class="fas fa-utensils"></i></div>';
     $desc = !empty($dish['description']) ? '<p class="dish-desc">' . htmlspecialchars($dish['description']) . '</p>' : '';
+
+    // Stepper HTML
+    $dishId = $dish['id'];
+    $stepperHtml = '
+    <div style="display:flex; justify-content:flex-end; margin-top:auto; padding-top:0.5rem;">
+        <div class="qty-stepper">
+            <button class="qty-btn" onclick="qtyChange(\'qty_dish_' . $dishId . '\',-1)">−</button>
+            <span class="qty-num" id="qty_dish_' . $dishId . '">0</span>
+            <button class="qty-btn" onclick="qtyChange(\'qty_dish_' . $dishId . '\',1)">+</button>
+        </div>
+    </div>';
+
     echo '<div class="dish-card ' . $extraClass . '">'
         . $imgHtml
-        . '<div class="dish-info">'
+        . '<div class="dish-info" style="display:flex; flex-direction:column;">'
         . '<h4 class="dish-name">' . htmlspecialchars($dish['nom']) . '</h4>'
         . $desc
         . ($tags ? '<div class="dish-tags">' . $tags . '</div>' : '')
+        . $stepperHtml
         . '</div></div>';
 }
 
@@ -545,14 +558,7 @@ foreach ($types as $type => $meta):
             renderDish($dish);
         endforeach; ?>
             </div>
-            <div class="qty-stepper-row">
-                <label>Nb. <?php echo $meta['label']; ?> :</label>
-                <div class="qty-stepper">
-                    <button class="qty-btn" onclick="qtyChange('<?php echo $meta['id']; ?>',-1)">−</button>
-                    <span class="qty-num" id="<?php echo $meta['id']; ?>">0</span>
-                    <button class="qty-btn" onclick="qtyChange('<?php echo $meta['id']; ?>',1)">+</button>
-                </div>
-            </div>
+            <!-- Category stepper removed -->
             <?php
     endif;
 endforeach; ?>
@@ -570,14 +576,7 @@ if (!empty($hasVegan)): ?>
         endif;
     endforeach; ?>
             </div>
-            <div class="qty-stepper-row">
-                <label>Nb. Options Véganes :</label>
-                <div class="qty-stepper">
-                    <button class="qty-btn" onclick="qtyChange('qty_vegan',-1)">−</button>
-                    <span class="qty-num" id="qty_vegan">0</span>
-                    <button class="qty-btn" onclick="qtyChange('qty_vegan',1)">+</button>
-                </div>
-            </div>
+            <!-- Vegan stepper removed -->
             <?php
 endif; ?>
 
@@ -594,14 +593,7 @@ if (!empty($hasGF)): ?>
         endif;
     endforeach; ?>
             </div>
-            <div class="qty-stepper-row">
-                <label>Nb. Sans Gluten :</label>
-                <div class="qty-stepper">
-                    <button class="qty-btn" onclick="qtyChange('qty_glutenfree',-1)">−</button>
-                    <span class="qty-num" id="qty_glutenfree">0</span>
-                    <button class="qty-btn" onclick="qtyChange('qty_glutenfree',1)">+</button>
-                </div>
-            </div>
+            <!-- Gluten-free stepper removed -->
             <?php
 endif; ?>
 
