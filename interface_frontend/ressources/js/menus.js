@@ -157,38 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Group by theme
-                const groups = {};
-                data.forEach(menu => {
-                    const t = menu.theme || 'Autres';
-                    if (!groups[t]) groups[t] = [];
-                    groups[t].push(menu);
-                });
-
-                // If filtering by theme, no grouping needed
-                const isFiltered = theme !== '' || regime !== '';
-
-                if (isFiltered || Object.keys(groups).length === 1) {
-                    // Flat grid
-                    data.forEach(menu => menusGrid.appendChild(buildCard(menu)));
-                } else {
-                    // Grouped by event
-                    Object.entries(groups).forEach(([groupTheme, menus]) => {
-                        const icon = themeIcons[groupTheme] || '🍽️';
-
-                        // Section header
-                        const header = document.createElement('div');
-                        header.className = 'theme-section-header';
-                        header.innerHTML = `<span class="theme-icon">${icon}</span><span>${groupTheme}</span>`;
-                        menusGrid.appendChild(header);
-
-                        // Cards row
-                        const row = document.createElement('div');
-                        row.className = 'theme-cards-row';
-                        menus.forEach(menu => row.appendChild(buildCard(menu)));
-                        menusGrid.appendChild(row);
-                    });
-                }
+                // Flat grid always (Alphabetical)
+                data.forEach(menu => menusGrid.appendChild(buildCard(menu)));
 
                 updateSimulatorTotals();
             })

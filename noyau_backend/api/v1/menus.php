@@ -38,7 +38,7 @@ try {
     }
 
     // Group by pour éviter les doublons dus au LEFT JOIN
-    $sql .= " GROUP BY m.id";
+    $sql .= " GROUP BY m.id ORDER BY m.titre ASC";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);

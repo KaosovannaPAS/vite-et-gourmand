@@ -242,7 +242,12 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
     /* ===== THEME SECTIONS ===== */
     #menus-grid {
-        display: block !important; /* override inline grid for grouped layout */
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns like before */
+        gap: 2rem;
+    }
+    @media(max-width: 768px) {
+        #menus-grid { grid-template-columns: 1fr; }
     }
     .theme-section-header {
         display: flex;
@@ -384,8 +389,8 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         <div id="menus-grid" style="display: block;">
             <?php
 // SSR LOGIC
-// 1. Fetch Menus
-$stmt = $pdo->query("SELECT * FROM menus WHERE actif = 1 ORDER BY FIELD(theme, 'Noël', 'Prestige', 'Saint Valentin', 'Voyage en Asie', 'Végane', 'Mer', 'Terroir', 'Classique', 'Événement'), titre");
+// 1. Fetch Menus (Alphabetical)
+$stmt = $pdo->query("SELECT * FROM menus WHERE actif = 1 ORDER BY titre ASC");
 $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // 2. Fetch Condensed Dishes
@@ -480,31 +485,8 @@ if (empty($menus)) {
     echo '<p style="color:#888;padding:2rem;text-align:center;">Aucun menu disponible pour le moment.</p>';
 }
 else {
-    $groups = [];
     foreach ($menus as $m) {
-        $t = $m['theme'] ?: 'Autres';
-        $groups[$t][] = $m;
-    }
-
-    // If only 1 group, flat grid (SSR handles this by context, but grouped is safer default)
-    // Use grouped layout by default for SSR
-    $themeIcons = [
-        'Noël' => '🎄', 'Prestige' => '⭐', 'Saint Valentin' => '❤️',
-        'Voyage en Asie' => '🌏', 'Végane' => '🌿', 'Mer' => '🌊',
-        'Terroir' => '🍷', 'Classique' => '🍽️', 'Événement' => '🎉'
-    ];
-
-    foreach ($groups as $groupTheme => $groupMenus) {
-        $icon = $themeIcons[$groupTheme] ?? '🍽️';
-        echo '<div class="theme-section-header">';
-        echo '<span class="theme-icon">' . $icon . '</span><span>' . htmlspecialchars($groupTheme) . '</span>';
-        echo '</div>';
-
-        echo '<div class="theme-cards-row">';
-        foreach ($groupMenus as $m) {
-            echo renderMenuCard($m, $dishesByMenu);
-        }
-        echo '</div>';
+        echo renderMenuCard($m, $dishesByMenu);
     }
 }
 ?>
