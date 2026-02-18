@@ -220,6 +220,37 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
     }
     .menu-cta i { transition: transform 0.2s; }
     .menu-cta:hover i { transform: translateX(4px); }
+
+    /* ===== THEME SECTIONS ===== */
+    #menus-grid {
+        display: block !important; /* override inline grid for grouped layout */
+    }
+    .theme-section-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 2.5rem 0 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid var(--secondary-color);
+    }
+    .theme-section-header:first-child { margin-top: 0; }
+    .theme-icon {
+        font-size: 1.8rem;
+        line-height: 1;
+    }
+    .theme-section-header > span:last-child {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        font-weight: 700;
+    }
+    .theme-cards-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.75rem;
+        margin-bottom: 1rem;
+    }
+    .menu-card { height: 100%; }
 </style>
 
 <div class="container" style="padding: 2rem 0; display: flex; gap: 2rem;">
@@ -232,11 +263,14 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
             <div class="filter-group" style="margin-bottom: 1.5rem;">
                 <label for="theme" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--secondary-color);">Thème</label>
                 <select id="theme" class="form-control" style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); color: white; border: 1px solid var(--secondary-color);">
-                    <option value="" style="background: var(--primary-color);">Tous</option>
-                    <option value="Noel" style="background: var(--primary-color);">Noël</option>
-                    <option value="Paques" style="background: var(--primary-color);">Pâques</option>
-                    <option value="Classique" style="background: var(--primary-color);">Classique</option>
-                    <option value="Evenement" style="background: var(--primary-color);">Événement</option>
+                    <option value="" style="background: var(--primary-color);">🍽️ Tous les événements</option>
+                    <option value="Noël" style="background: var(--primary-color);">🎄 Noël</option>
+                    <option value="Prestige" style="background: var(--primary-color);">⭐ Prestige Festif</option>
+                    <option value="Saint Valentin" style="background: var(--primary-color);">❤️ Saint-Valentin</option>
+                    <option value="Voyage en Asie" style="background: var(--primary-color);">🌏 Voyage en Asie</option>
+                    <option value="Végane" style="background: var(--primary-color);">🌿 Végane</option>
+                    <option value="Mer" style="background: var(--primary-color);">🌊 Saveurs de la Mer</option>
+                    <option value="Terroir" style="background: var(--primary-color);">🍷 Terroir Bordelais</option>
                 </select>
             </div>
 
