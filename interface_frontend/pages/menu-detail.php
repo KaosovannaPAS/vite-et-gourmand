@@ -176,21 +176,32 @@ function fixImg($url)
 .diet-header.glutenfree { background: #fff3e0; color: #e65100; border: 1.5px solid #ffcc80; }
 
 /* Dish cards */
+/* Dish cards (Baroque) */
 .dish-card {
     display: flex;
     gap: 1.25rem;
     align-items: flex-start;
-    background: #fff;
-    border-radius: 14px;
+    background: #121212;
+    border-radius: 4px;
     padding: 1.25rem;
     margin-bottom: 1rem;
-    box-shadow: 0 3px 14px rgba(0,0,0,0.07);
-    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    border: 1px solid var(--secondary-color);
     transition: box-shadow 0.25s, transform 0.25s;
+    position: relative;
+    color: #eee;
+}
+.dish-card::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    pointer-events: none;
 }
 .dish-card:hover {
-    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.6);
     transform: translateY(-2px);
+    border-color: #fff;
 }
 .dish-card.vegan-card   { border-left: 4px solid #66bb6a; }
 .dish-card.gluten-card  { border-left: 4px solid #ffa726; }
@@ -218,14 +229,14 @@ function fixImg($url)
 .dish-info { flex: 1; }
 .dish-name {
     font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: var(--primary-color);
+    font-size: 1.15rem;
+    color: var(--secondary-color);
     margin: 0 0 0.4rem;
     font-weight: 700;
 }
 .dish-desc {
     font-size: 0.88rem;
-    color: #555;
+    color: #ccc;
     line-height: 1.5;
     margin: 0 0 0.6rem;
 }
@@ -248,24 +259,34 @@ function fixImg($url)
 .tag-allergen  { background: #fce4ec; color: #c62828; }
 
 /* Sidebar */
+/* Sidebar */
 .sidebar-card {
-    background: #fff;
-    border-radius: 18px;
+    background: #121212;
+    border-radius: 4px;
     padding: 2rem;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.09);
-    border: 1px solid #f0f0f0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 2px solid var(--secondary-color);
+    position: relative;
+    color: #fff;
     /* Removed sticky from here, moving to wrapper */
+}
+.sidebar-card::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 1px solid var(--secondary-color);
+    pointer-events: none;
 }
 .sidebar-price {
     font-size: 2.2rem;
     font-weight: 900;
-    color: var(--primary-color);
+    color: var(--secondary-color);
     line-height: 1;
 }
 .sidebar-price span {
     font-size: 1rem;
     font-weight: 500;
-    color: #888;
+    color: #ccc;
 }
 .sidebar-divider {
     border: none;
@@ -274,7 +295,7 @@ function fixImg($url)
 }
 .simulator-label {
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--secondary-color);
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
     text-transform: uppercase;
@@ -296,12 +317,10 @@ function fixImg($url)
     color: #555;
 }
 .price-row.total {
-    border-top: 2px solid var(--secondary-color);
-    margin-top: 0.5rem;
     padding-top: 0.75rem;
     font-weight: 800;
     font-size: 1.1rem;
-    color: var(--primary-color);
+    color: var(--secondary-color);
 }
 .price-row.discount { color: #27ae60; font-weight: 700; }
 .cta-btn {
@@ -634,18 +653,19 @@ endif; ?>
             </div>
 
             <!-- Conditions & Livraison -->
-            <div style="margin-top: 1.5rem; background: #fffcf0; border-radius: 12px; border: 1px solid var(--secondary-color); padding: 1.5rem; font-size: 0.9rem; color: #555; position: relative;">
-                <h4 style="color:var(--primary-color); font-size:1rem; margin:0 0 1rem; font-family:'Playfair Display',serif; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.1); padding-bottom:0.5rem;">
+            <div style="margin-top: 1.5rem; background: #121212; border-radius: 4px; border: 1px solid var(--secondary-color); padding: 1.5rem; font-size: 0.9rem; color: #ccc; position: relative;">
+                <h4 style="color:var(--secondary-color); font-size:1rem; margin:0 0 1rem; font-family:'Playfair Display',serif; font-weight:700; border-bottom:1px solid rgba(212,175,55,0.3); padding-bottom:0.5rem;">
                     <i class="fas fa-info-circle" style="color:var(--secondary-color); margin-right:8px;"></i> Informations
                 </h4>
                 
-                <p style="margin-bottom:0.5rem; font-weight:700; color:var(--primary-color);">Conditions de commande :</p>
+                
+                <p style="margin-bottom:0.5rem; font-weight:700; color:var(--secondary-color);">Conditions de commande :</p>
                 <ul style="margin:0 0 1.25rem 1.2rem; padding:0;">
                     <li style="margin-bottom:0.25rem;">1 semaine à l'avance pour < 30 pers.</li>
                     <li>2 semaines à l'avance pour > 30 pers.</li>
                 </ul>
 
-                <p style="margin-bottom:0.5rem; font-weight:700; color:var(--primary-color);">Frais de livraison :</p>
+                <p style="margin-bottom:0.5rem; font-weight:700; color:var(--secondary-color);">Frais de livraison :</p>
                 <p style="margin:0; line-height:1.5;">
                     5,00 € <small>(majoré de 0,59€ / km)</small> si livraison hors Bordeaux.
                 </p>

@@ -36,20 +36,32 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
 
-    /* ===== MENU CARDS ===== */
+    /* ===== MENU CARDS (BAROQUE STYLE) ===== */
     .menu-card-inner {
-        background: #fff;
-        border-radius: 16px;
+        background: #121212; /* Dark BG */
+        border: 2px solid var(--secondary-color); /* Gold Border */
+        border-radius: 4px; /* Sharper corners for greek style */
         overflow: hidden;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         display: flex;
         flex-direction: column;
         height: 100%;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
     }
+    /* Inner border effect */
+    .menu-card-inner::after {
+        content: '';
+        position: absolute;
+        inset: 4px; /* 4px spacing */
+        border: 1px solid var(--secondary-color);
+        pointer-events: none;
+        z-index: 10;
+    }
+    
     .menu-card-inner:hover {
         transform: translateY(-6px);
-        box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.5);
     }
 
     /* Image */
@@ -58,6 +70,7 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         height: 230px;
         flex-shrink: 0;
         overflow: hidden;
+        border-bottom: 2px solid var(--secondary-color);
     }
     .menu-img-wrap img {
         width: 100%;
@@ -72,7 +85,7 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
     .menu-img-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%);
+        background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
     }
 
     /* Price badge */
@@ -80,21 +93,22 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         position: absolute;
         top: 14px;
         right: 14px;
-        background: var(--secondary-color);
-        color: var(--primary-color);
+        background: #121212;
+        color: var(--secondary-color);
+        border: 1px solid var(--secondary-color);
         font-weight: 900;
         font-size: 1.25rem;
         padding: 8px 14px;
-        border-radius: 10px;
         line-height: 1;
-        box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+        box-shadow: 0 4px 14px rgba(0,0,0,0.5);
         text-align: center;
+        z-index: 20;
     }
     .menu-price-badge span {
         display: block;
         font-size: 0.65rem;
         font-weight: 600;
-        opacity: 0.85;
+        color: #fff;
         margin-top: 2px;
     }
 
@@ -104,15 +118,17 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         top: 14px;
         left: 14px;
         padding: 5px 10px;
-        border-radius: 20px;
+        border-radius: 0;
         font-size: 0.78rem;
         font-weight: 700;
         display: flex;
         align-items: center;
         gap: 5px;
+        z-index: 20;
+        border: 1px solid rgba(255,255,255,0.2);
     }
-    .badge-rupture { background: #c0392b; color: #fff; }
-    .badge-urgent  { background: #e67e22; color: #fff; }
+    .badge-rupture { background: #5a0015; color: #fff; border-color: #c0392b; }
+    .badge-urgent  { background: #e67e22; color: #000; }
 
     /* Body */
     .menu-body {
@@ -121,19 +137,21 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         flex-direction: column;
         flex: 1;
         gap: 0.75rem;
+        text-align: center; /* Centered text for baroque look */
     }
     .menu-title {
         font-family: 'Playfair Display', serif;
-        font-size: 1.35rem;
-        color: var(--primary-color);
+        font-size: 1.6rem;
+        color: var(--secondary-color); /* Gold title */
         margin: 0;
         line-height: 1.25;
-        border-bottom: 2px solid var(--secondary-color);
+        border-bottom: 1px solid rgba(212, 175, 55, 0.3);
         padding-bottom: 0.6rem;
+        font-style: italic;
     }
     .menu-desc {
         font-size: 0.92rem;
-        color: #555;
+        color: #ddd; /* Light text */
         line-height: 1.55;
         margin: 0;
     }
@@ -143,12 +161,13 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         display: flex;
         gap: 0.5rem;
         flex-wrap: wrap;
+        justify-content: center;
     }
     .menu-pill {
-        background: rgba(128, 0, 32, 0.08);
-        color: var(--primary-color);
-        border: 1px solid rgba(128, 0, 32, 0.2);
-        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        color: #eee;
+        border: 1px solid var(--secondary-color);
+        border-radius: 0;
         padding: 4px 12px;
         font-size: 0.8rem;
         font-weight: 600;
@@ -160,24 +179,24 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
     /* Dishes */
     .menu-dishes {
-        background: #fafafa;
-        border: 1px solid #eee;
-        border-radius: 10px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(212, 175, 55, 0.2);
         padding: 0.75rem 1rem;
         display: flex;
         flex-direction: column;
         gap: 0.4rem;
+        text-align: left;
     }
     .dish-row {
         display: flex;
         align-items: baseline;
         gap: 0.5rem;
         font-size: 0.85rem;
-        color: #444;
+        color: #ccc;
     }
     .dish-label {
         font-weight: 700;
-        color: var(--primary-color);
+        color: var(--secondary-color);
         min-width: 55px;
         font-size: 0.78rem;
         text-transform: uppercase;
