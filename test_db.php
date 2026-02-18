@@ -3,32 +3,37 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 header('Content-Type: text/plain');
 
-echo "--- DIAGNOSTICS ---\n";
+echo "--- DIAGNOSTICS: TABLES ---\n";
 
-echo "MYSQLHOST (getenv): " . getenv('MYSQLHOST') . "\n";
-
-$host = '130.162.54.212';
-$port = '3306';
-$db = 'freedb_Vite_Gourmand';
-$user = 'freedb_Admin2026';
-$pass = '9nm9WK@!Uzhn#C6';
-
-echo "Testing PDO to $host...\n";
-$dsn = "mysql:host=$host;port=$port;dbname=$db";
+require_once __DIR__ . '/noyau_backend/configuration/db.php';
 
 try {
-    $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-    echo "PDO Connect: SUCCESS\n";
+    $stmt = $pdo->query("SHOW TABLES");
+    $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-    // Test Query
-    $stmt = $pdo->query("SELECT 1");
-    if ($stmt) {
-        echo "Query SELECT 1: SUCCESS\n";
+    if (empty($tables)) {
+        echo "No tables found in database.\n";
     }
+    else {
+        echo "Tables found:\n";
+        foreach ($tables as $table) {
+            echo "- $table\n";
+        }
+    }
+
+    // Check specific tables needed for index.php
+    echo "\nChecking 'reviews' table count:\n";
+    try {
+        $count = $pdo->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
+        echo "Reviews count: $count\n";
+    }
+    catch (Exception $e) {
+        echo "Error querying reviews: " . $e->getMessage() . "\n";
+    }
+
 }
 catch (PDOException $e) {
-    echo "PDO Connect: FAILED\n";
-    echo "Error: " . $e->getMessage() . "\n";
+    echo "Connection failed: " . $e->getMessage() . "\n";
 }
 
 echo "\n--- END ---\n";
