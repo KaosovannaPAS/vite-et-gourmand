@@ -33,3 +33,5 @@ desktop.ini
 node_modules/
 .npm/
 .gemini/
+.vercel
+.env*.local
