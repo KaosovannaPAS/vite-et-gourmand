@@ -246,9 +246,15 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
     }
     .theme-cards-row {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 1.75rem;
         margin-bottom: 1rem;
+    }
+    /* Flat grid when filters active */
+    #menus-grid:has(> .menu-card) {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.75rem;
     }
     .menu-card { height: 100%; }
 </style>
@@ -340,7 +346,7 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
     <!-- Liste des Menus -->
     <section style="flex: 1;">
         <h2 style="margin-bottom: 2rem;">Nos propositions gourmandes</h2>
-        <div id="menus-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem;">
+        <div id="menus-grid" style="display: block;">
             <!-- Les menus seront injectés ici par JS -->
             <p>Chargement des menus...</p>
         </div>
