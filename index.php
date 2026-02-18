@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
     display: flex;
     gap: 2rem;
     width: max-content;
-    animation: scroll 30s linear infinite;
+    animation: scroll 60s linear infinite;
 }
 .carousel-track:hover {
     animation-play-state: paused;
@@ -241,17 +241,57 @@ document.addEventListener('DOMContentLoaded', () => {
     to { transform: translateX(-50%); }
 }
 .review-card {
-    min-width: 350px;
+    min-width: 320px;
+    max-width: 320px;
     flex-shrink: 0;
-    background: white; 
-    padding: 1.5rem; 
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border-left: 5px solid var(--primary-color);
-    transition: transform 0.3s ease;
+    background: white;
+    padding: 2rem 1.5rem 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+    border-top: 4px solid var(--primary-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 .review-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
+.review-card .client-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--secondary-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-bottom: 0.75rem;
+}
+.review-card .client-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+.review-card .client-stars {
+    color: #f1c40f;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+.review-card .client-comment {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #444;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+.review-card .client-menu {
+    font-size: 0.82rem;
+    color: #888;
+    border-top: 1px solid #eee;
+    padding-top: 0.6rem;
+    width: 100%;
 }
 </style>
 
@@ -283,21 +323,20 @@ if (count($avis) > 0) {
     echo '<div class="carousel-track">';
 
     foreach ($avis_display as $avi) {
+        $stars = str_repeat('<i class="fas fa-star"></i>', $avi['note']) . str_repeat('<i class="far fa-star"></i>', 5 - $avi['note']);
         echo '<div class="review-card">';
-        echo '<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">';
-        echo '<img src="' . htmlspecialchars($avi['avatar_url']) . '" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--secondary-color); object-fit: cover;">';
-        echo '<div style="color: #f1c40f; font-size: 1rem;">' . str_repeat('<i class="fas fa-star"></i>', $avi['note']) . '</div>';
-        echo '</div>';
-        echo '<p style="font-style: italic; font-size: 1.1rem; margin-bottom: 1rem; color: #000000;">"' . htmlspecialchars($avi['commentaire']) . '"</p>';
-
-        // Affichage du menu
+        // Grande photo en haut
+        echo '<img class="client-photo" src="' . htmlspecialchars($avi['avatar_url']) . '" alt="Photo de ' . htmlspecialchars($avi['prenom']) . '" loading="lazy">';
+        // Nom
+        echo '<div class="client-name">' . htmlspecialchars($avi['prenom']) . ' ' . htmlspecialchars($avi['nom']) . '</div>';
+        // Étoiles
+        echo '<div class="client-stars">' . $stars . '</div>';
+        // Commentaire
+        echo '<p class="client-comment">&laquo;&nbsp;' . htmlspecialchars($avi['commentaire']) . '&nbsp;&raquo;</p>';
+        // Menu commandé
         if (!empty($avi['menu_titre'])) {
-            echo '<p style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;"><i class="fas fa-utensils"></i> A commandé : <strong>' . htmlspecialchars($avi['menu_titre']) . '</strong></p>';
+            echo '<p class="client-menu"><i class="fas fa-utensils" style="color: var(--primary-color); margin-right: 4px;"></i> ' . htmlspecialchars($avi['menu_titre']) . '</p>';
         }
-
-        echo '<div style="display: flex; align-items: center; justify-content: flex-end; margin-top: auto;">';
-        echo '<div style="font-weight: bold; font-size: 1rem; color: var(--primary-color);">- ' . htmlspecialchars($avi['prenom']) . ' ' . htmlspecialchars($avi['nom']) . '</div>';
-        echo '</div>';
         echo '</div>';
     }
 
