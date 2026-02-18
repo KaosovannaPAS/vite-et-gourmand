@@ -1,35 +1,36 @@
 <?php
 /**
- * fix_conditions4.php - Nuclear option: clear ALL text columns that contain the bad text
+ * fix_final.php - Final fix: show raw hex + clear all text fields
  * Delete after use.
  */
 include __DIR__ . '/noyau_backend/configuration/db.php';
 $pdo->exec("SET NAMES utf8mb4");
+$pdo->exec("SET CHARACTER SET utf8mb4");
 
-// Show raw values of all text columns
-$rows = $pdo->query("SELECT id, titre, description, conditions_reservation FROM menus")->fetchAll(PDO::FETCH_ASSOC);
+// Show raw description values with length
+$rows = $pdo->query("SELECT id, titre, LENGTH(description) as dlen, LENGTH(conditions_reservation) as clen, 
+    SUBSTRING(description, 1, 150) as desc_preview,
+    SUBSTRING(conditions_reservation, 1, 150) as cond_preview
+    FROM menus ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
 
-echo "<h3>Toutes les valeurs :</h3>";
+echo "<h3>Aperçu des champs texte :</h3>";
 foreach ($rows as $r) {
-    $cond = $r['conditions_reservation'];
-    $desc = $r['description'];
-    echo "<p><strong>ID {$r['id']} — {$r['titre']}</strong></p>";
-    echo "<p>conditions_reservation (" . strlen($cond) . " chars): <code>" . htmlspecialchars(substr($cond ?? '', 0, 100)) . "</code></p>";
-    echo "<p>description (" . strlen($desc) . " chars): <code>" . htmlspecialchars(substr($desc ?? '', 0, 100)) . "</code></p>";
-    echo "<hr>";
+    echo "<p><strong>ID {$r['id']} — {$r['titre']}</strong> | desc: {$r['dlen']} chars | cond: {$r['clen']} chars</p>";
+    if ($r['clen'] > 0) {
+        echo "<pre style='background:#fee;padding:5px'>[COND] " . htmlspecialchars($r['cond_preview']) . "</pre>";
+    }
+    if ($r['dlen'] > 200) {
+        echo "<pre style='background:#ffe;padding:5px'>[DESC long] " . htmlspecialchars($r['desc_preview']) . "</pre>";
+    }
 }
 
-// Force-clear conditions_reservation for ALL rows (even empty string)
-$n1 = $pdo->exec("UPDATE menus SET conditions_reservation = ''");
-echo "<p>✅ conditions_reservation vidé pour $n1 lignes.</p>";
+// Force clear conditions_reservation regardless
+$n = $pdo->exec("UPDATE menus SET conditions_reservation = ''");
+echo "<p>✅ conditions_reservation forcé à vide pour $n lignes.</p>";
 
-// Also clear from description using LIKE with the actual text
-$n2 = $pdo->exec("UPDATE menus SET description = SUBSTRING_INDEX(description, 'En attente', 1) WHERE description LIKE '%En attente%'");
-echo "<p>✅ description nettoyée pour $n2 lignes.</p>";
-
-// Also try with the French text
-$n3 = $pdo->exec("UPDATE menus SET description = SUBSTRING_INDEX(description, 'mat', 1) WHERE description LIKE '%600%'");
-echo "<p>✅ description (600€) nettoyée pour $n3 lignes.</p>";
+// Truncate any description longer than 500 chars (the bad text is appended)
+$n2 = $pdo->exec("UPDATE menus SET description = LEFT(description, 500) WHERE LENGTH(description) > 500");
+echo "<p>✅ $n2 descriptions tronquées à 500 chars.</p>";
 
 echo "<p>Supprimez ce fichier.</p>";
 ?>
