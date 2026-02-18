@@ -463,7 +463,7 @@ function renderMenuCard($menu, $dishesByMenu)
                                 <p class="menu-desc">' . htmlspecialchars($desc) . '</p>
                                 <div class="menu-pills">
                                     <span class="menu-pill"><i class="fas fa-users"></i> Min. ' . max(2, $menu['min_personnes']) . ' pers.</span>
-                                    <span class="menu-pill"><i class="fas fa-leaf"></i> ' . htmlspecialchars((stripos($menu['regime'], 'gan') !== false) ? 'Végétal' : ($menu['regime'] ?: 'Classique')) . '</span>
+                                    <span class="menu-pill"><i class="fas fa-leaf"></i> ' . htmlspecialchars((stripos($menu['regime'], 'gan') !== false) ? 'Végan' : ($menu['regime'] ?: 'Classique')) . '</span>
                                     ' . ($menu['theme'] ? '<span class="menu-pill"><i class="fas fa-star"></i> ' . htmlspecialchars($menu['theme']) . '</span>' : '') . '
                                 </div>
                                 ' . $dishesHtml . '
