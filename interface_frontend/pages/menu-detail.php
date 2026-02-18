@@ -2,7 +2,6 @@
 session_start();
 include __DIR__ . '/../../noyau_backend/configuration/db.php';
 
-// Check if ID is provided
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     header('Location: menus.php');
     exit;
@@ -10,7 +9,6 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $menuId = intval($_GET['id']);
 
-// Fetch menu details
 try {
     $stmt = $pdo->prepare("SELECT * FROM menus WHERE id = ? AND actif = 1");
     $stmt->execute([$menuId]);
@@ -21,259 +19,583 @@ try {
         exit;
     }
 
-    // Fetch related dishes
+    // Fetch all dishes linked to this menu
     $stmt = $pdo->prepare("
-        SELECT d.* 
+        SELECT d.*
         FROM dishes d
         JOIN menu_dishes md ON d.id = md.dish_id
         WHERE md.menu_id = ?
         ORDER BY FIELD(d.type, 'apero', 'entree', 'plat', 'dessert')
     ");
     $stmt->execute([$menuId]);
-    $dishes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $allDishes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 }
 catch (PDOException $e) {
     die("Erreur de base de données : " . $e->getMessage());
 }
+
+// Organise dishes by type and diet
+$standard = ['entree' => [], 'plat' => [], 'dessert' => []];
+$vegan = ['entree' => null, 'plat' => null, 'dessert' => null];
+$glutenFree = ['entree' => null, 'plat' => null, 'dessert' => null];
+
+foreach ($allDishes as $dish) {
+    $type = $dish['type'];
+    if (!in_array($type, ['entree', 'plat', 'dessert']))
+        continue;
+
+    if ($dish['is_vegan'] && $vegan[$type] === null) {
+        $vegan[$type] = $dish;
+    }
+    elseif ($dish['is_gluten_free'] && !$dish['is_vegan'] && $glutenFree[$type] === null) {
+        $glutenFree[$type] = $dish;
+    }
+    else {
+        if (count($standard[$type]) < 2) {
+            $standard[$type][] = $dish;
+        }
+    }
+}
+
+// Fix image path for Vercel
+function fixImg($url)
+{
+    return str_replace('/Vite-et-gourmand/', '/', $url ?? '');
+}
 ?>
 <?php include __DIR__ . '/../composants/header.php'; ?>
 
-<div class="container" style="padding: 2rem 0;">
-    <a href="menus.php" style="display: inline-block; margin-bottom: 2rem; color: var(--secondary-color); text-decoration: none;">
+<style>
+/* ===== MENU DETAIL PAGE ===== */
+.detail-hero {
+    position: relative;
+    height: 380px;
+    overflow: hidden;
+    border-radius: 0 0 24px 24px;
+    margin-bottom: 3rem;
+}
+.detail-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.detail-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(80,0,20,0.75) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2.5rem 3rem;
+}
+.detail-hero-overlay h1 {
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    font-size: 2.8rem;
+    margin: 0 0 0.5rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+.detail-hero-overlay .hero-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.hero-badge {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    font-weight: 800;
+    font-size: 1.4rem;
+    padding: 6px 18px;
+    border-radius: 8px;
+}
+.hero-pill {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Layout */
+.detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 3rem;
+    align-items: start;
+}
+@media (max-width: 900px) {
+    .detail-layout { grid-template-columns: 1fr; }
+}
+
+/* Section titles */
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 2.5rem 0 1.5rem;
+}
+.section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--secondary-color), transparent);
+}
+.section-label span {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    white-space: nowrap;
+}
+.section-label i {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+}
+
+/* Diet section headers */
+.diet-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin: 2rem 0 1rem;
+    width: fit-content;
+}
+.diet-header.vegan   { background: #e8f5e9; color: #2e7d32; border: 1.5px solid #a5d6a7; }
+.diet-header.glutenfree { background: #fff3e0; color: #e65100; border: 1.5px solid #ffcc80; }
+
+/* Dish cards */
+.dish-card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+    border: 1px solid #f0f0f0;
+    transition: box-shadow 0.25s, transform 0.25s;
+}
+.dish-card:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+.dish-card.vegan-card   { border-left: 4px solid #66bb6a; }
+.dish-card.gluten-card  { border-left: 4px solid #ffa726; }
+
+.dish-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.dish-img-placeholder {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f5e6c8, #e8d5b0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+}
+.dish-info { flex: 1; }
+.dish-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin: 0 0 0.4rem;
+    font-weight: 700;
+}
+.dish-desc {
+    font-size: 0.88rem;
+    color: #555;
+    line-height: 1.5;
+    margin: 0 0 0.6rem;
+}
+.dish-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.dish-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.tag-vegan     { background: #e8f5e9; color: #2e7d32; }
+.tag-gluten    { background: #fff3e0; color: #e65100; }
+.tag-allergen  { background: #fce4ec; color: #c62828; }
+
+/* Sidebar */
+.sidebar-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.09);
+    border: 1px solid #f0f0f0;
+    position: sticky;
+    top: 100px;
+}
+.sidebar-price {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--primary-color);
+    line-height: 1;
+}
+.sidebar-price span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #888;
+}
+.sidebar-divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 1.5rem 0;
+}
+.simulator-label {
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.simulator-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 0.75rem;
+}
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+.price-row.total {
+    border-top: 2px solid var(--secondary-color);
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+.price-row.discount { color: #27ae60; font-weight: 700; }
+.cta-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 16px;
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    font-weight: 800;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    text-decoration: none;
+    margin-top: 1.5rem;
+    transition: background 0.25s, transform 0.2s;
+}
+.cta-btn:hover { background: #5a0015; transform: translateY(-2px); }
+.info-box {
+    background: #fffcf0;
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-size: 0.8rem;
+    color: #555;
+    line-height: 1.5;
+    margin-top: 1.25rem;
+}
+.info-box strong { color: var(--primary-color); }
+
+/* Gold slider */
+.gold-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #eee;
+    border-radius: 5px;
+    outline: none;
+}
+.gold-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px; height: 18px;
+    border-radius: 9px;
+    background: var(--secondary-color);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 0 8px rgba(212,175,55,0.5);
+}
+.gold-slider::-moz-range-thumb {
+    width: 28px; height: 18px;
+    border-radius: 9px;
+    background: var(--secondary-color);
+    cursor: pointer;
+    border: 2px solid white;
+}
+</style>
+
+<div class="container" style="padding: 2rem 0 4rem;">
+    <a href="menus.php" style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; color: var(--primary-color); text-decoration: none; font-weight: 600; font-size: 0.95rem;">
         <i class="fas fa-arrow-left"></i> Retour aux menus
     </a>
 
-    <div style="display: flex; gap: 4rem; flex-wrap: wrap;">
-        <!-- Image & Info -->
-        <div style="flex: 1; min-width: 300px;">
-            <img src="<?php echo htmlspecialchars($menu['image_url']); ?>" alt="<?php echo htmlspecialchars($menu['titre']); ?>" style="width: 100%; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 2rem;">
-            
-            <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-                <h1 style="font-family: 'Playfair Display', serif; color: var(--primary-color); margin-bottom: 1rem;"><?php echo htmlspecialchars($menu['titre']); ?></h1>
-                <p style="font-size: 1.2rem; margin-bottom: 2rem;"><?php echo nl2br(htmlspecialchars($menu['description'])); ?></p>
-                
-                <div style="margin-bottom: 2rem;">
-                    <span style="font-size: 1.5rem; font-weight: bold; color: var(--secondary-color);"><?php echo number_format($menu['prix'], 2); ?> € / pers.</span>
-                    <br>
-                    <small style="color: #000000; font-weight: 600;">Min. <?php echo $menu['min_personnes']; ?> personnes</small>
-                </div>
-
-                <div style="margin-bottom: 2rem;">
-                    <label for="guest_count" style="display: block; margin-bottom: 1rem; font-weight: bold; color: var(--primary-color);">Nombre de convives : <span id="guest_display" style="color: var(--secondary-color); font-size: 1.4rem;"><?php echo max($menu['min_personnes'], 10); ?></span></label>
-                    
-                    <div class="simulator-container" style="background: rgba(128, 0, 32, 0.05); padding: 2rem; border-radius: 15px; border: 1px solid rgba(212, 175, 55, 0.3);">
-                        <input type="range" id="guest_count" 
-                               min="<?php echo $menu['min_personnes']; ?>" 
-                               max="200" 
-                               value="<?php echo max($menu['min_personnes'], 10); ?>" 
-                               style="width: 100%; cursor: pointer;"
-                               class="gold-slider">
-                        
-                        <div id="price_breakdown" style="margin-top: 1.5rem; padding: 1.5rem; background: white; border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.2); font-size: 1rem;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
-                                <span style="color: #000000; font-weight: 500;">Prix Menu (<span id="count_summary">0</span> pers.) :</span>
-                                <span id="base_price_total" style="font-weight: 700;">0.00 €</span>
-                            </div>
-                            <div id="discount_row" style="display: none; justify-content: space-between; margin-bottom: 0.8rem; color: #27ae60; font-weight: 700;">
-                                <span>Réduction Fidélité (-10%) :</span>
-                                <span id="discount_amount">-0.00 €</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
-                                <span style="color: #000000; font-weight: 500;">Frais de livraison (base) :</span>
-                                <span style="font-weight: 700;">5,00 €</span>
-                            </div>
-                            <div style="border-top: 1px solid #eee; margin-top: 1rem; padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
-                                <span style="font-weight: bold; color: var(--primary-color);">Budget Total Estimé :</span>
-                                <span id="total_price" style="font-size: 1.8rem; font-weight: bold; color: var(--primary-color);">0.00 €</span>
-                            </div>
-                            <div id="discount_info" style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--primary-color); font-style: italic;">
-                                <i class="fas fa-tag"></i> Rajoutez <span id="needed_for_discount">X</span> personnes pour bénéficier de -10% !
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <style>
-                .gold-slider {
-                    -webkit-appearance: none;
-                    height: 10px;
-                    background: #ddd;
-                    border-radius: 5px;
-                    outline: none;
-                }
-                .gold-slider::-webkit-slider-thumb {
-                    -webkit-appearance: none;
-                    appearance: none;
-                    width: 30px;
-                    height: 20px;
-                    background: var(--secondary-color);
-                    border-radius: 10px; /* Oval shape */
-                    cursor: pointer;
-                    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-                    border: 2px solid white;
-                }
-                .gold-slider::-moz-range-thumb {
-                    width: 30px;
-                    height: 20px;
-                    background: var(--secondary-color);
-                    border-radius: 10px;
-                    cursor: pointer;
-                    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-                    border: 2px solid white;
-                }
-                </style>
-
-                <?php if ($menu['conditions_reservation']): ?>
-                    <div style="background: rgba(212, 175, 55, 0.1); padding: 1.5rem; border-radius: 5px; margin-bottom: 2rem; border-left: 5px solid var(--secondary-color); color: #000000; font-weight: 600;">
-                        <i class="fas fa-calendar-alt"></i> <?php echo htmlspecialchars($menu['conditions_reservation']); ?>
-                    </div>
+    <!-- Hero Banner -->
+    <div class="detail-hero">
+        <?php
+$heroImg = fixImg($menu['image_url']);
+if (!$heroImg)
+    $heroImg = 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80';
+?>
+        <img src="<?php echo htmlspecialchars($heroImg); ?>"
+             alt="<?php echo htmlspecialchars($menu['titre']); ?>"
+             onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80'">
+        <div class="detail-hero-overlay">
+            <h1><?php echo htmlspecialchars($menu['titre']); ?></h1>
+            <div class="hero-meta">
+                <span class="hero-badge"><?php echo number_format($menu['prix'], 2); ?> € <small style="font-size:0.6em;font-weight:600">/pers.</small></span>
+                <span class="hero-pill"><i class="fas fa-users"></i> Min. <?php echo $menu['min_personnes']; ?> pers.</span>
+                <?php if (!empty($menu['regime'])): ?>
+                <span class="hero-pill"><i class="fas fa-leaf"></i> <?php echo htmlspecialchars($menu['regime']); ?></span>
                 <?php
 endif; ?>
-
-                <a id="action-btn" href="#" class="btn btn-primary" style="display: block; text-align: center; padding: 1.2rem; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Commander</a>
-
-                <div style="margin-top: 2rem; padding: 1.5rem; background: #fffcf0; border: 1px solid var(--secondary-color); border-radius: 5px; font-size: 0.9rem; line-height: 1.5; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                    <strong style="color: var(--primary-color); text-transform: uppercase; display: block; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 0.3rem; font-size: 0.85rem; letter-spacing: 1px;">
-                        <i class="fas fa-info-circle"></i> Info Retour de Matériel
-                    </strong>
-                    <strong>En attente du retour de matériel :</strong> Si du matériel a été prêté, il doit être restitué dès que ce statut est atteint. Le client recevra un mail de notification : si sous 10 jours ouvrés le matériel n'est pas restitué, des frais de <strong>600€</strong> seront appliqués (voir CGV). Pour toute restitution, merci de prendre contact avec la société.
-                </div>
-
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const guestInput = document.getElementById('guest_count');
-                        const guestDisplay = document.getElementById('guest_display');
-                        const countSummary = document.getElementById('count_summary');
-                        const basePriceDisplay = document.getElementById('base_price_total');
-                        const discountRow = document.getElementById('discount_row');
-                        const discountAmountDisplay = document.getElementById('discount_amount');
-                        const neededForDiscount = document.getElementById('needed_for_discount');
-                        const discountInfo = document.getElementById('discount_info');
-                        const totalPriceDisplay = document.getElementById('total_price');
-                        const actionBtn = document.getElementById('action-btn');
-                        
-                        const menuId = <?php echo $menuId; ?>;
-                        const menuTitle = "<?php echo addslashes($menu['titre']); ?>";
-                        const pricePerPerson = <?php echo floatval($menu['prix']); ?>;
-                        const minGuests = <?php echo intval($menu['min_personnes']); ?>;
-                        const deliveryFee = 5.00;
-
-                        function updateSimulator() {
-                            const count = parseInt(guestInput.value) || 0;
-                            guestDisplay.textContent = count;
-                            countSummary.textContent = count;
-                            
-                            const baseTotal = count * pricePerPerson;
-                            basePriceDisplay.textContent = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(baseTotal);
-
-                            // Logic: 10% discount if count >= min + 5
-                            const discountThreshold = minGuests + 5;
-                            let discount = 0;
-                            
-                            if (count >= discountThreshold) {
-                                discount = baseTotal * 0.1;
-                                discountRow.style.display = 'flex';
-                                discountAmountDisplay.textContent = '-' + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(discount);
-                                discountInfo.style.display = 'none';
-                            } else {
-                                discountRow.style.display = 'none';
-                                discountInfo.style.display = 'block';
-                                neededForDiscount.textContent = discountThreshold - count;
-                            }
-
-                            const grandTotal = baseTotal - discount + deliveryFee;
-                            totalPriceDisplay.textContent = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(grandTotal);
-
-                            if (count < 30) {
-                                actionBtn.textContent = "Commander";
-                                actionBtn.href = `${BASE_URL}/interface_frontend/pages/order.php?menu_id=${menuId}&quantite=${count}`;
-                                actionBtn.style.backgroundColor = "var(--primary-color)";
-                            } else {
-                                actionBtn.textContent = "Demander un devis";
-                                actionBtn.href = `${BASE_URL}/interface_frontend/pages/contact.php?sujet=Devis&menu=${encodeURIComponent(menuTitle)}&guests=${count}`;
-                                actionBtn.style.backgroundColor = "#2c3e50"; 
-                            }
-                        }
-
-                        guestInput.addEventListener('input', updateSimulator);
-                        updateSimulator(); // Init
-                    });
-                </script>
+                <?php if (!empty($menu['theme'])): ?>
+                <span class="hero-pill"><i class="fas fa-star"></i> <?php echo htmlspecialchars($menu['theme']); ?></span>
+                <?php
+endif; ?>
             </div>
         </div>
+    </div>
 
-        <!-- Composition du Menu -->
-            <div style="background: var(--primary-color); padding: 2.5rem; border-radius: 5px; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 5px 5px 15px rgba(0,0,0,0.3); border: 2px solid var(--secondary-color);">
-                <?php
-$currentType = '';
-foreach ($dishes as $dish):
-    if ($currentType != $dish['type']):
-        $currentType = $dish['type'];
-?>
-                    <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--secondary-color); text-transform: uppercase; font-size: 1rem; letter-spacing: 2px; border-bottom: 1px solid rgba(212, 175, 55, 0.4); padding-bottom: 0.5rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
-                        <?php
-        switch ($currentType) {
-            case 'apero':
-                echo 'Apéritif';
-                break;
-            case 'entree':
-                echo 'Entrée';
-                break;
-            case 'plat':
-                echo 'Plat Principal';
-                break;
-            case 'dessert':
-                echo 'Dessert';
-                break;
-            default:
-                echo ucfirst($currentType);
-        }
-?>
-                    </h3>
-                <?php
-    endif; ?>
-
-                <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px dashed rgba(0,0,0,0.2); display: flex; align-items: start;">
-                     <?php if (!empty($dish['image_url'])): ?>
-                        <div style="width: 70px; height: 70px; flex-shrink: 0; border: 2px solid var(--secondary-color); border-radius: 50%; overflow: hidden; margin-right: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
-                            <img src="<?php echo htmlspecialchars($dish['image_url']); ?>" alt="<?php echo htmlspecialchars($dish['nom']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                    <?php
-    endif; ?>
-                    <div>
-                        <h4 style="margin: 0 0 0.5rem 0; font-size: 1.2rem; color: var(--secondary-color); text-shadow: 1px 1px 1px rgba(0,0,0,0.5);"><?php echo htmlspecialchars($dish['nom']); ?></h4>
-                        <?php if (!empty($dish['description'])): ?>
-                            <p style="margin: 0; font-size: 0.95rem; color: #000000; font-weight: 500;"><?php echo htmlspecialchars($dish['description']); ?></p>
-                        <?php
-    endif; ?>
-                        
-                        <div style="margin-top: 0.7rem; font-size: 0.85rem;">
-                            <?php if ($dish['is_vegan']): ?>
-                                <span style="color: #000000; margin-right: 15px; font-weight: bold;"><i class="fas fa-leaf"></i> Vegan</span>
-                            <?php
-    endif; ?>
-                            <?php if ($dish['is_gluten_free']): ?>
-                                <span style="color: #000000; margin-right: 15px; font-weight: bold;"><i class="fas fa-bread-slice"></i> Sans Gluten</span>
-                            <?php
-    endif; ?>
-                            <?php if (!empty($dish['allergenes'])): ?>
-                                <span style="color: #000000;"><i class="fas fa-exclamation-triangle"></i> Allergènes : <?php echo htmlspecialchars($dish['allergenes']); ?></span>
-                            <?php
-    endif; ?>
-                        </div>
-                    </div>
-                </div>
-                <?php
-endforeach; ?>
+    <div class="detail-layout">
+        <!-- LEFT: Composition -->
+        <div>
+            <p style="font-size:1.05rem; color:#444; line-height:1.7; margin-bottom:0.5rem;">
+                <?php echo nl2br(htmlspecialchars($menu['description'])); ?>
+            </p>
+            <?php if (!empty($menu['conditions_reservation'])): ?>
+            <div style="display:flex;align-items:center;gap:10px;background:rgba(212,175,55,0.1);border-left:4px solid var(--secondary-color);padding:0.75rem 1rem;border-radius:0 8px 8px 0;margin-top:1rem;font-size:0.88rem;color:#555;">
+                <i class="fas fa-calendar-alt" style="color:var(--secondary-color);"></i>
+                <?php echo htmlspecialchars($menu['conditions_reservation']); ?>
             </div>
+            <?php
+endif; ?>
 
-            <?php if (empty($dishes)): ?>
-                <p>La composition détaillée de ce menu sera personnalisée selon vos envies et la saison.</p>
+            <?php
+// Helper to render a dish card
+function renderDish($dish, $extraClass = '')
+{
+    $img = fixImg($dish['image_url'] ?? '');
+    $tags = '';
+    if ($dish['is_vegan'])
+        $tags .= '<span class="dish-tag tag-vegan"><i class="fas fa-leaf"></i> Vegan</span>';
+    if ($dish['is_gluten_free'])
+        $tags .= '<span class="dish-tag tag-gluten"><i class="fas fa-wheat-awn"></i> Sans Gluten</span>';
+    if (!empty($dish['allergenes'])) {
+        $tags .= '<span class="dish-tag tag-allergen"><i class="fas fa-exclamation-triangle"></i> ' . htmlspecialchars($dish['allergenes']) . '</span>';
+    }
+    $imgHtml = $img
+        ? '<img class="dish-img" src="' . htmlspecialchars($img) . '" alt="' . htmlspecialchars($dish['nom']) . '" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="dish-img-placeholder" style="display:none"><i class="fas fa-utensils"></i></div>'
+        : '<div class="dish-img-placeholder"><i class="fas fa-utensils"></i></div>';
+    $desc = !empty($dish['description']) ? '<p class="dish-desc">' . htmlspecialchars($dish['description']) . '</p>' : '';
+    echo '<div class="dish-card ' . $extraClass . '">'
+        . $imgHtml
+        . '<div class="dish-info">'
+        . '<h4 class="dish-name">' . htmlspecialchars($dish['nom']) . '</h4>'
+        . $desc
+        . ($tags ? '<div class="dish-tags">' . $tags . '</div>' : '')
+        . '</div></div>';
+}
+
+// ---- STANDARD MENU ----
+$types = [
+    'entree' => ['label' => 'Entrées', 'icon' => 'fa-seedling'],
+    'plat' => ['label' => 'Plats Principaux', 'icon' => 'fa-drumstick-bite'],
+    'dessert' => ['label' => 'Desserts', 'icon' => 'fa-ice-cream'],
+];
+foreach ($types as $type => $meta):
+    if (!empty($standard[$type])):
+?>
+            <div class="section-label">
+                <i class="fas <?php echo $meta['icon']; ?>"></i>
+                <span><?php echo $meta['label']; ?></span>
+            </div>
+            <?php foreach ($standard[$type] as $dish):
+            renderDish($dish);
+        endforeach; ?>
+            <?php
+    endif;
+endforeach; ?>
+
+            <!-- ---- VEGAN SECTION ---- -->
+            <?php $hasVegan = array_filter($vegan);
+if (!empty($hasVegan)): ?>
+            <div class="diet-header vegan">
+                <i class="fas fa-leaf"></i> Options 100% Véganes
+            </div>
+            <?php foreach (['entree', 'plat', 'dessert'] as $t):
+        if ($vegan[$t]):
+            renderDish($vegan[$t], 'vegan-card');
+        endif;
+    endforeach; ?>
+            <?php
+endif; ?>
+
+            <!-- ---- GLUTEN-FREE SECTION ---- -->
+            <?php $hasGF = array_filter($glutenFree);
+if (!empty($hasGF)): ?>
+            <div class="diet-header glutenfree">
+                <i class="fas fa-ban"></i> Options Sans Gluten
+            </div>
+            <?php foreach (['entree', 'plat', 'dessert'] as $t):
+        if ($glutenFree[$t]):
+            renderDish($glutenFree[$t], 'gluten-card');
+        endif;
+    endforeach; ?>
+            <?php
+endif; ?>
+
+            <?php if (empty($allDishes)): ?>
+            <p style="color:#888;font-style:italic;margin-top:2rem;">La composition détaillée sera personnalisée selon vos envies et la saison.</p>
             <?php
 endif; ?>
         </div>
+
+        <!-- RIGHT: Sidebar Simulator -->
+        <div>
+            <div class="sidebar-card">
+                <div class="sidebar-price">
+                    <?php echo number_format($menu['prix'], 2); ?> €
+                    <span>/ personne</span>
+                </div>
+                <p style="font-size:0.85rem;color:#888;margin:0.4rem 0 0;">Min. <?php echo $menu['min_personnes']; ?> personnes</p>
+
+                <hr class="sidebar-divider">
+
+                <div class="simulator-label">Simulateur de budget</div>
+                <div class="simulator-value"><span id="guest_display"><?php echo max($menu['min_personnes'], 10); ?></span> pers.</div>
+
+                <input type="range" id="guest_count"
+                       min="<?php echo $menu['min_personnes']; ?>"
+                       max="200"
+                       value="<?php echo max($menu['min_personnes'], 10); ?>"
+                       class="gold-slider">
+
+                <div style="margin-top:1.25rem;background:#fafafa;border-radius:10px;padding:1rem 1.25rem;border:1px solid #eee;">
+                    <div class="price-row">
+                        <span>Menu (<span id="count_summary">0</span> pers.)</span>
+                        <span id="base_price_total" style="font-weight:700;">0,00 €</span>
+                    </div>
+                    <div class="price-row discount" id="discount_row" style="display:none;">
+                        <span>Réduction fidélité (−10%)</span>
+                        <span id="discount_amount">−0,00 €</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Livraison (base)</span>
+                        <span style="font-weight:700;">5,00 €</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total estimé</span>
+                        <span id="total_price">0,00 €</span>
+                    </div>
+                    <div id="discount_info" style="margin-top:0.5rem;font-size:0.8rem;color:var(--primary-color);font-style:italic;">
+                        <i class="fas fa-tag"></i> Encore <span id="needed_for_discount">X</span> pers. pour −10% !
+                    </div>
+                </div>
+
+                <a id="action-btn" href="#" class="cta-btn">Commander</a>
+
+                <div class="info-box">
+                    <strong><i class="fas fa-info-circle"></i> Retour de matériel</strong><br>
+                    Si du matériel a été prêté, il doit être restitué dès réception de la commande. Passé 10 jours ouvrés, des frais de <strong>600 €</strong> s'appliquent (voir CGV).
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const guestInput       = document.getElementById('guest_count');
+    const guestDisplay     = document.getElementById('guest_display');
+    const countSummary     = document.getElementById('count_summary');
+    const basePriceDisplay = document.getElementById('base_price_total');
+    const discountRow      = document.getElementById('discount_row');
+    const discountAmount   = document.getElementById('discount_amount');
+    const neededSpan       = document.getElementById('needed_for_discount');
+    const discountInfo     = document.getElementById('discount_info');
+    const totalDisplay     = document.getElementById('total_price');
+    const actionBtn        = document.getElementById('action-btn');
+
+    const menuId       = <?php echo $menuId; ?>;
+    const menuTitle    = "<?php echo addslashes($menu['titre']); ?>";
+    const pricePerPerson = <?php echo floatval($menu['prix']); ?>;
+    const minGuests    = <?php echo intval($menu['min_personnes']); ?>;
+    const fmt = v => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(v);
+
+    function update() {
+        const count = parseInt(guestInput.value) || 0;
+        guestDisplay.textContent = count;
+        countSummary.textContent = count;
+
+        const base = count * pricePerPerson;
+        basePriceDisplay.textContent = fmt(base);
+
+        const threshold = minGuests + 5;
+        let discount = 0;
+        if (count >= threshold) {
+            discount = base * 0.1;
+            discountRow.style.display = 'flex';
+            discountAmount.textContent = '−' + fmt(discount);
+            discountInfo.style.display = 'none';
+        } else {
+            discountRow.style.display = 'none';
+            discountInfo.style.display = 'block';
+            neededSpan.textContent = threshold - count;
+        }
+
+        totalDisplay.textContent = fmt(base - discount + 5);
+
+        if (count < 30) {
+            actionBtn.textContent = 'Commander';
+            actionBtn.href = `${BASE_URL}/interface_frontend/pages/order.php?menu_id=${menuId}&quantite=${count}`;
+            actionBtn.style.background = 'var(--primary-color)';
+        } else {
+            actionBtn.textContent = 'Demander un devis';
+            actionBtn.href = `${BASE_URL}/interface_frontend/pages/contact.php?sujet=Devis&menu=${encodeURIComponent(menuTitle)}&guests=${count}`;
+            actionBtn.style.background = '#2c3e50';
+        }
+    }
+
+    guestInput.addEventListener('input', update);
+    update();
+});
+</script>
 
 <?php include __DIR__ . '/../composants/footer.php'; ?>
