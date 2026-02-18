@@ -5,32 +5,30 @@ header('Content-Type: text/plain');
 
 echo "--- DIAGNOSTICS ---\n";
 
-$hosts = [
-    'google.com' => 80,
-    'sql.freedb.tech' => 3306,
-    '130.162.54.212' => 3306
-];
+echo "MYSQLHOST (getenv): " . getenv('MYSQLHOST') . "\n";
 
-foreach ($hosts as $host => $port) {
-    echo "\nTesting $host:$port\n";
+$host = '130.162.54.212';
+$port = '3306';
+$db = 'freedb_Vite_Gourmand';
+$user = 'freedb_Admin2026';
+$pass = '9nm9WK@!Uzhn#C6';
 
-    // DNS Resolution
-    $ip = gethostbyname($host);
-    echo "DNS Resolve: $host -> $ip\n";
+echo "Testing PDO to $host...\n";
+$dsn = "mysql:host=$host;port=$port;dbname=$db";
 
-    // TCP Connection
-    $start = microtime(true);
-    $fp = @fsockopen($host, $port, $errno, $errstr, 5);
-    $end = microtime(true);
-    $duration = round(($end - $start) * 1000, 2);
+try {
+    $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    echo "PDO Connect: SUCCESS\n";
 
-    if ($fp) {
-        echo "TCP Connect: SUCCESS (${duration}ms)\n";
-        fclose($fp);
+    // Test Query
+    $stmt = $pdo->query("SELECT 1");
+    if ($stmt) {
+        echo "Query SELECT 1: SUCCESS\n";
     }
-    else {
-        echo "TCP Connect: FAILED ($errno - $errstr)\n";
-    }
+}
+catch (PDOException $e) {
+    echo "PDO Connect: FAILED\n";
+    echo "Error: " . $e->getMessage() . "\n";
 }
 
 echo "\n--- END ---\n";
