@@ -6,6 +6,10 @@
             "use": "vercel-php@0.7.2"
         },
         {
+            "src": "diag_data.php",
+            "use": "vercel-php@0.7.2"
+        },
+        {
             "src": "interface_frontend/**/*.{css,js,jpg,jpeg,png,gif,svg,ico,woff,woff2,ttf,eot}",
             "use": "@vercel/static"
         }
@@ -18,6 +22,10 @@
         {
             "src": "/noyau_backend/(.*)",
             "dest": "/noyau_backend/$1"
+        },
+        {
+            "src": "/diag_data.php",
+            "dest": "/diag_data.php"
         },
         {
             "handle": "filesystem"
