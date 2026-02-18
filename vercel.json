@@ -8,12 +8,23 @@
         {
             "src": "test_db.php",
             "use": "vercel-php@0.7.2"
+        },
+        {
+            "src": "test_db_connect.php",
+            "use": "vercel-php@0.7.2"
         }
     ],
     "routes": [
         {
             "src": "/test_db.php",
             "dest": "/test_db.php"
+        },
+        {
+            "src": "/test_db_connect.php",
+            "dest": "/test_db_connect.php"
+        },
+        {
+            "handle": "filesystem"
         },
         {
             "src": "/(.*)",
