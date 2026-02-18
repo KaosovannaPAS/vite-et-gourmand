@@ -476,7 +476,7 @@ if (!$heroImg)
                 <span class="hero-badge"><?php echo number_format($menu['prix'], 2); ?> € <small style="font-size:0.6em;font-weight:600">/pers.</small></span>
                 <span class="hero-pill"><i class="fas fa-users"></i> Min. <?php echo max(2, $menu['min_personnes']); ?> pers.</span>
                 <?php if (!empty($menu['regime'])): ?>
-                <span class="hero-pill"><i class="fas fa-leaf"></i> <?php echo htmlspecialchars(preg_replace('/V.gan/u', 'Végétal', $menu['regime'])); ?></span>
+                <span class="hero-pill"><i class="fas fa-leaf"></i> <?php echo htmlspecialchars((stripos($menu['regime'], 'gan') !== false) ? 'Végétal' : $menu['regime']); ?></span>
                 <?php
 endif; ?>
                 <?php if (!empty($menu['theme'])): ?>
