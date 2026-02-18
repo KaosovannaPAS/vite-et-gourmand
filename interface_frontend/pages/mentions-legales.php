@@ -8,4 +8,4 @@ include __DIR__ . '/../composants/header.php';
     <p>Ceci est une page de mentions légales générique pour Vite & Gourmand.</p>
 </div>
 
-<?php include '../composants/footer.php'; ?>
+<?php include __DIR__ . '/../composants/footer.php'; ?>

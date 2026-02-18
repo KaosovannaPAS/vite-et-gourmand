@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once '../../configuration/db.php';
+require_once __DIR__ . '/../../configuration/db.php';
 
 try {
     $sql = "SELECT m.*, GROUP_CONCAT(d.nom SEPARATOR ', ') as plats 

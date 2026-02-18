@@ -130,4 +130,4 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
 </div>
 
 <script src="<?php echo BASE_URL; ?>/interface_frontend/ressources/js/menus.js"></script>
-<?php include '../composants/footer.php'; ?>
+<?php include __DIR__ . '/../composants/footer.php'; ?>

@@ -3,8 +3,8 @@
 // PARTIE NOYAU (BACK-END) : LOGIQUE METIER & DONNEES
 // ============================================
 session_start();
-include 'noyau_backend/configuration/db.php';
-include 'interface_frontend/composants/header.php';
+include __DIR__ . '/noyau_backend/configuration/db.php';
+include __DIR__ . '/interface_frontend/composants/header.php';
 ?>
 
 <!-- ============================================

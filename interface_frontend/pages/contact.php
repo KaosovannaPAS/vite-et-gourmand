@@ -182,4 +182,4 @@ if ($getUrl === 'Devis') {
     </script>
 </div>
 
-<?php include '../composants/footer.php'; ?>
+<?php include __DIR__ . '/../composants/footer.php'; ?>
