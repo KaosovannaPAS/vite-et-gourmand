@@ -2,11 +2,11 @@
     "version": 2,
     "builds": [
         {
-            "src": "index.php",
+            "src": "**/*.php",
             "use": "vercel-php@0.7.2"
         },
         {
-            "src": "interface_frontend/**",
+            "src": "interface_frontend/**/*.{css,js,jpg,jpeg,png,gif,svg,ico,woff,woff2,ttf,eot}",
             "use": "@vercel/static"
         }
     ],
@@ -14,6 +14,10 @@
         {
             "src": "/interface_frontend/(.*)",
             "dest": "/interface_frontend/$1"
+        },
+        {
+            "src": "/noyau_backend/(.*)",
+            "dest": "/noyau_backend/$1"
         },
         {
             "handle": "filesystem"
