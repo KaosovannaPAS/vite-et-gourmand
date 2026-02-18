@@ -540,11 +540,21 @@ if (!empty($hasVegan)): ?>
             <div class="diet-header vegan">
                 <i class="fas fa-leaf"></i> Options 100% Véganes
             </div>
+            <div class="dish-grid">
             <?php foreach (['entree', 'plat', 'dessert'] as $t):
         if ($vegan[$t]):
             renderDish($vegan[$t], 'vegan-card');
         endif;
     endforeach; ?>
+            </div>
+            <div class="qty-stepper-row">
+                <label>Nb. Options Véganes :</label>
+                <div class="qty-stepper">
+                    <button class="qty-btn" onclick="qtyChange('qty_vegan',-1)">−</button>
+                    <span class="qty-num" id="qty_vegan">0</span>
+                    <button class="qty-btn" onclick="qtyChange('qty_vegan',1)">+</button>
+                </div>
+            </div>
             <?php
 endif; ?>
 
@@ -554,11 +564,21 @@ if (!empty($hasGF)): ?>
             <div class="diet-header glutenfree">
                 <i class="fas fa-ban"></i> Options Sans Gluten
             </div>
+            <div class="dish-grid">
             <?php foreach (['entree', 'plat', 'dessert'] as $t):
         if ($glutenFree[$t]):
             renderDish($glutenFree[$t], 'gluten-card');
         endif;
     endforeach; ?>
+            </div>
+            <div class="qty-stepper-row">
+                <label>Nb. Sans Gluten :</label>
+                <div class="qty-stepper">
+                    <button class="qty-btn" onclick="qtyChange('qty_glutenfree',-1)">−</button>
+                    <span class="qty-num" id="qty_glutenfree">0</span>
+                    <button class="qty-btn" onclick="qtyChange('qty_glutenfree',1)">+</button>
+                </div>
+            </div>
             <?php
 endif; ?>
 
