@@ -270,7 +270,6 @@ $sql = "SELECT r.*, u.prenom, u.nom, u.avatar_url,
             JOIN users u ON r.user_id = u.id 
             WHERE r.valide = 1 
             ORDER BY r.created_at DESC 
-            ORDER BY r.created_at DESC 
             LIMIT 20";
 
 $stmt = $pdo->query($sql);
