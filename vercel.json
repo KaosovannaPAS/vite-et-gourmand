@@ -8,6 +8,10 @@
     ],
     "routes": [
         {
+            "src": "/interface_frontend/(.*)",
+            "dest": "/interface_frontend/$1"
+        },
+        {
             "handle": "filesystem"
         },
         {
