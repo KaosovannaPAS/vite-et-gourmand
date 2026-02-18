@@ -391,6 +391,7 @@ function fixImg($url)
 .dish-card { margin-bottom: 0; }
 
 /* Quantity stepper */
+/* Quantity stepper (Custom Image Design) */
 .qty-stepper-row {
     display: flex;
     align-items: center;
@@ -399,46 +400,50 @@ function fixImg($url)
     margin: 0.5rem 0 1.5rem;
 }
 .qty-stepper-row label {
-    font-size: 0.82rem;
-    color: #666;
-    margin-right: 10px;
-    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--secondary-color); /* Gold label on dark card */
+    margin-right: 12px;
+    font-weight: 700;
 }
 .qty-stepper {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     border: 2px solid var(--secondary-color);
-    border-radius: 30px;
-    overflow: hidden;
+    border-radius: 50px; /* Pill shape */
     background: #fff;
-    box-shadow: 0 2px 8px rgba(212,175,55,0.15);
+    overflow: hidden;
+    height: 38px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 .qty-btn {
-    background: #fff;
+    width: 40px;
+    height: 100%;
     border: none;
-    width: 34px;
-    height: 34px;
-    font-size: 1.2rem;
-    font-weight: 900;
-    color: #111;
+    background: #fff;
+    color: #000;
+    font-size: 1.4rem;
+    font-weight: 600; /* Thinner plus/minus */
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.15s;
-    line-height: 1;
+    transition: background 0.2s;
+    line-height: 0;
+    padding-bottom: 4px; /* Centering adjustment */
 }
-.qty-btn:hover { background: #f5e6c8; }
+.qty-btn:hover { background: #f5f5f5; }
 .qty-num {
-    min-width: 36px;
-    text-align: center;
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    padding: 0 4px;
-    border-left: 1.5px solid var(--secondary-color);
-    border-right: 1.5px solid var(--secondary-color);
-    background: #fffcf0;
+    height: 100%;
+    min-width: 45px;
+    background: #fffcf0; /* Cream center */
+    color: #5a0015; /* Bordeaux number */
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--secondary-color);
+    border-right: 1px solid var(--secondary-color);
 }
 
 /* Gold discount info */
