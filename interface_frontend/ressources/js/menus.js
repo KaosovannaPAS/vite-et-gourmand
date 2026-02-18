@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         menusGrid.innerHTML = '<p>Chargement...</p>';
 
-        fetch(`/Vite-et-gourmand/noyau_backend/api/v1/menus.php?${params.toString()}`)
+        fetch(`${BASE_URL}/noyau_backend/api/v1/menus.php?${params.toString()}`)
             .then(response => response.json())
             .then(data => {
                 menusGrid.innerHTML = '';
@@ -128,68 +128,50 @@ document.addEventListener('DOMContentLoaded', () => {
                     card.className = 'menu-card';
                     card.dataset.price = menu.prix;
 
-                    // Stock Warning
-                    let stockDisplay = '';
-                    if (menu.stock < 10 && menu.stock > 0) {
-                        stockDisplay = `<div style="color: #d35400; font-weight: bold; margin-bottom: 0.5rem; font-size: 0.9rem;">
-                            <i class="fas fa-exclamation-circle"></i> Plus que ${menu.stock} menus dispos !
-                        </div>`;
-                    } else if (menu.stock === 0) {
-                        stockDisplay = `<div style="color: #c0392b; font-weight: bold; margin-bottom: 0.5rem; font-size: 0.9rem;">
-                            <i class="fas fa-times-circle"></i> Rupture de stock
-                        </div>`;
+                    // Fix image path: strip /Vite-et-gourmand prefix for Vercel
+                    let imgSrc = menu.image_url || '';
+                    imgSrc = imgSrc.replace('/Vite-et-gourmand/', '/');
+                    if (!imgSrc) imgSrc = 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80';
+
+                    // Stock badge
+                    let stockBadge = '';
+                    if (menu.stock === 0) {
+                        stockBadge = `<span class="menu-badge badge-rupture"><i class="fas fa-times-circle"></i> Rupture</span>`;
+                    } else if (menu.stock < 10) {
+                        stockBadge = `<span class="menu-badge badge-urgent"><i class="fas fa-fire"></i> Plus que ${menu.stock} !</span>`;
                     }
 
-                    // Conditions
-                    const conditions = menu.conditions_reservation ?
-                        `<div style="font-size: 0.8rem; background: #f9f9f9; padding: 0.5rem; border-radius: 5px; margin-top: 0.5rem; color: #555;">
-                            <i class="fas fa-info-circle"></i> ${menu.conditions_reservation}
-                         </div>` : '';
+                    // Dishes preview
+                    let dishesHtml = '';
+                    if (menu.condensed_dishes) {
+                        dishesHtml = `
+                            <div class="menu-dishes">
+                                <div class="dish-row"><span class="dish-label">Entrée</span><span>${menu.condensed_dishes.entree}</span></div>
+                                <div class="dish-row"><span class="dish-label">Plat</span><span>${menu.condensed_dishes.plat}</span></div>
+                                <div class="dish-row"><span class="dish-label">Dessert</span><span>${menu.condensed_dishes.dessert}</span></div>
+                            </div>`;
+                    }
 
                     card.innerHTML = `
-                        <div class="baroque-card" style="height: 100%; display: flex; flex-direction: column; overflow: hidden; text-align: center; position: relative;">
-                            <!-- Badge Prix -->
-                            <div style="position: absolute; top: 15px; right: 15px; background: var(--secondary-color); color: var(--primary-color); padding: 8px 15px; border-radius: 5px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 10; border: 2px solid var(--primary-color); transform: rotate(2deg);">
-                                ${menu.prix}€ <span style="font-size: 0.7rem; display: block; margin-top: -3px; opacity: 0.9;">/ pers.</span>
+                        <div class="menu-card-inner">
+                            <div class="menu-img-wrap">
+                                <img src="${imgSrc}" alt="${menu.titre}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80'">
+                                <div class="menu-img-overlay"></div>
+                                <div class="menu-price-badge">${menu.prix}€<span>/pers.</span></div>
+                                ${stockBadge}
                             </div>
-
-                            <div class="baroque-img-container" style="height: 220px; flex-shrink: 0;">
-                                <img src="${menu.image_url || 'https://via.placeholder.com/300x200?text=Menu'}" alt="${menu.titre}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-                            </div>
-                            <div style="padding: 2rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
-                                <div style="width: 100%;">
-                                    <div style="margin-bottom: 1.5rem; border-bottom: 2px solid rgba(212, 175, 55, 0.4); padding-bottom: 0.8rem; display: flex; justify-content: center;">
-                                        <h3 class="baroque-title" style="margin: 0; font-size: 1.6rem; line-height: 1.2; text-align: center;">${menu.titre}</h3>
-                                    </div>
-                                    <div class="baroque-text" style="font-size: 1.1rem; margin-bottom: 1.5rem; opacity: 0.95; line-height: 1.5; text-align: center;">${menu.description}</div>
-                                    
-                                    ${stockDisplay}
-                                    
-                                    <div style="background: rgba(0,0,0,0.03); padding: 1.2rem; border-radius: 5px; margin-bottom: 1.5rem; display: flex; flex-direction: column; align-items: center;">
-                                        <div class="baroque-text" style="font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center;">
-                                            <i class="fas fa-users" style="color: var(--secondary-color); margin-right: 10px;"></i> Min. ${menu.min_personnes} pers.
-                                        </div>
-                                        <div class="baroque-text" style="font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center;">
-                                            <i class="fas fa-leaf" style="color: var(--secondary-color); margin-right: 10px;"></i> ${menu.regime || 'Classique'}
-                                        </div>
-                                        
-                                        <div style="border-top: 1px solid rgba(212, 175, 55, 0.2); padding-top: 1rem; width: 100%;">
-                                            <strong style="color: var(--secondary-color); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 0.5rem; text-align: center;">Exemple de Menu :</strong>
-                                            ${menu.condensed_dishes ? `
-                                                <div style="font-size: 1rem; line-height: 1.6; color: #000; text-align: center;">
-                                                    <span style="font-weight: bold; color: var(--primary-color);">Entrée :</span> ${menu.condensed_dishes.entree}<br>
-                                                    <span style="font-weight: bold; color: var(--primary-color);">Plat :</span> ${menu.condensed_dishes.plat}<br>
-                                                    <span style="font-weight: bold; color: var(--primary-color);">Dessert :</span> ${menu.condensed_dishes.dessert}
-                                                </div>
-                                            ` : '<div style="font-style: italic; font-size: 0.9rem; text-align: center;">Composition variable selon arrivage</div>'}
-                                        </div>
-                                    </div>
+                            <div class="menu-body">
+                                <h3 class="menu-title">${menu.titre}</h3>
+                                <p class="menu-desc">${menu.description}</p>
+                                <div class="menu-pills">
+                                    <span class="menu-pill"><i class="fas fa-users"></i> Min. ${menu.min_personnes} pers.</span>
+                                    <span class="menu-pill"><i class="fas fa-leaf"></i> ${menu.regime || 'Classique'}</span>
                                 </div>
-                                
-                                <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                                    ${conditions}
-                                    <a href="/Vite-et-gourmand/interface_frontend/pages/menu-detail.php?id=${menu.id}" class="btn btn-secondary" style="width: 100%; text-align: center; margin-top: 1rem; font-size: 1.1rem; font-weight: bold; padding: 18px; text-transform: uppercase; letter-spacing: 1px; display: inline-block;">Voir le détail</a>
-                                </div>
+                                ${dishesHtml}
+                                ${menu.conditions_reservation ? `<p class="menu-conditions"><i class="fas fa-info-circle"></i> ${menu.conditions_reservation}</p>` : ''}
+                                <a href="${BASE_URL}/interface_frontend/pages/menu-detail.php?id=${menu.id}" class="menu-cta">
+                                    Voir le détail <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
                     `;

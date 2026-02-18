@@ -35,6 +35,191 @@ include __DIR__ . '/../../noyau_backend/configuration/db.php';
         border: 2px solid white;
         box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
+
+    /* ===== MENU CARDS ===== */
+    .menu-card-inner {
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .menu-card-inner:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+    }
+
+    /* Image */
+    .menu-img-wrap {
+        position: relative;
+        height: 230px;
+        flex-shrink: 0;
+        overflow: hidden;
+    }
+    .menu-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+    .menu-card-inner:hover .menu-img-wrap img {
+        transform: scale(1.05);
+    }
+    .menu-img-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%);
+    }
+
+    /* Price badge */
+    .menu-price-badge {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        background: var(--secondary-color);
+        color: var(--primary-color);
+        font-weight: 900;
+        font-size: 1.25rem;
+        padding: 8px 14px;
+        border-radius: 10px;
+        line-height: 1;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+        text-align: center;
+    }
+    .menu-price-badge span {
+        display: block;
+        font-size: 0.65rem;
+        font-weight: 600;
+        opacity: 0.85;
+        margin-top: 2px;
+    }
+
+    /* Stock badges */
+    .menu-badge {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .badge-rupture { background: #c0392b; color: #fff; }
+    .badge-urgent  { background: #e67e22; color: #fff; }
+
+    /* Body */
+    .menu-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 0.75rem;
+    }
+    .menu-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.35rem;
+        color: var(--primary-color);
+        margin: 0;
+        line-height: 1.25;
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 0.6rem;
+    }
+    .menu-desc {
+        font-size: 0.92rem;
+        color: #555;
+        line-height: 1.55;
+        margin: 0;
+    }
+
+    /* Pills */
+    .menu-pills {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    .menu-pill {
+        background: rgba(128, 0, 32, 0.08);
+        color: var(--primary-color);
+        border: 1px solid rgba(128, 0, 32, 0.2);
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .menu-pill i { color: var(--secondary-color); }
+
+    /* Dishes */
+    .menu-dishes {
+        background: #fafafa;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+    .dish-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: #444;
+    }
+    .dish-label {
+        font-weight: 700;
+        color: var(--primary-color);
+        min-width: 55px;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Conditions */
+    .menu-conditions {
+        font-size: 0.78rem;
+        color: #888;
+        margin: 0;
+        display: flex;
+        gap: 5px;
+        align-items: flex-start;
+        line-height: 1.4;
+    }
+    .menu-conditions i { color: var(--secondary-color); margin-top: 2px; flex-shrink: 0; }
+
+    /* CTA */
+    .menu-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: auto;
+        padding: 14px;
+        background: var(--primary-color);
+        color: var(--secondary-color);
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: background 0.25s, transform 0.2s;
+    }
+    .menu-cta:hover {
+        background: #5a0015;
+        transform: translateY(-2px);
+    }
+    .menu-cta i { transition: transform 0.2s; }
+    .menu-cta:hover i { transform: translateX(4px); }
 </style>
 
 <div class="container" style="padding: 2rem 0; display: flex; gap: 2rem;">
