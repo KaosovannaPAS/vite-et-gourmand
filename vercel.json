@@ -2,30 +2,53 @@
     "version": 2,
     "builds": [
         {
-            "src": "**/*.php",
-            "use": "vercel-php@0.6.0"
+            "src": "api/**/*.php",
+            "use": "vercel-php@0.7.2"
         },
         {
-            "src": "**/*.html",
+            "src": "noyau_backend/**/*.php",
+            "use": "vercel-php@0.7.2"
+        },
+        {
+            "src": "interface_frontend/**/*.php",
+            "use": "vercel-php@0.7.2"
+        },
+        {
+            "src": "*.php",
+            "use": "vercel-php@0.7.2"
+        },
+        {
+            "src": "interface_frontend/ressources/**/*",
             "use": "@vercel/static"
         },
         {
-            "src": "**/*.js",
+            "src": "interface_frontend/pages/*.html",
             "use": "@vercel/static"
         },
         {
-            "src": "**/*.css",
+            "src": "index.html",
             "use": "@vercel/static"
         }
     ],
     "routes": [
         {
-            "src": "/(.*).php",
-            "dest": "/$1.php"
+            "src": "/noyau_backend/(.*\\.php)$",
+            "dest": "/noyau_backend/$1"
+        },
+        {
+            "src": "/api/(.*\\.php)$",
+            "dest": "/api/$1"
+        },
+        {
+            "src": "/(.*\\.php)$",
+            "dest": "/$1"
+        },
+        {
+            "handle": "filesystem"
         },
         {
             "src": "/(.*)",
-            "dest": "/$1"
+            "dest": "/index.html"
         }
     ]
 }
