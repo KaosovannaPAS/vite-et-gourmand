@@ -1,10 +1,10 @@
 <?php
 
-$h = getenv('MYSQLHOST') ?: 'localhost';
-$u = getenv('MYSQLUSER') ?: 'root';
-$p = getenv('MYSQLPASSWORD') ?: '';
-$d = getenv('MYSQLDATABASE') ?: 'vite_et_gourmand';
-$port = getenv('MYSQLPORT') ?: '3306';
+$h = trim(getenv('MYSQLHOST')) ?: 'localhost';
+$u = trim(getenv('MYSQLUSER')) ?: 'root';
+$p = trim(getenv('MYSQLPASSWORD')) ?: '';
+$d = trim(getenv('MYSQLDATABASE')) ?: 'vite_et_gourmand';
+$port = trim(getenv('MYSQLPORT')) ?: '3306';
 
 try {
     $pdo = new PDO("mysql:host=$h;port=$port;dbname=$d;charset=utf8mb4", $u, $p, [
