@@ -32,16 +32,20 @@
     ],
     "routes": [
         {
-            "src": "/noyau_backend/(.*\\.php)$",
-            "dest": "/noyau_backend/$1"
+            "src": "/noyau_backend/api/v1/(.*).php",
+            "dest": "/noyau_backend/api/v1/$1.php"
         },
         {
-            "src": "/api/(.*\\.php)$",
-            "dest": "/api/$1"
+            "src": "/noyau_backend/api/v1/(.*)",
+            "dest": "/noyau_backend/api/v1/$1.php"
         },
         {
-            "src": "/(.*\\.php)$",
-            "dest": "/$1"
+            "src": "/api/(.*).php",
+            "dest": "/api/$1.php"
+        },
+        {
+            "src": "/api/(.*)",
+            "dest": "/api/$1.php"
         },
         {
             "handle": "filesystem"
