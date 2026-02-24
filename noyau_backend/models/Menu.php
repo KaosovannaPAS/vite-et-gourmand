@@ -1,17 +1,14 @@
 <?php
-require_once __DIR__ . '/../configuration/db.php';
-
 class Menu
 {
     private $pdo;
 
     public function __construct()
     {
+        // On s'assure que db.php est inclus et que $pdo est initialisé
+        require __DIR__ . '/../configuration/db.php';
         global $pdo;
-        if (!$pdo) {
-            require_once __DIR__ . '/../configuration/db.php';
-        }
-        $this->pdo = $GLOBALS['pdo'] ?? $pdo;
+        $this->pdo = $pdo;
     }
 
     public function getAllActive($filters = [])

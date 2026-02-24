@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
         {
-            "src": "version.php",
+            "src": "v.php",
             "use": "vercel-php@0.7.2"
         },
         {
@@ -15,6 +15,10 @@
         }
     ],
     "routes": [
+        {
+            "src": "/v.php",
+            "dest": "/v.php"
+        },
         {
             "src": "/noyau_backend/(.*)",
             "dest": "/noyau_backend/$1"
