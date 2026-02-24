@@ -39,7 +39,8 @@ class MenuV2
         }
 
         // Removed sorting by created_at due to production DB column missing
-        $sql .= " ORDER BY id DESC";
+        // No sorting
+
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
@@ -49,7 +50,7 @@ class MenuV2
 
     public function getAll()
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM menus ORDER BY id DESC");
+        $stmt = $this->pdo->prepare("SELECT * FROM menus");
         $stmt->execute();
         $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $this->attachDishes($menus);
@@ -69,7 +70,8 @@ class MenuV2
             FROM menu_dishes md
             JOIN dishes d ON md.dish_id = d.id
             WHERE md.menu_id IN ($inQuery)
-            ORDER BY d.id ASC
+            // No sorting
+
         ");
         $stmt->execute($menuIds);
 
