@@ -9,6 +9,9 @@
         },
         "api/**/*.php": {
             "runtime": "vercel-php@0.7.2"
+        },
+        "noyau_backend/api/v1/ping.php": {
+            "runtime": "vercel-php@0.7.2"
         }
     },
     "routes": [
