@@ -129,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${menu.theme ? `<span class="menu-pill"><i class="fas fa-star"></i> ${menu.theme}</span>` : ''}
                     </div>
                     ${dishesHtml}
-                    ${dishesHtml}
                     <a href="${BASE_URL}/interface_frontend/pages/menu-detail.html?id=${menu.id}" class="menu-cta">
                         Voir le détail <i class="fas fa-arrow-right"></i>
                     </a>
@@ -148,22 +147,39 @@ document.addEventListener('DOMContentLoaded', () => {
         menusGrid.innerHTML = '<p style="color:#888;padding:2rem;text-align:center;"><i class="fas fa-spinner fa-spin"></i> Chargement...</p>';
 
         fetch(`${BASE_URL}/noyau_backend/api/v1/menus.php?${params.toString()}`)
-            .then(r => r.json())
+            .then(r => {
+                if (!r.ok) {
+                    throw new Error(`HTTP error! status: ${r.status}`);
+                }
+                return r.json();
+            })
             .then(data => {
                 menusGrid.innerHTML = '';
-                if (!data.length) {
+
+                if (data.error) {
+                    menusGrid.innerHTML = `<p style="color:#c0392b;padding:2rem;text-align:center;">
+                        <i class="fas fa-exclamation-triangle"></i> Erreur API : ${data.error}<br>
+                        <small style="opacity:0.7;">${data.details || ''}</small>
+                    </p>`;
+                    return;
+                }
+
+                if (!Array.isArray(data) || !data.length) {
                     menusGrid.innerHTML = '<p style="color:#888;padding:2rem;text-align:center;">Aucun menu ne correspond à vos critères.</p>';
                     return;
                 }
 
                 // Flat grid always (Alphabetical)
-                data.forEach(menu => menusGrid.appendChild(buildCard(menu)));
+                data.forEach(menu => menusGrid.appendChild(createMenuCard(menu)));
 
                 updateSimulatorTotals();
             })
             .catch(err => {
                 console.error('Erreur:', err);
-                menusGrid.innerHTML = '<p style="color:#c0392b;padding:2rem;">Une erreur est survenue lors du chargement des menus.</p>';
+                menusGrid.innerHTML = `<p style="color:#c0392b;padding:2rem;text-align:center;">
+                    <i class="fas fa-exclamation-circle"></i> Une erreur est survenue lors du chargement des menus.<br>
+                    <small style="opacity:0.7;">Vérifiez votre connexion ou contactez le support.</small>
+                </p>`;
             });
     }
 

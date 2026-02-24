@@ -8,23 +8,30 @@ $menuModel = new Menu();
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
-    if (isset($_GET['id'])) {
-        $menu = $menuModel->getById($_GET['id']);
-        echo json_encode($menu ? $menu : ["error" => "Menu non trouvé"]);
-    }
-    else {
-        if (isset($_GET['all']) && $_GET['all'] === "true") {
-            echo json_encode($menuModel->getAll()); // All menus for Admin
+    try {
+        if (isset($_GET['id'])) {
+            $menu = $menuModel->getById($_GET['id']);
+            echo json_encode($menu ? $menu : ["error" => "Menu non trouvé"]);
         }
         else {
-            $filters = [
-                'theme' => $_GET['theme'] ?? null,
-                'regime' => $_GET['regime'] ?? null,
-                'max_price' => $_GET['max_price'] ?? null,
-                'min_people' => $_GET['min_people'] ?? null
-            ];
-            echo json_encode($menuModel->getAllActive($filters)); // Active menus for Frontend
+            if (isset($_GET['all']) && $_GET['all'] === "true") {
+                echo json_encode($menuModel->getAll()); // All menus for Admin
+            }
+            else {
+                $filters = [
+                    'theme' => $_GET['theme'] ?? null,
+                    'regime' => $_GET['regime'] ?? null,
+                    'max_price' => $_GET['max_price'] ?? null,
+                    'min_people' => $_GET['min_people'] ?? null
+                ];
+                $activeMenus = $menuModel->getAllActive($filters);
+                echo json_encode($activeMenus); // Active menus for Frontend
+            }
         }
+    }
+    catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(["error" => "Internal Server Error", "details" => $e->getMessage()]);
     }
 }
 elseif ($method === 'POST') {
