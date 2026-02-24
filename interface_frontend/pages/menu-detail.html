@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail Menu - Vite & Gourmand</title>
+    <!-- Polices Google -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="/Vite-et-gourmand/interface_frontend/ressources/css/style.css">
+    <link rel="stylesheet" href="/Vite-et-gourmand/interface_frontend/ressources/css/menu-detail.css">
+
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>const BASE_URL = "/Vite-et-gourmand";</script>
+    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/auth.js" defer></script>
+    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/menu-detail.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo">
+                <a href="/Vite-et-gourmand/index.html"
+                    style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--secondary-color); text-decoration: none; display: flex; align-items: center; gap: 0.8rem; letter-spacing: 2px;">
+                    <div
+                        style="border: 2px solid var(--secondary-color); padding: 5px 10px; border-radius: 50% 50% 0 0; border-bottom: none;">
+                        <i class="fas fa-utensils" style="color: var(--secondary-color);"></i>
+                    </div>
+                    <span style="text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Vite & Gourmand</span>
+                </a>
+            </div>
+            <nav>
+                <ul style="display: flex; list-style: none; gap: 20px; align-items: center;">
+                    <li><a href="/Vite-et-gourmand/index.html#history">Notre Histoire</a></li>
+                    <li><a href="/Vite-et-gourmand/interface_frontend/pages/menus.html">Nos Menus</a></li>
+                    <li><a href="/Vite-et-gourmand/index.html#news">Nos Actualités</a></li>
+                    <li><a href="/Vite-et-gourmand/interface_frontend/pages/contact.html">Contact</a></li>
+                </ul>
+                <ul id="auth-menu"
+                    style="display: flex; list-style: none; gap: 20px; align-items: center; margin-left: 20px;">
+                    <!-- Injecté par auth.js -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+
+        <div class="container" id="menu-app" style="padding: 2rem 0 4rem; display:none;">
+            <a href="/Vite-et-gourmand/interface_frontend/pages/menus.html"
+                style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; color: var(--primary-color); text-decoration: none; font-weight: 600; font-size: 0.95rem;">
+                <i class="fas fa-arrow-left"></i> Retour aux menus
+            </a>
+
+            <!-- Hero Banner -->
+            <div class="detail-hero">
+                <img id="hero-img" src="" alt="">
+                <div class="detail-hero-overlay">
+                    <h1 id="hero-title">--</h1>
+                    <div class="hero-meta" id="hero-meta">
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-layout">
+                <!-- LEFT: Composition -->
+                <div id="left-composition">
+                    <p id="menu-desc" style="font-size:1.05rem; color:#444; line-height:1.7; margin-bottom:0.5rem;"></p>
+                    <div id="menu-conditions"></div>
+                    <div id="dishes-container"></div>
+                </div>
+
+                <!-- RIGHT: Sidebar Simulator -->
+                <div>
+                    <div style="position: sticky; top: 100px;">
+                        <div class="sidebar-card">
+                            <div class="sidebar-price" id="sidebar-price">
+                                0,00 €
+                                <span>/ personne</span>
+                            </div>
+                            <p style="font-size:0.85rem;color:#888;margin:0.4rem 0 0;" id="sidebar-min">Min. 2 personnes
+                            </p>
+
+                            <hr class="sidebar-divider">
+
+                            <div class="simulator-label">Simulateur de budget</div>
+                            <div class="simulator-value"><span id="guest_display">2</span> pers.</div>
+
+                            <input type="range" id="guest_count" min="2" max="100" value="2" class="gold-slider">
+
+                            <div
+                                style="margin-top:1.25rem;background:#fafafa;border-radius:10px;padding:1rem 1.25rem;border:1px solid #eee;">
+                                <div class="price-row">
+                                    <span>Menu (<span id="count_summary">0</span> pers.)</span>
+                                    <span id="base_price_total" style="font-weight:700;">0,00 €</span>
+                                </div>
+                                <div class="price-row discount" id="discount_row" style="display:none;">
+                                    <span>Réduction fidélité (−10%)</span>
+                                    <span id="discount_amount">−0,00 €</span>
+                                </div>
+                                <div class="price-row">
+                                    <span>Livraison (base)</span>
+                                    <span style="font-weight:700;">5,00 €</span>
+                                </div>
+                                <div class="price-row total">
+                                    <span>Total estimé</span>
+                                    <span id="total_price">0,00 €</span>
+                                </div>
+                                <div id="discount_info" style="margin-top:0.75rem;">
+                                    <span class="discount-info-text"><i class="fas fa-tag"></i> Encore <span
+                                            id="needed_for_discount">X</span> pers. pour −10% !</span>
+                                </div>
+                            </div>
+
+                            <a id="action-btn" href="#" class="cta-btn">Commander</a>
+                        </div>
+
+                        <!-- Conditions & Livraison -->
+                        <div
+                            style="margin-top: 1.5rem; background: #5a0015; border-radius: 4px; border: 1px solid var(--secondary-color); padding: 1.5rem; font-size: 0.9rem; color: #ccc; position: relative;">
+                            <h4
+                                style="color:var(--secondary-color); font-size:1rem; margin:0 0 1rem; font-family:'Playfair Display',serif; font-weight:700; border-bottom:1px solid rgba(212,175,55,0.3); padding-bottom:0.5rem;">
+                                <i class="fas fa-info-circle"
+                                    style="color:var(--secondary-color); margin-right:8px;"></i> Informations
+                            </h4>
+
+                            <p style="margin-bottom:0.5rem; font-weight:700; color:var(--secondary-color);">Conditions
+                                de commande :</p>
+                            <ul style="margin:0 0 1.25rem 1.2rem; padding:0;">
+                                <li style="margin-bottom:0.25rem;">1 semaine à l'avance pour &lt; 30 pers.</li>
+                                <li>2 semaines à l'avance pour &gt; 30 pers.</li>
+                            </ul>
+
+                            <p style="margin-bottom:0.5rem; font-weight:700; color:var(--secondary-color);">Frais de
+                                livraison :</p>
+                            <p style="margin:0; line-height:1.5;">
+                                5,00 € <small>(majoré de 0,59€ / km)</small> si livraison hors Bordeaux.
+                            </p>
+                        </div>
+                    </div> <!-- End sticky wrapper -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                <div class="footer-section">
+                    <h3>Nos Horaires</h3>
+                    <p>Lundi : Fermé</p>
+                    <p>Mardi - Samedi : 10h - 19h</p>
+                    <p>Dimanche : Fermé</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>12 Quai des Chartrons</p>
+                    <p>33000 Bordeaux</p>
+                    <p>05 56 00 00 00</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Légal</h3>
+                    <a href="/Vite-et-gourmand/interface_frontend/pages/mentions-legales.html"
+                        style="margin: 0 10px;">Mentions Légales</a>
+                </div>
+            </div>
+            <div
+                style="width: 100%; border-top: 1px solid rgba(0,0,0,0.1); margin-top: 2rem; padding-top: 2rem; text-align: center; font-size: 1rem; color: #000;">
+                <p>&copy; <span id="currentYear"></span> Vite & Gourmand - Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+    <script> document.getElementById('currentYear').textContent = new Date().getFullYear(); </script>
+</body>
+
+</html>

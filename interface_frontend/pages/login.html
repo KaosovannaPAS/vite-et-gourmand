@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Vite & Gourmand</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/Vite-et-gourmand/interface_frontend/ressources/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>const BASE_URL = "/Vite-et-gourmand";</script>
+    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/auth.js" defer></script>
+    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/login.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo">
+                <a href="/Vite-et-gourmand/index.html"
+                    style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--secondary-color); text-decoration: none; display: flex; align-items: center; gap: 0.8rem; letter-spacing: 2px;">
+                    <div
+                        style="border: 2px solid var(--secondary-color); padding: 5px 10px; border-radius: 50% 50% 0 0; border-bottom: none;">
+                        <i class="fas fa-utensils" style="color: var(--secondary-color);"></i>
+                    </div>
+                    <span style="text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Vite & Gourmand</span>
+                </a>
+            </div>
+            <nav>
+                <ul style="display: flex; list-style: none; gap: 20px; align-items: center;">
+                    <li><a href="/Vite-et-gourmand/index.html#history">Notre Histoire</a></li>
+                    <li><a href="/Vite-et-gourmand/interface_frontend/pages/menus.html">Nos Menus</a></li>
+                    <li><a href="/Vite-et-gourmand/index.html#news">Nos Actualités</a></li>
+                    <li><a href="/Vite-et-gourmand/interface_frontend/pages/contact.html">Contact</a></li>
+                </ul>
+                <ul id="auth-menu"
+                    style="display: flex; list-style: none; gap: 20px; align-items: center; margin-left: 20px;">
+                    <!-- Injecté par auth.js -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+
+        <div class="container" style="padding: 4rem 0; max-width: 1200px;">
+            <h2
+                style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px;">
+                Espace Client</h2>
+
+            <div id="login-error"
+                style="display: none; background: #fff5f5; color: #c0392b; padding: 1.5rem; border-radius: 5px; margin-bottom: 2rem; font-weight: bold; text-align: center; border-left: 5px solid #c0392b;">
+                <i class="fas fa-exclamation-circle" style="margin-right: 10px;"></i> <span id="error-message"></span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start;">
+
+                <div
+                    style="background: #fdfdfd; padding: 2.5rem; border-radius: 5px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-left: 5px solid var(--secondary-color);">
+                    <h3 style="margin-bottom: 2rem; color: var(--primary-color); font-size: 1.8rem;">Bienvenue</h3>
+                    <p style="margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.6;">
+                        Connectez-vous pour accéder à vos services privilégiés :
+                    </p>
+                    <ul style="list-style: none; padding: 0; font-size: 1.1rem;">
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-history"
+                                style="color: var(--secondary-color); width: 25px;"></i> Historique de vos commandes
+                        </li>
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-truck"
+                                style="color: var(--secondary-color); width: 25px;"></i> Suivi de livraison en temps
+                            réel</li>
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-star"
+                                style="color: var(--secondary-color); width: 25px;"></i> Gestion de vos menus favoris
+                        </li>
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-user-edit"
+                                style="color: var(--secondary-color); width: 25px;"></i> Modification de votre profil
+                        </li>
+                    </ul>
+
+                    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #eee;">
+                        <p style="font-size: 1.1rem;">Pas encore membre ?</p>
+                        <a href="/Vite-et-gourmand/interface_frontend/pages/register.html" class="btn btn-primary"
+                            style="display: inline-block; margin-top: 1rem; text-decoration: none; text-align: center;">Créer
+                            un compte prestige</a>
+                    </div>
+                </div>
+
+                <form id="login-form"
+                    style="background: var(--primary-color); padding: 3rem; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 3px solid var(--secondary-color);">
+                    <h3
+                        style="margin-bottom: 2rem; color: var(--secondary-color); font-size: 2rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); text-align: center;">
+                        Connexion</h3>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="email"
+                            style="font-weight: bold; display: block; margin-bottom: 0.8rem; color: #000000; font-size: 1.1rem;">Email
+                            <span style="color: var(--secondary-color);">*</span></label>
+                        <input type="email" id="email" name="email" required class="form-control"
+                            style="width: 100%; padding: 12px; font-size: 1.1rem; box-sizing: border-box;"
+                            placeholder="votre@email.com">
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="password"
+                            style="font-weight: bold; display: block; margin-bottom: 0.8rem; color: #000000; font-size: 1.1rem;">Mot
+                            de passe <span style="color: var(--secondary-color);">*</span></label>
+                        <input type="password" id="password" name="password" required class="form-control"
+                            style="width: 100%; padding: 12px; font-size: 1.1rem; box-sizing: border-box;"
+                            placeholder="••••••••">
+                        <div style="text-align: right; margin-top: 0.5rem;">
+                            <a href="#"
+                                style="color: var(--secondary-color); font-size: 0.9rem; text-decoration: none;">Mot de
+                                passe oublié ?</a>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-secondary"
+                        style="width: 100%; font-size: 1.3rem; font-weight: bold; padding: 20px; text-transform: uppercase; letter-spacing: 1px; margin-top: 1rem;">Se
+                        connecter</button>
+
+                    <div
+                        style="text-align: center; margin-top: 2rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 1.5rem;">
+                        <p style="color: #000; opacity: 0.8;">Accès réservé aux clients et collaborateurs de Vite &
+                            Gourmand.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                <div class="footer-section">
+                    <h3>Nos Horaires</h3>
+                    <p>Lundi : Fermé</p>
+                    <p>Mardi - Samedi : 10h - 19h</p>
+                    <p>Dimanche : Fermé</p>
+                </div>
+                <!-- autres sections footer omises pour concision mais le site reste fonctionnel -->
+                <div class="footer-section">
+                    <h3>Légal</h3>
+                    <a href="/Vite-et-gourmand/interface_frontend/pages/mentions-legales.html"
+                        style="margin: 0 10px;">Mentions Légales</a>
+                </div>
+            </div>
+            <div
+                style="width: 100%; border-top: 1px solid rgba(0,0,0,0.1); margin-top: 2rem; padding-top: 2rem; text-align: center; font-size: 1rem; color: #000;">
+                <p>&copy; <span id="currentYear"></span> Vite & Gourmand - Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+    <script> document.getElementById('currentYear').textContent = new Date().getFullYear(); </script>
+</body>
+
+</html>

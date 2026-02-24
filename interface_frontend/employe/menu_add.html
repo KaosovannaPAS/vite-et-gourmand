@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edition Menu - Vite & Gourmand</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/Vite-et-gourmand/interface_frontend/ressources/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>const BASE_URL = "/Vite-et-gourmand";</script>
+    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/auth.js" defer></script>
+    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/employe-menu-add.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo">
+                <a href="/Vite-et-gourmand/index.html"
+                    style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--secondary-color); text-decoration: none; display: flex; align-items: center; gap: 0.8rem; letter-spacing: 2px;">
+                    <div
+                        style="border: 2px solid var(--secondary-color); padding: 5px 10px; border-radius: 50% 50% 0 0; border-bottom: none;">
+                        <i class="fas fa-utensils" style="color: var(--secondary-color);"></i></div>
+                    <span style="text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Vite & Gourmand</span>
+                </a>
+            </div>
+            <nav>
+                <ul style="display: flex; list-style: none; gap: 20px; align-items: center;">
+                    <li><a href="/Vite-et-gourmand/interface_frontend/employe/dashboard.html">Commandes</a></li>
+                    <li><a href="/Vite-et-gourmand/interface_frontend/employe/menus_edit.html"
+                            style="color:var(--primary-color);">Menus</a></li>
+                </ul>
+                <ul id="auth-menu"
+                    style="display: flex; list-style: none; gap: 20px; align-items: center; margin-left: 20px;"></ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container" style="padding: 4rem 0; max-width: 600px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 id="page-title">Chargement...</h2>
+                <a href="/Vite-et-gourmand/interface_frontend/employe/menus_edit.html" class="btn"
+                    style="background: #eee; color:#333;">Retour Menus</a>
+            </div>
+
+            <form id="menu-add-form"
+                style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <div style="margin-bottom: 1rem;">
+                    <label>Titre</label>
+                    <input type="text" name="titre" required
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label>Description</label>
+                    <textarea name="description" rows="3" required
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="flex: 1;">
+                        <label>Prix (€)</label>
+                        <input type="number" step="0.01" name="prix" required
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Min. Personnes</label>
+                        <input type="number" name="min_personnes" required
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Stock</label>
+                        <input type="number" name="stock" required
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="flex: 1;">
+                        <label>Thème</label>
+                        <select name="theme"
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                            <option value="Classique">Classique</option>
+                            <option value="Noel">Noël</option>
+                            <option value="Paques">Pâques</option>
+                            <option value="Evenement">Événement</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Régime</label>
+                        <select name="regime"
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                            <option value="classique">Classique</option>
+                            <option value="vegetarien">Végétarien</option>
+                            <option value="vegan">Vegan</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label>URL Image</label>
+                    <input type="text" name="image_url"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Enregistrer</button>
+            </form>
+        </div>
+    </main>
+
+    <footer style="margin-top:4rem;">
+        <div class="container">
+            <div
+                style="width: 100%; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 2rem; text-align: center; font-size: 1rem; color: #000;">
+                <p>&copy; <span id="currentYear"></span> Vite & Gourmand - Espace Employé.</p>
+            </div>
+        </div>
+    </footer>
+    <script> document.getElementById('currentYear').textContent = new Date().getFullYear(); </script>
+</body>
+
+</html>

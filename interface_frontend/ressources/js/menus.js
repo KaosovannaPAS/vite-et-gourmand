@@ -86,17 +86,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (discountMsg) discountMsg.style.display = discountApplied ? 'block' : 'none';
     }
 
-    function buildCard(menu) {
-        let imgSrc = menu.image_url || '';
-        imgSrc = imgSrc.replace('/Vite-et-gourmand/', '/');
-        if (!imgSrc) imgSrc = 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80';
-
+    function createMenuCard(menu) {
         let stockBadge = '';
         if (menu.stock === 0) {
-            stockBadge = `<span class="menu-badge badge-rupture"><i class="fas fa-times-circle"></i> Rupture</span>`;
-        } else if (menu.stock < 10) {
-            stockBadge = `<span class="menu-badge badge-urgent"><i class="fas fa-fire"></i> Plus que ${menu.stock} !</span>`;
+            stockBadge = '<span class="menu-badge badge-rupture">RUPTURE</span>';
+        } else if (menu.stock <= 5) {
+            stockBadge = `<span class="menu-badge badge-urgent">PLUS QUE ${menu.stock} !</span>`;
         }
+
+        let imgSrc = menu.image_url ? (menu.image_url.startsWith('http') || menu.image_url.startsWith('/') ? menu.image_url : BASE_URL + '/' + menu.image_url) : '';
+        if (!imgSrc) imgSrc = 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80'; // Fallback image
 
         let dishesHtml = '';
         if (menu.condensed_dishes) {
@@ -131,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     ${dishesHtml}
                     ${dishesHtml}
-                    <a href="${BASE_URL}/interface_frontend/pages/menu-detail.php?id=${menu.id}" class="menu-cta">
+                    <a href="${BASE_URL}/interface_frontend/pages/menu-detail.html?id=${menu.id}" class="menu-cta">
                         Voir le détail <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un compte - Vite & Gourmand</title>
+    <!-- Polices Google -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="/Vite-et-gourmand/interface_frontend/ressources/css/style.css">
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>const BASE_URL = "/Vite-et-gourmand";</script>
+    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/auth.js" defer></script>
+    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/register.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo">
+                <a href="/Vite-et-gourmand/index.html"
+                    style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--secondary-color); text-decoration: none; display: flex; align-items: center; gap: 0.8rem; letter-spacing: 2px;">
+                    <div
+                        style="border: 2px solid var(--secondary-color); padding: 5px 10px; border-radius: 50% 50% 0 0; border-bottom: none;">
+                        <i class="fas fa-utensils" style="color: var(--secondary-color);"></i>
+                    </div>
+                    <span style="text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Vite & Gourmand</span>
+                </a>
+            </div>
+            <nav>
+                <ul style="display: flex; list-style: none; gap: 20px; align-items: center;">
+                    <li><a href="/Vite-et-gourmand/index.html#history">Notre Histoire</a></li>
+                    <li><a href="/Vite-et-gourmand/interface_frontend/pages/menus.html">Nos Menus</a></li>
+                    <li><a href="/Vite-et-gourmand/index.html#news">Nos Actualités</a></li>
+                    <li><a href="/Vite-et-gourmand/interface_frontend/pages/contact.html">Contact</a></li>
+                </ul>
+                <ul id="auth-menu"
+                    style="display: flex; list-style: none; gap: 20px; align-items: center; margin-left: 20px;">
+                    <!-- Injecté par auth.js -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+
+        <div class="container" style="padding: 4rem 0; max-width: 600px;">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Créer un compte</h2>
+
+            <div id="message-alert"
+                style="padding: 1.5rem; border-radius: 5px; margin-bottom: 2rem; font-weight: bold; text-align: center; display: none;">
+            </div>
+
+            <p style="text-align: center; margin-top: 1rem;">
+                Déjà un compte ? <a href="/Vite-et-gourmand/interface_frontend/pages/login.html"
+                    style="color: var(--primary-color);">Se connecter</a>
+            </p>
+
+            <form id="register-form"
+                style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="flex: 1;">
+                        <label for="nom">Nom</label>
+                        <input type="text" id="nom" name="nom" required
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="prenom">Prénom</label>
+                        <input type="text" id="prenom" name="prenom" required
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="telephone">Téléphone (GSM)</label>
+                    <input type="tel" id="telephone" name="telephone" required
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="adresse">Adresse Postale</label>
+                    <textarea id="adresse" name="adresse" required rows="3"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="password">Mot de passe</label>
+                    <p style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">10 caractères min., 1 Maj, 1 Min,
+                        1 Chiffre, 1 Spécial</p>
+                    <input type="password" id="password" name="password" required
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="confirm_password">Confirmer le mot de passe</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">S'inscrire</button>
+            </form>
+        </div>
+
+    </main>
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                <div class="footer-section">
+                    <h3>Nos Horaires</h3>
+                    <p>Lundi : Fermé</p>
+                    <p>Mardi - Samedi : 10h - 19h</p>
+                    <p>Dimanche : Fermé</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>12 Quai des Chartrons</p>
+                    <p>33000 Bordeaux</p>
+                    <p>05 56 00 00 00</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Légal</h3>
+                    <a href="/Vite-et-gourmand/interface_frontend/pages/mentions-legales.html"
+                        style="margin: 0 10px;">Mentions Légales</a>
+                </div>
+            </div>
+            <div
+                style="width: 100%; border-top: 1px solid rgba(0,0,0,0.1); margin-top: 2rem; padding-top: 2rem; text-align: center; font-size: 1rem; color: #000;">
+                <p>&copy; <span id="currentYear"></span> Vite & Gourmand - Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+    <script> document.getElementById('currentYear').textContent = new Date().getFullYear(); </script>
+</body>
+
+</html>

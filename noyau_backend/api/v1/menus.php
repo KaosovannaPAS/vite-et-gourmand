@@ -1,73 +1,64 @@
 <?php
-header('Content-Type: application/json');
-require_once __DIR__ . '/../../configuration/db.php';
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 
-try {
-    $sql = "SELECT m.*, GROUP_CONCAT(d.nom SEPARATOR ', ') as plats 
-            FROM menus m 
-            LEFT JOIN menu_dishes md ON m.id = md.menu_id 
-            LEFT JOIN dishes d ON md.dish_id = d.id 
-            WHERE m.actif = 1";
+require_once __DIR__ . '/../../models/Menu.php';
 
-    $params = [];
+$menuModel = new Menu();
+$method = $_SERVER['REQUEST_METHOD'];
 
-    // Filtres
-    if (!empty($_GET['theme'])) {
-        $sql .= " AND m.theme = ?";
-        $params[] = $_GET['theme'];
+if ($method === 'GET') {
+    if (isset($_GET['id'])) {
+        $menu = $menuModel->getById($_GET['id']);
+        echo json_encode($menu ? $menu : ["error" => "Menu non trouvé"]);
     }
-
-    if (!empty($_GET['max_price'])) {
-        $sql .= " AND m.prix <= ?";
-        $params[] = $_GET['max_price'];
-    }
-
-    if (!empty($_GET['min_price'])) {
-        $sql .= " AND m.prix >= ?";
-        $params[] = $_GET['min_price'];
-    }
-
-    if (!empty($_GET['regime'])) {
-        $sql .= " AND m.regime = ?";
-        $params[] = $_GET['regime'];
-    }
-
-    if (!empty($_GET['min_people'])) {
-        $sql .= " AND m.min_personnes <= ?";
-        $params[] = $_GET['min_people'];
-    }
-
-    // Group by pour éviter les doublons dus au LEFT JOIN
-    $sql .= " GROUP BY m.id ORDER BY m.titre ASC";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    $menus = $stmt->fetchAll();
-
-    // Fetch individual dishes for condensed display
-    foreach ($menus as &$menu) {
-        $dishSql = "SELECT d.nom, d.type 
-                   FROM dishes d 
-                   JOIN menu_dishes md ON d.id = md.dish_id 
-                   WHERE md.menu_id = ?";
-        $dishStmt = $pdo->prepare($dishSql);
-        $dishStmt->execute([$menu['id']]);
-        $allDishes = $dishStmt->fetchAll();
-
-        $condensed = ['entree' => null, 'plat' => null, 'dessert' => null];
-        foreach ($allDishes as $dish) {
-            if (!$condensed[$dish['type']]) {
-                $condensed[$dish['type']] = $dish['nom'];
-            }
+    else {
+        if (isset($_GET['all']) && $_GET['all'] === "true") {
+            echo json_encode($menuModel->getAll()); // All menus for Admin
         }
-        $menu['condensed_dishes'] = $condensed;
+        else {
+            $filters = [
+                'theme' => $_GET['theme'] ?? null,
+                'regime' => $_GET['regime'] ?? null,
+                'max_price' => $_GET['max_price'] ?? null,
+                'min_people' => $_GET['min_people'] ?? null
+            ];
+            echo json_encode($menuModel->getAllActive($filters)); // Active menus for Frontend
+        }
     }
-
-    echo json_encode($menus);
-
 }
-catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(['error' => $e->getMessage()]);
+elseif ($method === 'POST') {
+    // Basic Auth Check ideally here
+    $data = json_decode(file_get_contents("php://input"), true);
+    if ($menuModel->create($data)) {
+        echo json_encode(["message" => "Menu créé avec succès"]);
+    }
+    else {
+        http_response_code(500);
+        echo json_encode(["message" => "Erreur lors de la création"]);
+    }
+}
+elseif ($method === 'PUT') {
+    if (isset($_GET['id'])) {
+        $data = json_decode(file_get_contents("php://input"), true);
+        if ($menuModel->update($_GET['id'], $data)) {
+            echo json_encode(["message" => "Menu mis à jour"]);
+        }
+        else {
+            http_response_code(500);
+            echo json_encode(["message" => "Erreur lors de la mise à jour"]);
+        }
+    }
+}
+elseif ($method === 'DELETE') {
+    if (isset($_GET['id'])) {
+        if ($menuModel->delete($_GET['id'])) {
+            echo json_encode(["message" => "Menu supprimé"]);
+        }
+    }
+}
+else {
+    http_response_code(405);
+    echo json_encode(["message" => "Méthode non autorisée"]);
 }
 ?>
