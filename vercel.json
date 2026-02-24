@@ -2,15 +2,23 @@
     "version": 2,
     "builds": [
         {
+            "src": "api/**/*.php",
+            "use": "vercel-php@0.7.2"
+        },
+        {
             "src": "noyau_backend/**/*.php",
             "use": "vercel-php@0.7.2"
         },
         {
-            "src": "**/*.{html,css,js,jpg,jpeg,png,gif,svg,ico,woff,woff2,ttf,eot}",
+            "src": "**/*.{html,css,js,jpg,jpeg,png,gif,svg,ico}",
             "use": "@vercel/static"
         }
     ],
     "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/api/$1"
+        },
         {
             "src": "/noyau_backend/(.*)",
             "dest": "/noyau_backend/$1"
