@@ -2,6 +2,10 @@
     "version": 2,
     "builds": [
         {
+            "src": "api/**/*.php",
+            "use": "vercel-php@0.7.2"
+        },
+        {
             "src": "noyau_backend/**/*.php",
             "use": "vercel-php@0.7.2"
         },
@@ -11,6 +15,10 @@
         }
     ],
     "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/api/$1"
+        },
         {
             "src": "/noyau_backend/(.*)",
             "dest": "/noyau_backend/$1"
