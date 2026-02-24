@@ -1,26 +1,19 @@
 {
     "version": 2,
-    "functions": {
-        "noyau_backend/api/v1/*.php": {
-            "runtime": "vercel-php@0.7.2"
+    "builds": [
+        {
+            "src": "noyau_backend/**/*.php",
+            "use": "vercel-php@0.7.2"
         },
-        "noyau_backend/api/v1/user/*.php": {
-            "runtime": "vercel-php@0.7.2"
-        },
-        "api/**/*.php": {
-            "runtime": "vercel-php@0.7.2"
-        },
-        "noyau_backend/api/v1/ping.php": {
-            "runtime": "vercel-php@0.7.2"
+        {
+            "src": "**/*.{html,css,js,jpg,jpeg,png,gif,svg,ico}",
+            "use": "@vercel/static"
         }
-    },
+    ],
     "routes": [
         {
-            "src": "/noyau_backend/api/v1/(.*)",
-            "dest": "/noyau_backend/api/v1/$1"
-        },
-        {
-            "handle": "filesystem"
+            "src": "/noyau_backend/(.*)",
+            "dest": "/noyau_backend/$1"
         },
         {
             "src": "/(.*)",
