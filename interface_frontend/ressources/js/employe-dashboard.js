@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Auth Check
-    const authRes = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/auth/me.php');
+    const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
     const authData = await authRes.json();
     if (!authData.logged_in || (authData.user.role !== 'employe' && authData.user.role !== 'admin')) {
-        window.location.href = '/Vite-et-gourmand/index.html';
+        window.location.href = '/index.html';
         return;
     }
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadOrders() {
         try {
-            const res = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/orders.php');
+            const res = await fetch('/noyau_backend/api/v1/orders.php');
             allOrders = await res.json();
             renderOrders();
         } catch (e) {
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const orderId = e.target.getAttribute('data-id');
                 const newStatus = e.target.value;
                 try {
-                    const res = await fetch(\`/Vite-et-gourmand/noyau_backend/api/v1/orders.php?id=\${orderId}\`, {
+                    const res = await fetch(\`/noyau_backend/api/v1/orders.php?id=\${orderId}\`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ statut: newStatus })

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = Object.fromEntries(formData.entries());
 
             try {
-                const response = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/auth/register.php', {
+                const response = await fetch('/noyau_backend/api/v1/auth/register.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     messageAlert.style.display = 'block';
                     registerForm.reset();
                     // Optional redirect after delay
-                    setTimeout(() => window.location.href = '/Vite-et-gourmand/interface_frontend/pages/login.html', 2000);
+                    setTimeout(() => window.location.href = '/interface_frontend/pages/login.html', 2000);
                 } else {
                     messageAlert.style.background = '#fab1a0';
                     messageAlert.style.color = '#c0392b';

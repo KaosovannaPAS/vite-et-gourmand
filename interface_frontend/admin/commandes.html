@@ -160,20 +160,20 @@
         }
     </style>
     <script>const BASE_URL = "/Vite-et-gourmand";</script>
-    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/auth.js" defer></script>
-    <script src="/Vite-et-gourmand/interface_frontend/ressources/js/admin-commandes.js" defer></script>
+    <script src="/interface_frontend/ressources/js/auth.js" defer></script>
+    <script src="/interface_frontend/ressources/js/admin-commandes.js" defer></script>
 </head>
 
 <body>
     <div class="sidebar">
         <div class="sidebar-header">Vite&Gourmand</div>
-        <a href="/Vite-et-gourmand/interface_frontend/admin/dashboard.html" class="nav-link"><i
+        <a href="/interface_frontend/admin/dashboard.html" class="nav-link"><i
                 class="fas fa-chart-line"></i> Tableau de bord</a>
-        <a href="/Vite-et-gourmand/interface_frontend/admin/employes.html" class="nav-link"><i class="fas fa-users"></i>
+        <a href="/interface_frontend/admin/employes.html" class="nav-link"><i class="fas fa-users"></i>
             Gestion Employés</a>
-        <a href="/Vite-et-gourmand/interface_frontend/admin/commandes.html" class="nav-link active"><i
+        <a href="/interface_frontend/admin/commandes.html" class="nav-link active"><i
                 class="fas fa-shopping-bag"></i> Commandes</a>
-        <a href="/Vite-et-gourmand/index.html" class="nav-link" style="margin-top:auto;"><i class="fas fa-home"></i>
+        <a href="/index.html" class="nav-link" style="margin-top:auto;"><i class="fas fa-home"></i>
             Retour au site</a>
         <a href="#" id="admin-logout-btn" class="nav-link" style="border-top:1px solid #333;"><i
                 class="fas fa-sign-out-alt"></i> Déconnexion</a>
@@ -214,8 +214,8 @@
     <script>
         document.getElementById('admin-logout-btn')?.addEventListener('click', async (e) => {
             e.preventDefault();
-            await fetch('/Vite-et-gourmand/noyau_backend/api/v1/auth/logout.php', { method: 'POST' });
-            window.location.href = '/Vite-et-gourmand/interface_frontend/pages/login.html';
+            await fetch('/noyau_backend/api/v1/auth/logout.php', { method: 'POST' });
+            window.location.href = '/interface_frontend/pages/login.html';
         });
     </script>
 </body>

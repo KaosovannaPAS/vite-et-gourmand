@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuId = urlParams.get('id');
 
     if (!menuId) {
-        window.location.href = '/Vite-et-gourmand/interface_frontend/pages/menus.html';
+        window.location.href = '/interface_frontend/pages/menus.html';
         return;
     }
 
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(menu => {
             if (menu.error || !menu.id) {
-                window.location.href = '/Vite-et-gourmand/interface_frontend/pages/menus.html';
+                window.location.href = '/interface_frontend/pages/menus.html';
                 return;
             }
 

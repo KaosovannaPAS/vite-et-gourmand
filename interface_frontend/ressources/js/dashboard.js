@@ -5,22 +5,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Auth Check
     let user = null;
     try {
-        const authRes = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/auth/me.php');
+        const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
         const authData = await authRes.json();
 
         if (!authData.logged_in) {
-            window.location.href = '/Vite-et-gourmand/interface_frontend/pages/login.html';
+            window.location.href = '/interface_frontend/pages/login.html';
             return;
         }
         user = authData.user;
 
         // Redirection based on role
         if (user.role === 'admin') {
-            window.location.href = '/Vite-et-gourmand/interface_frontend/admin/dashboard.html';
+            window.location.href = '/interface_frontend/admin/dashboard.html';
             return;
         } else if (user.role === 'employe') {
             // Pas de dashboard_employe.html encore géré mais pour la logique
-            window.location.href = '/Vite-et-gourmand/interface_frontend/employe/dashboard.html';
+            window.location.href = '/interface_frontend/employe/dashboard.html';
             return;
         }
 
@@ -28,14 +28,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (e) {
         console.error("Auth error", e);
-        window.location.href = '/Vite-et-gourmand/interface_frontend/pages/login.html';
+        window.location.href = '/interface_frontend/pages/login.html';
         return;
     }
 
     // Load Orders
     if (ordersContainer) {
         try {
-            const resp = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/user/orders.php');
+            const resp = await fetch('/noyau_backend/api/v1/user/orders.php');
             const data = await resp.json();
 
             if (data.success && data.orders.length > 0) {
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <a href="#" class="btn" style="background: #74b9ff; color: white; font-size: 0.8rem;">Modifier</a>
                         `;
                     } else if (order.statut === 'terminee') {
-                        actionsHtml = `<a href="/Vite-et-gourmand/interface_frontend/pages/review.html?order_id=${order.id}" class="btn btn-primary" style="font-size: 0.8rem;">Laisser un avis</a>`;
+                        actionsHtml = `<a href="/interface_frontend/pages/review.html?order_id=${order.id}" class="btn btn-primary" style="font-size: 0.8rem;">Laisser un avis</a>`;
                     }
 
                     html += `

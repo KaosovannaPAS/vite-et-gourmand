@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = Object.fromEntries(formData.entries());
 
             try {
-                const response = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/auth/login.php', {
+                const response = await fetch('/noyau_backend/api/v1/auth/login.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

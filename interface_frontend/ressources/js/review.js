@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const orderId = urlParams.get('order_id');
 
     if (!orderId) {
-        window.location.href = '/Vite-et-gourmand/interface_frontend/pages/dashboard.html';
+        window.location.href = '/interface_frontend/pages/dashboard.html';
         return;
     }
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Auth check
     let user = null;
     try {
-        const authRes = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/auth/me.php');
+        const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
         const authData = await authRes.json();
 
         if (!authData.logged_in) {
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
 
             try {
-                const response = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/user/review.php', {
+                const response = await fetch('/noyau_backend/api/v1/user/review.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (result.success) {
                     msgAlert.style.background = '#55efc4';
                     msgAlert.style.color = '#00b894';
-                    msgAlert.innerHTML = `${result.message}<br><a href="/Vite-et-gourmand/interface_frontend/pages/dashboard.html" class="btn" style="margin-top: 1rem; display: inline-block; background: white; color: #00b894;">Retour au tableau de bord</a>`;
+                    msgAlert.innerHTML = `${result.message}<br><a href="/interface_frontend/pages/dashboard.html" class="btn" style="margin-top: 1rem; display: inline-block; background: white; color: #00b894;">Retour au tableau de bord</a>`;
                     msgAlert.style.display = 'block';
                     formContainer.style.display = 'none';
                 } else {

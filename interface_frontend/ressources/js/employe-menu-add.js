@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Auth Check
-    const authRes = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/auth/me.php');
+    const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
     const authData = await authRes.json();
     if (!authData.logged_in || (authData.user.role !== 'employe' && authData.user.role !== 'admin')) {
-        window.location.href = '/Vite-et-gourmand/index.html';
+        window.location.href = '/index.html';
         return;
     }
 
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('page-title').textContent = 'Modifier un Menu';
         // Fetch existing
         try {
-            const res = await fetch(\`/Vite-et-gourmand/noyau_backend/api/v1/menus.php?id=\${menuId}\`);
+            const res = await fetch(\`/noyau_backend/api/v1/menus.php?id=\${menuId}\`);
             const menu = await res.json();
             if(!menu.error) {
                 form.titre.value = menu.titre || '';
@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             const endpoint = menuId 
-                ? \`/Vite-et-gourmand/noyau_backend/api/v1/menus.php?id=\${menuId}\` 
-                : '/Vite-et-gourmand/noyau_backend/api/v1/menus.php';
+                ? \`/noyau_backend/api/v1/menus.php?id=\${menuId}\` 
+                : '/noyau_backend/api/v1/menus.php';
                 
             const method = menuId ? 'PUT' : 'POST';
 
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             if (res.ok) {
-                window.location.href = '/Vite-et-gourmand/interface_frontend/employe/menus_edit.html';
+                window.location.href = '/interface_frontend/employe/menus_edit.html';
             } else {
                 alert('Erreur lors de l\\'enregistrement du menu.');
             }

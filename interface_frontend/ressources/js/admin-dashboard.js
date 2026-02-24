@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Auth Check : Admin Only
     try {
-        const authRes = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/auth/me.php');
+        const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
         const authData = await authRes.json();
 
         if (!authData.logged_in || authData.user.role !== 'admin') {
-            window.location.href = '/Vite-et-gourmand/interface_frontend/pages/login.html';
+            window.location.href = '/interface_frontend/pages/login.html';
             return;
         }
 
@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (e) {
         console.error('Auth error:', e);
-        window.location.href = '/Vite-et-gourmand/interface_frontend/pages/login.html';
+        window.location.href = '/interface_frontend/pages/login.html';
         return;
     }
 
     // Load Stats
-    const API_URL = '/Vite-et-gourmand/noyau_backend/api/v1/stats.php';
+    const API_URL = '/noyau_backend/api/v1/stats.php';
     fetch(API_URL)
         .then(res => res.json())
         .then(data => {
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <td>${dateLiv} - ${heureLiv}</td>
                     <td>${parseFloat(o.prix_total).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</td>
                     <td><span class="status ${statusClass}">${statusText}</span></td>
-                    <td><a href="/Vite-et-gourmand/interface_frontend/admin/commandes.html?id=${o.id}" class="action-btn">Voir</a></td>
+                    <td><a href="/interface_frontend/admin/commandes.html?id=${o.id}" class="action-btn">Voir</a></td>
                 `;
                 tbody.appendChild(tr);
             });

@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Pre-fill user data if logged in
     try {
-        const authRes = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/auth/me.php');
+        const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
         const authData = await authRes.json();
         if (authData.logged_in && authData.user) {
             document.getElementById('nom').value = `${authData.user.nom} ${authData.user.prenom}`.trim();
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             try {
-                const response = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/contact.php', {
+                const response = await fetch('/noyau_backend/api/v1/contact.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)

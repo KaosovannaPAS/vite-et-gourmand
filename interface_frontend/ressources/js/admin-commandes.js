@@ -1,13 +1,13 @@
-const API_URL = '/Vite-et-gourmand/noyau_backend/api/v1/orders.php';
+const API_URL = '/noyau_backend/api/v1/orders.php';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Auth Check : Admin Only
     try {
-        const authRes = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/auth/me.php');
+        const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
         const authData = await authRes.json();
 
         if (!authData.logged_in || authData.user.role !== 'admin') {
-            window.location.href = '/Vite-et-gourmand/interface_frontend/pages/login.html';
+            window.location.href = '/interface_frontend/pages/login.html';
             return;
         }
 
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadOrders();
     } catch (e) {
         console.error('Auth error:', e);
-        window.location.href = '/Vite-et-gourmand/interface_frontend/pages/login.html';
+        window.location.href = '/interface_frontend/pages/login.html';
     }
 });
 

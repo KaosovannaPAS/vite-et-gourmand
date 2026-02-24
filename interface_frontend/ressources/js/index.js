@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Fetch Reviews
     try {
-        const response = await fetch('/Vite-et-gourmand/noyau_backend/api/v1/reviews.php');
+        const response = await fetch('/noyau_backend/api/v1/reviews.php');
         if (!response.ok) throw new Error('Network response was not ok');
         const avis = await response.json();
 
