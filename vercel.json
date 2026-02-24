@@ -2,30 +2,22 @@
     "version": 2,
     "builds": [
         {
+            "src": "noyau_backend/api/v1/*.php",
+            "use": "vercel-php@0.7.2"
+        },
+        {
             "src": "*.php",
             "use": "vercel-php@0.7.2"
-        },
-        {
-            "src": "noyau_backend/**/*.php",
-            "use": "vercel-php@0.7.2"
-        },
-        {
-            "src": "**/*.{html,css,js,jpg,jpeg,png,gif,svg,ico}",
-            "use": "@vercel/static"
         }
     ],
     "routes": [
         {
-            "src": "/ping_test.php",
-            "dest": "/ping_test.php"
+            "src": "/noyau_backend/api/v1/(.*)",
+            "dest": "/noyau_backend/api/v1/$1"
         },
         {
-            "src": "/noyau_backend/(.*)",
-            "dest": "/noyau_backend/$1"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/index.html"
+            "src": "/(.*).php",
+            "dest": "/$1.php"
         }
     ]
 }
