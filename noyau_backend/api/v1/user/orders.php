@@ -12,7 +12,7 @@ if (!isset($_SESSION['user'])) {
 $user = $_SESSION['user'];
 
 try {
-    $stmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC");
+    $stmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC");
     $stmt->execute([$user['id']]);
     $orders = $stmt->fetchAll();
 

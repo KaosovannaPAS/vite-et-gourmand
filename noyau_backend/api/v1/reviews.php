@@ -17,7 +17,7 @@ if ($method === 'GET') {
             FROM reviews r 
             JOIN users u ON r.user_id = u.id 
             WHERE r.valide = 1 
-            ORDER BY r.created_at DESC 
+            ORDER BY r.id DESC 
             LIMIT 20";
 
     try {

@@ -20,7 +20,7 @@ try {
     $stats['active_orders'] = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
 
     // Chiffre d'affaires (Jour)
-    $stmt = $pdo->query("SELECT SUM(prix_total) as revenue FROM orders WHERE DATE(created_at) = CURDATE() AND statut != 'annullee'");
+    $stmt = $pdo->query("SELECT SUM(prix_total) as revenue FROM orders WHERE date_livraison = CURDATE() AND statut != 'annullee'");
     $stats['revenue_today'] = $stmt->fetch(PDO::FETCH_ASSOC)['revenue'] ?? 0;
 
     // Avis à modérer
@@ -32,7 +32,7 @@ try {
         SELECT o.id, o.date_livraison, o.heure_livraison, o.prix_total, o.statut, u.nom, u.prenom 
         FROM orders o 
         JOIN users u ON o.user_id = u.id 
-        ORDER BY o.created_at DESC 
+        ORDER BY o.id DESC 
         LIMIT 5
     ");
     $stats['recent_orders'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
