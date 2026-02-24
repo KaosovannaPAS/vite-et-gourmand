@@ -10,6 +10,10 @@ class Menu
     public function __construct()
     {
         global $pdo;
+        if (isset($_GET['debug_db'])) {
+            echo "DEBUG: Checking global \$pdo in Menu constructor...\n";
+            var_dump($pdo);
+        }
         $this->pdo = $pdo;
     }
 
