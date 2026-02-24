@@ -1,4 +1,5 @@
 <?php
+// Forced Vercel Redeploy - Corrected Column Access 2
 require_once __DIR__ . '/../configuration/db.php';
 
 class Menu
