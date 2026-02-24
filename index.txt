@@ -1,3 +1,19 @@
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Access-Control-Allow-Origin: *
+Age: 54
+Cache-Control: public, max-age=0, must-revalidate
+Content-Disposition: inline
+Content-Length: 19744
+Content-Type: text/html; charset=utf-8
+Date: Tue, 24 Feb 2026 09:58:38 GMT
+Etag: "1b11ed81548d61bc3ebbef129fddc2d9"
+Last-Modified: Tue, 24 Feb 2026 09:57:43 GMT
+Server: Vercel
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+X-Vercel-Cache: HIT
+X-Vercel-Id: cdg1::sx5p4-1771927118153-09bfc23d92a4
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -15,7 +31,7 @@
 
     <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script>const BASE_URL = "";</script>
+    <script>const BASE_URL = "/Vite-et-gourmand";</script>
     <script src="/interface_frontend/ressources/js/auth.js" defer></script>
     <script src="/interface_frontend/ressources/js/index.js" defer></script>
 </head>
