@@ -1,0 +1,3 @@
+<?php
+echo "VERCEL DEPLOYMENT TEST SUCCESS - CODE IS LIVE";
+?>
