@@ -2,6 +2,18 @@
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 
+if (isset($_GET['diag']) && $_GET['diag'] === 'true') {
+    echo json_encode([
+        'MYSQLHOST' => ['v' => getenv('MYSQLHOST'), 'h' => bin2hex(getenv('MYSQLHOST'))],
+        'MYSQLUSER' => ['v' => getenv('MYSQLUSER'), 'h' => bin2hex(getenv('MYSQLUSER'))],
+        'MYSQLPORT' => getenv('MYSQLPORT'),
+        'MYSQLDATABASE' => getenv('MYSQLDATABASE'),
+        'HAS_PWD' => !empty(getenv('MYSQLPASSWORD')),
+        'VER' => 'DIAG_V4'
+    ]);
+    exit;
+}
+
 require_once __DIR__ . '/../../models/Menu.php';
 
 $menuModel = new Menu();
