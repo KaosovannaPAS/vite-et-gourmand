@@ -1,4 +1,6 @@
 <?php
+if (isset($_GET['m_check']))
+    die("MODEL_VERSION_200");
 require_once __DIR__ . '/../configuration/db.php';
 
 class Menu
