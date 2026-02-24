@@ -1,5 +1,4 @@
 <?php
-// Forced Vercel Redeploy - Corrected Column Access 2
 require_once __DIR__ . '/../configuration/db.php';
 
 class Menu
@@ -14,8 +13,7 @@ class Menu
 
     public function getAllActive($filters = [])
     {
-        // Cache invalidator
-        $sql = "SELECT m.* FROM menus m WHERE m.is_active = 1";
+        $sql = "SELECT * FROM menus WHERE is_active = 1";
         $params = [];
 
         if (!empty($filters['theme'])) {
@@ -40,10 +38,9 @@ class Menu
             $params[] = $filters['min_people'];
         }
 
+        // Removed sorting by created_at due to production DB column missing
         $sql .= " ORDER BY id DESC";
-        // DEBUG
-        if (isset($_GET['debug']))
-            die($sql);
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -72,7 +69,7 @@ class Menu
             FROM menu_dishes md
             JOIN dishes d ON md.dish_id = d.id
             WHERE md.menu_id IN ($inQuery)
-            ORDER BY FIELD(d.type, 'entree', 'plat', 'dessert')
+            ORDER BY d.id ASC
         ");
         $stmt->execute($menuIds);
 
@@ -105,7 +102,7 @@ class Menu
                 FROM dishes d
                 JOIN menu_dishes md ON d.id = md.dish_id
                 WHERE md.menu_id = ?
-                ORDER BY FIELD(d.type, 'entree', 'plat', 'dessert')
+                ORDER BY d.id ASC
             ");
             $stmt->execute([$id]);
             $menu['allDishes'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -153,4 +150,3 @@ class Menu
         return $stmt->execute([$id]);
     }
 }
-?>
