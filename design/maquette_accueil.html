@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Maquette - Accueil Vite & Gourmand</title>
+    <style>
+        body { font-family: 'Georgia', serif; margin: 0; padding: 0; background: #fafafa; }
+        header { background: #1a1a1a; color: #fff; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: #d4af37; }
+        nav a { color: #fff; margin-left: 20px; text-decoration: none; font-family: 'Arial', sans-serif; text-transform: uppercase; font-size: 14px; }
+        .hero { background: url('https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover; height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .hero-box { background: rgba(255, 255, 255, 0.9); padding: 50px; border: 2px solid #d4af37; }
+        .hero h1 { font-size: 48px; color: #1a1a1a; margin-bottom: 10px; }
+        .hero p { font-style: italic; color: #555; font-size: 18px; margin-bottom: 20px; }
+        .btn { display: inline-block; padding: 15px 30px; background: #1a1a1a; color: #d4af37; text-decoration: none; border: 1px solid #d4af37; font-family: 'Arial', sans-serif; }
+        .about { padding: 80px 50px; display: flex; gap: 50px; max-width: 1200px; margin: 0 auto; }
+        .about-text { flex: 1; }
+        .about-text h2 { color: #d4af37; font-size: 36px; }
+        .about-image { flex: 1; background: #ddd; height: 300px; border: 1px solid #d4af37; }
+        footer { background: #1a1a1a; color: #fff; text-align: center; padding: 20px; margin-top: 50px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Vite & Gourmand</div>
+        <nav>
+            <a href="#">Accueil</a>
+            <a href="#">Collections</a>
+            <a href="#">Connexion</a>
+        </nav>
+    </header>
+    <div class="hero">
+        <div class="hero-box">
+            <h1>Vite & Gourmand</h1>
+            <p>"L'art de recevoir, l'excellence de servir."</p>
+            <a href="#" class="btn">Découvrir nos Collections</a>
+        </div>
+    </div>
+    <div class="about">
+        <div class="about-text">
+            <h2>Julie & José</h2>
+            <p>Découvrez notre histoire, alliant la haute gastronomie à une logistique événementielle sans faille...</p>
+        </div>
+        <div class="about-image">
+            <div style="width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover;"></div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2026 Vite & Gourmand - Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
