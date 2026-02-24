@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../configuration/db.php';
 
-class MenuV2
+class Menu
 {
     private $pdo;
 

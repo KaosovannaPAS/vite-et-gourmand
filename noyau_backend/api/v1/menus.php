@@ -2,9 +2,9 @@
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 
-require_once __DIR__ . '/../../models/MenuV2.php';
+require_once __DIR__ . '/../../models/Menu.php';
 
-$menuModel = new MenuV2();
+$menuModel = new Menu();
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
@@ -16,18 +16,16 @@ if ($method === 'GET') {
         if (isset($_GET['all']) && $_GET['all'] === "true") {
             echo json_encode($menuModel->getAll()); // All menus for Admin
         }
-        $filters = [
-            'theme' => $_GET['theme'] ?? null,
-            'regime' => $_GET['regime'] ?? null,
-            'max_price' => $_GET['max_price'] ?? null,
-            'min_people' => $_GET['min_people'] ?? null
-        ];
-        // DEBUG
-        if (isset($_GET['debug'])) {
-            $sql = "SELECT * FROM menus WHERE is_active = 1";
-            die("DEBUG SQL: " . $sql);
+        else { // Corrected the syntax error from the provided snippet
+            $filters = [
+                'theme' => $_GET['theme'] ?? null,
+                'regime' => $_GET['regime'] ?? null,
+                'max_price' => $_GET['max_price'] ?? null,
+                'min_people' => $_GET['min_people'] ?? null
+            ];
+            // DEBUG block removed as per the provided snippet
+            echo json_encode($menuModel->getAllActive($filters)); // Active menus for Frontend
         }
-        echo json_encode($menuModel->getAllActive($filters)); // Active menus for Frontend
     }
 }
 elseif ($method === 'POST') {
