@@ -2,6 +2,10 @@
     "version": 2,
     "builds": [
         {
+            "src": "version.php",
+            "use": "vercel-php@0.7.2"
+        },
+        {
             "src": "noyau_backend/**/*.php",
             "use": "vercel-php@0.7.2"
         },
