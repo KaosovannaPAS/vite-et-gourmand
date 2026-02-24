@@ -1,10 +1,10 @@
-const API_URL = '/backend_prod/api/v1/users.php';
+const API_URL = '/noyau_backend/api/v1/users.php';
 let MY_ID = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Auth Check : Admin Only
     try {
-        const authRes = await fetch('/backend_prod/api/v1/auth/me.php');
+        const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
         const authData = await authRes.json();
 
         if (!authData.logged_in || authData.user.role !== 'admin') {

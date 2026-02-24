@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fmt = v => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(v);
 
-    fetch(`${BASE_URL}/backend_prod/api/v1/menus.php?id=${menuId}`)
+    fetch(`${BASE_URL}/noyau_backend/api/v1/menus.php?id=${menuId}`)
         .then(response => response.json())
         .then(menu => {
             if (menu.error || !menu.id) {

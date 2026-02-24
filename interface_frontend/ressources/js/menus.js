@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const params = new URLSearchParams({ theme, regime, max_price: maxPrice, min_people: minPeople });
         menusGrid.innerHTML = '<p style="color:#888;padding:2rem;text-align:center;"><i class="fas fa-spinner fa-spin"></i> Chargement...</p>';
 
-        fetch(`${BASE_URL}/backend_prod/api/v1/menus.php?${params.toString()}`)
+        fetch(`${BASE_URL}/noyau_backend/api/v1/menus.php?${params.toString()}`)
             .then(r => r.json())
             .then(data => {
                 menusGrid.innerHTML = '';

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Auth Check : Admin Only
     try {
-        const authRes = await fetch('/backend_prod/api/v1/auth/me.php');
+        const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
         const authData = await authRes.json();
 
         if (!authData.logged_in || authData.user.role !== 'admin') {
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Load Stats
-    const API_URL = '/backend_prod/api/v1/stats.php';
+    const API_URL = '/noyau_backend/api/v1/stats.php';
     fetch(API_URL)
         .then(res => res.json())
         .then(data => {

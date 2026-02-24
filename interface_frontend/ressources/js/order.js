@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Auth check
     let user = null;
     try {
-        const authRes = await fetch('/backend_prod/api/v1/auth/me.php');
+        const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
         const authData = await authRes.json();
 
         if (!authData.logged_in) {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Fetch menu details for preview
     try {
-        const menuRes = await fetch(`/backend_prod/api/v1/menus.php?id=${menuId}`);
+        const menuRes = await fetch(`/noyau_backend/api/v1/menus.php?id=${menuId}`);
         const menuData = await menuRes.json();
 
         if (menuData.error || !menuData.id) {
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
 
             try {
-                const response = await fetch('/backend_prod/api/v1/order.php', {
+                const response = await fetch('/noyau_backend/api/v1/order.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)

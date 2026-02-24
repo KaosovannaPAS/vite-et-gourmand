@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Auth Check
-    const authRes = await fetch('/backend_prod/api/v1/auth/me.php');
+    const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
     const authData = await authRes.json();
     if (!authData.logged_in || (authData.user.role !== 'employe' && authData.user.role !== 'admin')) {
         window.location.href = '/index.html';
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadMenus() {
         try {
             // Fetch all menus using the 'all=true' flag for admins/employes
-            const res = await fetch('/backend_prod/api/v1/menus.php?all=true');
+            const res = await fetch('/noyau_backend/api/v1/menus.php?all=true');
             const menus = await res.json();
 
             grid.innerHTML = '';
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (confirm('Supprimer ce menu ?')) {
                         const id = e.target.getAttribute('data-id');
                         try {
-                            const delRes = await fetch(\`/backend_prod/api/v1/menus.php?id=\${id}\`, { method: 'DELETE' });
+                            const delRes = await fetch(\`/noyau_backend/api/v1/menus.php?id=\${id}\`, { method: 'DELETE' });
                             if (delRes.ok) {
                                 loadMenus();
                             } else {
