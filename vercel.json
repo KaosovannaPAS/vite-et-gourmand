@@ -2,12 +2,16 @@
     "version": 2,
     "builds": [
         {
-            "src": "deployment_handshake.php",
-            "use": "vercel-php@0.7.2"
+            "src": "api/**/*.php",
+            "use": "vercel-php@0.6.0"
         },
         {
             "src": "noyau_backend/**/*.php",
-            "use": "vercel-php@0.7.2"
+            "use": "vercel-php@0.6.0"
+        },
+        {
+            "src": "*.php",
+            "use": "vercel-php@0.6.0"
         },
         {
             "src": "**/*.{html,css,js,jpg,jpeg,png,gif,svg,ico}",
@@ -15,10 +19,6 @@
         }
     ],
     "routes": [
-        {
-            "src": "/deployment_handshake.php",
-            "dest": "/deployment_handshake.php"
-        },
         {
             "src": "/noyau_backend/(.*\\.php)$",
             "dest": "/noyau_backend/$1"
