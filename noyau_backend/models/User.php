@@ -13,14 +13,14 @@ class User
 
     public function getAllEmployees()
     {
-        $stmt = $this->pdo->prepare("SELECT id, email, role, nom, prenom, telephone, adresse, created_at FROM users WHERE role IN ('employe', 'admin') ORDER BY created_at DESC");
+        $stmt = $this->pdo->prepare("SELECT id, email, role, nom, prenom, telephone, adresse FROM users WHERE role IN ('employe', 'admin') ORDER BY id DESC");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getById($id)
     {
-        $stmt = $this->pdo->prepare("SELECT id, email, role, nom, prenom, telephone, adresse, created_at FROM users WHERE id = ?");
+        $stmt = $this->pdo->prepare("SELECT id, email, role, nom, prenom, telephone, adresse FROM users WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
