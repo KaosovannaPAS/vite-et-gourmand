@@ -1,4 +1,5 @@
 <?php
+die("I AM ALIVE VERSION 300");
 if (isset($_GET['debug_api']))
     die("API_START_SUCCESS");
 if (isset($_GET['v_check']))
