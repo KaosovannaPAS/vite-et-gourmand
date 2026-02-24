@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('/noyau_backend/api/v1/auth/me.php');
+        const response = await fetch('/backend_prod/api/v1/auth/me.php');
         const authData = await response.json();
         const authMenuContainer = document.getElementById('auth-menu');
 
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             authMenuContainer.innerHTML = `
                 <li><a href="${dashboardLink}">${dashboardText}</a></li>
-                <li><a href="/noyau_backend/api/v1/auth/logout.php" class="btn btn-primary" id="logout-btn">Déconnexion</a></li>
+                <li><a href="/backend_prod/api/v1/auth/logout.php" class="btn btn-primary" id="logout-btn">Déconnexion</a></li>
             `;
 
             // On peut sécuriser la déconnexion via fetch plus tard

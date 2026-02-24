@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = Object.fromEntries(formData.entries());
 
             try {
-                const response = await fetch('/noyau_backend/api/v1/auth/register.php', {
+                const response = await fetch('/backend_prod/api/v1/auth/register.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)

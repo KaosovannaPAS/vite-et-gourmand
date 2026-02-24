@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Auth Check
-    const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
+    const authRes = await fetch('/backend_prod/api/v1/auth/me.php');
     const authData = await authRes.json();
     if (!authData.logged_in || (authData.user.role !== 'employe' && authData.user.role !== 'admin')) {
         window.location.href = '/index.html';
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('page-title').textContent = 'Modifier un Menu';
         // Fetch existing
         try {
-            const res = await fetch(\`/noyau_backend/api/v1/menus.php?id=\${menuId}\`);
+            const res = await fetch(\`/backend_prod/api/v1/menus.php?id=\${menuId}\`);
             const menu = await res.json();
             if(!menu.error) {
                 form.titre.value = menu.titre || '';
@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             const endpoint = menuId 
-                ? \`/noyau_backend/api/v1/menus.php?id=\${menuId}\` 
-                : '/noyau_backend/api/v1/menus.php';
+                ? \`/backend_prod/api/v1/menus.php?id=\${menuId}\` 
+                : '/backend_prod/api/v1/menus.php';
                 
             const method = menuId ? 'PUT' : 'POST';
 

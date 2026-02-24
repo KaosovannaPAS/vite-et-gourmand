@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Auth Check
     let user = null;
     try {
-        const authRes = await fetch('/noyau_backend/api/v1/auth/me.php');
+        const authRes = await fetch('/backend_prod/api/v1/auth/me.php');
         const authData = await authRes.json();
 
         if (!authData.logged_in) {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load Orders
     if (ordersContainer) {
         try {
-            const resp = await fetch('/noyau_backend/api/v1/user/orders.php');
+            const resp = await fetch('/backend_prod/api/v1/user/orders.php');
             const data = await resp.json();
 
             if (data.success && data.orders.length > 0) {
