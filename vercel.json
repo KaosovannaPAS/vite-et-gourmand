@@ -2,15 +2,11 @@
     "version": 2,
     "builds": [
         {
-            "src": "api/**/*.php",
+            "src": "noyau_backend/api/v1/*.php",
             "use": "vercel-php@0.7.2"
         },
         {
-            "src": "noyau_backend/**/*.php",
-            "use": "vercel-php@0.7.2"
-        },
-        {
-            "src": "interface_frontend/**/*.php",
+            "src": "api/*.php",
             "use": "vercel-php@0.7.2"
         },
         {
@@ -36,16 +32,16 @@
             "dest": "/noyau_backend/api/v1/$1.php"
         },
         {
-            "src": "/noyau_backend/api/v1/(.*)",
-            "dest": "/noyau_backend/api/v1/$1.php"
-        },
-        {
             "src": "/api/(.*).php",
             "dest": "/api/$1.php"
         },
         {
-            "src": "/api/(.*)",
-            "dest": "/api/$1.php"
+            "src": "/interface_frontend/ressources/(.*)",
+            "dest": "/interface_frontend/ressources/$1"
+        },
+        {
+            "src": "/interface_frontend/pages/(.*).html",
+            "dest": "/interface_frontend/pages/$1.html"
         },
         {
             "handle": "filesystem"
