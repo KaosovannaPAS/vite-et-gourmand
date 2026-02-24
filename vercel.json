@@ -6,7 +6,7 @@
             "use": "vercel-php@0.7.2"
         },
         {
-            "src": "interface_frontend/**/*.{css,js,jpg,jpeg,png,gif,svg,ico,woff,woff2,ttf,eot}",
+            "src": "**/*.{html,css,js,jpg,jpeg,png,gif,svg,ico,woff,woff2,ttf,eot}",
             "use": "@vercel/static"
         }
     ],
@@ -24,7 +24,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "/index.php"
+            "dest": "/index.html"
         }
     ]
 }
