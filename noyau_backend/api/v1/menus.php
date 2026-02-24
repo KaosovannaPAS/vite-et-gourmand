@@ -16,15 +16,18 @@ if ($method === 'GET') {
         if (isset($_GET['all']) && $_GET['all'] === "true") {
             echo json_encode($menuModel->getAll()); // All menus for Admin
         }
-        else {
-            $filters = [
-                'theme' => $_GET['theme'] ?? null,
-                'regime' => $_GET['regime'] ?? null,
-                'max_price' => $_GET['max_price'] ?? null,
-                'min_people' => $_GET['min_people'] ?? null
-            ];
-            echo json_encode($menuModel->getAllActive($filters)); // Active menus for Frontend
+        $filters = [
+            'theme' => $_GET['theme'] ?? null,
+            'regime' => $_GET['regime'] ?? null,
+            'max_price' => $_GET['max_price'] ?? null,
+            'min_people' => $_GET['min_people'] ?? null
+        ];
+        // DEBUG
+        if (isset($_GET['debug'])) {
+            $sql = "SELECT * FROM menus WHERE is_active = 1";
+            die("DEBUG SQL: " . $sql);
         }
+        echo json_encode($menuModel->getAllActive($filters)); // Active menus for Frontend
     }
 }
 elseif ($method === 'POST') {
