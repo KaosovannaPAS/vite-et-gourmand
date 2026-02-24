@@ -3,13 +3,35 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 
 if (isset($_GET['diag']) && $_GET['diag'] === 'true') {
+    $h = trim(getenv('MYSQLHOST'));
+    $u = trim(getenv('MYSQLUSER'));
+    $p = trim(getenv('MYSQLPASSWORD'));
+    $d = trim(getenv('MYSQLDATABASE'));
+    $port = trim(getenv('MYSQLPORT'));
+
+    $err = 'None';
+    try {
+        $test = new PDO("mysql:host=$h;port=$port;dbname=$d;charset=utf8mb4", $u, $p, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+            PDO::ATTR_TIMEOUT => 5
+        ]);
+        $err = 'CONNECTED';
+    }
+    catch (Exception $e) {
+        $err = $e->getMessage();
+    }
+
     echo json_encode([
-        'MYSQLHOST' => ['v' => getenv('MYSQLHOST'), 'h' => bin2hex(getenv('MYSQLHOST'))],
-        'MYSQLUSER' => ['v' => getenv('MYSQLUSER'), 'h' => bin2hex(getenv('MYSQLUSER'))],
-        'MYSQLPORT' => getenv('MYSQLPORT'),
-        'MYSQLDATABASE' => getenv('MYSQLDATABASE'),
-        'HAS_PWD' => !empty(getenv('MYSQLPASSWORD')),
-        'VER' => 'DIAG_V4'
+        'VARS' => [
+            'MYSQLHOST' => ['v' => $h, 'h' => bin2hex($h)],
+            'MYSQLUSER' => ['v' => $u, 'h' => bin2hex($u)],
+            'MYSQLPORT' => $port,
+            'MYSQLDATABASE' => $d,
+            'HAS_PWD' => !empty($p),
+        ],
+        'CONN_ERROR' => $err,
+        'VER' => 'DIAG_V5'
     ]);
     exit;
 }
