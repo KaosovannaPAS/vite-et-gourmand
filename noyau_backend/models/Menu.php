@@ -8,7 +8,10 @@ class Menu
     public function __construct()
     {
         global $pdo;
-        $this->pdo = $pdo;
+        if (!$pdo) {
+            require_once __DIR__ . '/../configuration/db.php';
+        }
+        $this->pdo = $GLOBALS['pdo'] ?? $pdo;
     }
 
     public function getAllActive($filters = [])

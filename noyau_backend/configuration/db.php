@@ -71,6 +71,7 @@ try {
     }
 
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+    $GLOBALS['pdo'] = $pdo;
 }
 catch (PDOException $e) {
     if ($estLocal) {

@@ -3,7 +3,7 @@
     "builds": [
         {
             "src": "noyau_backend/**/*.php",
-            "use": "vercel-php@0.7.1"
+            "use": "vercel-php@0.7.2"
         },
         {
             "src": "**/*.{html,css,js,jpg,jpeg,png,gif,svg,ico}",
@@ -12,8 +12,15 @@
     ],
     "routes": [
         {
-            "src": "/noyau_backend/(.*\\.php)$",
+            "src": "/noyau_backend/(.*)",
             "dest": "/noyau_backend/$1"
+        },
+        {
+            "handle": "filesystem"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/index.html"
         }
     ]
 }
