@@ -41,7 +41,9 @@ class Menu
         }
 
         $sql .= " ORDER BY id DESC";
-
+        // DEBUG
+        if (isset($_GET['debug']))
+            die($sql);
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
