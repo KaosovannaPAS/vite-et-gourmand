@@ -39,7 +39,7 @@ class Menu
             $params[] = $filters['min_people'];
         }
 
-        $sql .= " ORDER BY created_at DESC";
+        $sql .= " ORDER BY id DESC";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
@@ -49,7 +49,7 @@ class Menu
 
     public function getAll()
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM menus ORDER BY created_at DESC");
+        $stmt = $this->pdo->prepare("SELECT * FROM menus ORDER BY id DESC");
         $stmt->execute();
         $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $this->attachDishes($menus);
