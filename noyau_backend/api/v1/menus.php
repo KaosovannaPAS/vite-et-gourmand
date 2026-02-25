@@ -9,30 +9,17 @@ if (isset($_GET['diag']) && $_GET['diag'] === 'true') {
     $d = trim(getenv('MYSQLDATABASE'));
     $port = trim(getenv('MYSQLPORT'));
 
-    $err = 'None';
     try {
         $test = new PDO("mysql:host=$h;port=$port;dbname=$d;charset=utf8mb4", $u, $p, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
             PDO::ATTR_TIMEOUT => 5
         ]);
-        $err = 'CONNECTED';
+        echo "CONNECTED_OK";
     }
     catch (Exception $e) {
-        $err = $e->getMessage();
+        echo "CONN_ERROR: " . $e->getMessage();
     }
-
-    echo json_encode([
-        'VARS' => [
-            'MYSQLHOST' => ['v' => $h, 'h' => bin2hex($h)],
-            'MYSQLUSER' => ['v' => $u, 'h' => bin2hex($u)],
-            'MYSQLPORT' => $port,
-            'MYSQLDATABASE' => $d,
-            'HAS_PWD' => !empty($p),
-        ],
-        'CONN_ERROR' => $err,
-        'VER' => 'DIAG_V5'
-    ]);
     exit;
 }
 
