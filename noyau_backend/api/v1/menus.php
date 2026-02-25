@@ -13,6 +13,7 @@ if (isset($_GET['diag']) && $_GET['diag'] === 'true') {
         $test = new PDO("mysql:host=$h;port=$port;dbname=$d;charset=utf8mb4", $u, $p, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+            PDO::MYSQL_ATTR_SSL_CA => '',
             PDO::ATTR_TIMEOUT => 5
         ]);
         echo "CONNECTED_OK";
