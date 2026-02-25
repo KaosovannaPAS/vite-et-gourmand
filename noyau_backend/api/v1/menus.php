@@ -2,28 +2,6 @@
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 
-if (isset($_GET['diag']) && $_GET['diag'] === 'true') {
-    $h = trim(getenv('MYSQLHOST'));
-    $u = trim(getenv('MYSQLUSER'));
-    $p = trim(getenv('MYSQLPASSWORD'));
-    $d = trim(getenv('MYSQLDATABASE'));
-    $port = trim(getenv('MYSQLPORT'));
-
-    try {
-        $test = new PDO("mysql:host=$h;port=$port;dbname=$d;charset=utf8mb4", $u, $p, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-            PDO::MYSQL_ATTR_SSL_CA => '',
-            PDO::ATTR_TIMEOUT => 5
-        ]);
-        echo "CONNECTED_OK";
-    }
-    catch (Exception $e) {
-        echo "CONN_ERROR: " . $e->getMessage();
-    }
-    exit;
-}
-
 require_once __DIR__ . '/../../models/Menu.php';
 
 $menuModel = new Menu();

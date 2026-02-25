@@ -13,7 +13,7 @@ class Menu
 
     public function getAllActive($filters = [])
     {
-        $sql = "SELECT * FROM menus WHERE is_active = 1";
+        $sql = "SELECT * FROM menus WHERE actif = 1";
         $params = [];
 
         if (!empty($filters['theme'])) {
@@ -112,7 +112,7 @@ class Menu
 
     public function create($data)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO menus (titre, description, prix, min_personnes, stock, theme, regime, image_url, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $this->pdo->prepare("INSERT INTO menus (titre, description, prix, min_personnes, stock, theme, regime, image_url, actif) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         return $stmt->execute([
             $data['titre'],
             $data['description'],
@@ -122,13 +122,13 @@ class Menu
             $data['theme'] ?? null,
             $data['regime'] ?? 'classique',
             $data['image_url'] ?? null,
-            $data['is_active'] ?? 1
+            $data['actif'] ?? 1
         ]);
     }
 
     public function update($id, $data)
     {
-        $stmt = $this->pdo->prepare("UPDATE menus SET titre=?, description=?, prix=?, min_personnes=?, stock=?, theme=?, regime=?, image_url=?, is_active=? WHERE id=?");
+        $stmt = $this->pdo->prepare("UPDATE menus SET titre=?, description=?, prix=?, min_personnes=?, stock=?, theme=?, regime=?, image_url=?, actif=? WHERE id=?");
         return $stmt->execute([
             $data['titre'],
             $data['description'],
@@ -138,7 +138,7 @@ class Menu
             $data['theme'],
             $data['regime'],
             $data['image_url'],
-            $data['is_active'],
+            $data['actif'],
             $id
         ]);
     }
