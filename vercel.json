@@ -10,7 +10,7 @@
             "use": "vercel-php@0.7.2"
         },
         {
-            "src": "v.php",
+            "src": "*.php",
             "use": "vercel-php@0.7.2"
         },
         {

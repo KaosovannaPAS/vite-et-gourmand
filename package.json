@@ -1,0 +1,25 @@
+{
+  "name": "vite-et-gourmand",
+  "version": "1.0.0",
+  "description": "Ce projet répond au cahier des charges final pour le titre professionnel, implémentant une architecture moderne, sécurisée, avec une gestion complète des menus, commandes et employés.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://KaosovannaPAS@github.com/KaosovannaPAS/vite-et-gourmand.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KaosovannaPAS/vite-et-gourmand/issues"
+  },
+  "homepage": "https://github.com/KaosovannaPAS/vite-et-gourmand#readme",
+  "dependencies": {
+    "pdfkit": "^0.17.2",
+    "puppeteer": "^24.37.5"
+  }
+}

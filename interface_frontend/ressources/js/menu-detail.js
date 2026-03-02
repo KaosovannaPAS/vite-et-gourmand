@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('hero-meta').innerHTML = metaHtml;
 
             // Description and conditions
-            document.getElementById('menu-desc').innerHTML = menu.description ? menu.description.replace(/\n)/g, '<br>') : '';
+            document.getElementById('menu-desc').innerHTML = menu.description ? menu.description.replace(/\n/g, '<br>') : '';
             if (menu.conditions_reservation) {
                 document.getElementById('menu-conditions').innerHTML = `
                     <div style="display:flex;align-items:center;gap:10px;background:rgba(212,175,55,0.1);border-left:4px solid var(--secondary-color);padding:0.75rem 1rem;border-radius:0 8px 8px 0;margin-top:1rem;font-size:0.88rem;color:#555;">

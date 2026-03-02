@@ -45,8 +45,29 @@
                     <!-- Injecté par auth.js -->
                 </ul>
             </nav>
+
+            <!-- Navigation Mobile dans l'En-tête -->
+            <nav class="mobile-header-nav">
+                <a href="/index.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Accueil</span>
+                </a>
+                <a href="/interface_frontend/pages/menus.html" class="nav-item active">
+                    <i class="fas fa-book-open"></i>
+                    <span>Menus</span>
+                </a>
+                <a href="/interface_frontend/pages/contact.html" class="nav-item">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Contact</span>
+                </a>
+                <a href="/interface_frontend/employe/login.html" class="nav-item" id="mobile-login-btn-menus">
+                    <i class="fas fa-user"></i>
+                    <span>Connexion</span>
+                </a>
+            </nav>
         </div>
     </header>
+
     <main>
 
         <div class="container" style="padding: 2rem 0; display: flex; gap: 2rem;">
@@ -58,59 +79,65 @@
                         style="margin-bottom: 2rem; border-bottom: 1px solid var(--secondary-color); padding-bottom: 0.5rem;">
                         Filtres</h3>
 
-                    <div class="filter-group" style="margin-bottom: 1.5rem;">
-                        <label for="theme"
-                            style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--secondary-color);">Thème</label>
-                        <select id="theme" class="form-control"
-                            style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); color: white; border: 1px solid var(--secondary-color);">
-                            <option value="" style="background: var(--primary-color);">🍽️ Tous les événements</option>
-                            <option value="Noël" style="background: var(--primary-color);">🎄 Noël</option>
-                            <option value="Prestige" style="background: var(--primary-color);">⭐ Prestige Festif
-                            </option>
-                            <option value="Saint Valentin" style="background: var(--primary-color);">❤️ Saint-Valentin
-                            </option>
-                            <option value="Voyage en Asie" style="background: var(--primary-color);">🌏 Voyage en Asie
-                            </option>
-                            <option value="Végane" style="background: var(--primary-color);">🌿 Végane</option>
-                            <option value="Mer" style="background: var(--primary-color);">🌊 Saveurs de la Mer</option>
-                            <option value="Terroir" style="background: var(--primary-color);">🍷 Terroir Bordelais
-                            </option>
-                        </select>
-                    </div>
+                    <div class="filter-wrapper-mobile">
+                        <div class="filter-group" style="margin-bottom: 1.5rem;">
+                            <label for="theme"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--secondary-color);">Thème</label>
+                            <select id="theme" class="form-control"
+                                style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); color: white; border: 1px solid var(--secondary-color);">
+                                <option value="" style="background: var(--primary-color);">🍽️ Tous les événements
+                                </option>
+                                <option value="Noël" style="background: var(--primary-color);">🎄 Noël</option>
+                                <option value="Prestige" style="background: var(--primary-color);">⭐ Prestige Festif
+                                </option>
+                                <option value="Saint Valentin" style="background: var(--primary-color);">❤️
+                                    Saint-Valentin
+                                </option>
+                                <option value="Voyage en Asie" style="background: var(--primary-color);">🌏 Voyage en
+                                    Asie
+                                </option>
+                                <option value="Végane" style="background: var(--primary-color);">🌿 Végane</option>
+                                <option value="Mer" style="background: var(--primary-color);">🌊 Saveurs de la Mer
+                                </option>
+                                <option value="Terroir" style="background: var(--primary-color);">🍷 Terroir Bordelais
+                                </option>
+                            </select>
+                        </div>
 
-                    <div class="filter-group" style="margin-bottom: 1.5rem;">
-                        <label for="regime"
-                            style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--secondary-color);">Régime</label>
-                        <select id="regime" class="form-control"
-                            style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); color: white; border: 1px solid var(--secondary-color);">
-                            <option value="" style="background: var(--primary-color);">Tous</option>
-                            <option value="Classique" style="background: var(--primary-color);">Classique</option>
-                            <option value="Végan" style="background: var(--primary-color);">Végan</option>
-                            <option value="Végétarien" style="background: var(--primary-color);">Végétarien</option>
-                            <option value="Pescétarien" style="background: var(--primary-color);">Pescétarien</option>
-                        </select>
-                    </div>
+                        <div class="filter-group" style="margin-bottom: 1.5rem;">
+                            <label for="regime"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--secondary-color);">Régime</label>
+                            <select id="regime" class="form-control"
+                                style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); color: white; border: 1px solid var(--secondary-color);">
+                                <option value="" style="background: var(--primary-color);">Tous</option>
+                                <option value="Classique" style="background: var(--primary-color);">Classique</option>
+                                <option value="Végan" style="background: var(--primary-color);">Végan</option>
+                                <option value="Végétarien" style="background: var(--primary-color);">Végétarien</option>
+                                <option value="Pescétarien" style="background: var(--primary-color);">Pescétarien
+                                </option>
+                            </select>
+                        </div>
 
-                    <div class="filter-group" style="margin-bottom: 1.5rem;">
-                        <label for="min_people"
-                            style="display: block; margin-bottom: 0.8rem; font-weight: bold; color: var(--secondary-color);">Nb
-                            Personnes Min.</label>
-                        <input type="range" id="min_people" min="1" max="50" value="2" class="oval-slider"
-                            style="background: rgba(255,255,255,0.1);">
-                        <div style="text-align: center; font-weight: bold; margin-top: 0.5rem;"><span
-                                id="min_people_display">2</span> Pers.</div>
-                    </div>
+                        <div class="filter-group" style="margin-bottom: 1.5rem;">
+                            <label for="min_people"
+                                style="display: block; margin-bottom: 0.8rem; font-weight: bold; color: var(--secondary-color);">Nb
+                                Personnes Min.</label>
+                            <input type="range" id="min_people" min="1" max="50" value="2" class="oval-slider"
+                                style="background: rgba(255,255,255,0.1);">
+                            <div style="text-align: center; font-weight: bold; margin-top: 0.5rem;"><span
+                                    id="min_people_display">2</span> Pers.</div>
+                        </div>
 
-                    <div class="filter-group" style="margin-bottom: 1.5rem;">
-                        <label for="max_price"
-                            style="display: block; margin-bottom: 0.8rem; font-weight: bold; color: var(--secondary-color);">Budget
-                            Max / Pers. (€)</label>
-                        <input type="range" id="max_price" min="42.5" max="150" step="0.5" value="150"
-                            class="oval-slider" style="background: rgba(255,255,255,0.1);">
-                        <div style="text-align: center; font-weight: bold; margin-top: 0.5rem;"><span
-                                id="price_display">150 €</span></div>
+                        <div class="filter-group">
+                            <label for="max_price"
+                                style="display: block; margin-bottom: 0.8rem; font-weight: bold; color: var(--secondary-color);">Budget
+                                Maximum</label>
+                            <input type="range" id="max_price" min="0" max="200" value="200" class="oval-slider"
+                                style="background: rgba(255,255,255,0.1);">
+                            <div style="text-align: center; font-weight: bold; margin-top: 0.5rem;"><span
+                                    id="price_display">200 €</span></div>
+                        </div>
                     </div>
-
                     <button id="reset_filters" class="btn btn-primary"
                         style="width: 100%; margin-top: 1rem; background: rgba(0,0,0,0.3); border: 1px solid var(--secondary-color); color: var(--secondary-color);">
                         <i class="fas fa-undo"></i> Effacer les filtres
@@ -188,8 +215,8 @@
                 </div>
                 <div class="footer-section">
                     <h3>Légal</h3>
-                    <a href="/interface_frontend/pages/mentions-legales.html"
-                        style="margin: 0 10px;">Mentions Légales</a>
+                    <a href="/interface_frontend/pages/mentions-legales.html" style="margin: 0 10px;">Mentions
+                        Légales</a>
                 </div>
             </div>
             <div

@@ -54,6 +54,14 @@ class Menu
         return $this->attachDishes($menus);
     }
 
+    private function cleanDescription($desc)
+    {
+        if (empty($desc))
+            return $desc;
+        $parts = preg_split('/En\s+attente\s+du\s+retour/iu', $desc);
+        return trim($parts[0] ?? '');
+    }
+
     private function attachDishes($menus)
     {
         if (empty($menus))
@@ -85,6 +93,9 @@ class Menu
 
         foreach ($menus as &$menu) {
             $menu['condensed_dishes'] = $dishesByMenu[$menu['id']] ?? null;
+            if (isset($menu['description'])) {
+                $menu['description'] = $this->cleanDescription($menu['description']);
+            }
         }
         return $menus;
     }
@@ -96,6 +107,9 @@ class Menu
         $menu = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($menu) {
+            if (isset($menu['description'])) {
+                $menu['description'] = $this->cleanDescription($menu['description']);
+            }
             $stmt = $this->pdo->prepare("
                 SELECT d.*
                 FROM dishes d
@@ -112,10 +126,11 @@ class Menu
 
     public function create($data)
     {
+        $desc = $this->cleanDescription($data['description'] ?? '');
         $stmt = $this->pdo->prepare("INSERT INTO menus (titre, description, prix, min_personnes, stock, theme, regime, image_url, actif) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         return $stmt->execute([
             $data['titre'],
-            $data['description'],
+            $desc,
             $data['prix'],
             $data['min_personnes'] ?? 1,
             $data['stock'] ?? 0,
@@ -128,10 +143,11 @@ class Menu
 
     public function update($id, $data)
     {
+        $desc = $this->cleanDescription($data['description'] ?? '');
         $stmt = $this->pdo->prepare("UPDATE menus SET titre=?, description=?, prix=?, min_personnes=?, stock=?, theme=?, regime=?, image_url=?, actif=? WHERE id=?");
         return $stmt->execute([
             $data['titre'],
-            $data['description'],
+            $desc,
             $data['prix'],
             $data['min_personnes'],
             $data['stock'],

@@ -21,6 +21,10 @@ main {
     /* Ensure solid background */
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: var(--font-body);
     background-color: var(--background-light);
@@ -28,6 +32,19 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 h1,
@@ -52,6 +69,11 @@ header {
     border-bottom: 2px solid var(--secondary-color);
     position: relative;
     z-index: 1000;
+}
+
+nav {
+    display: flex;
+    align-items: center;
 }
 
 nav ul {
@@ -238,4 +260,194 @@ footer small,
 footer div[style*="font-size: 0.8rem"] {
     font-size: 0.95rem !important;
     color: #333 !important;
+}
+
+/* =========================================================================
+   Mobile Responsiveness (Ergonomie Mobile App-Like)
+   ========================================================================= */
+
+/* Par défaut, cacher la navigation basse */
+.mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    /* ----- MOBILE HEADER NAVIGATION ----- */
+    .mobile-header-nav {
+        display: flex;
+        width: 100%;
+        background-color: transparent;
+        justify-content: space-around;
+        padding: 10px 0 0 0;
+        margin-top: 10px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        order: 3;
+    }
+
+    .mobile-header-nav .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: #777;
+        font-size: 0.75rem;
+        padding: 8px 0;
+        transition: color 0.3s;
+        flex: 1;
+    }
+
+    .mobile-header-nav .nav-item i {
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+    }
+
+    .mobile-header-nav .nav-item.active,
+    .mobile-header-nav .nav-item:hover {
+        color: var(--primary-color);
+    }
+
+    .mobile-header-nav .nav-item.active i {
+        color: var(--secondary-color);
+    }
+
+    /* Reset de l'espace en bas du body */
+    body {
+        padding-bottom: 0 !important;
+    }
+
+    /* Masquer la navigation desktop classique complète */
+    header nav:not(.mobile-header-nav) {
+        display: none !important;
+    }
+
+    /* Header plus compact */
+    header .container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        /* Permettre à la navigation de passer à la ligne sous le logo */
+        padding: 10px 15px 0 15px;
+    }
+
+    .logo a {
+        font-size: 1.5rem !important;
+    }
+
+    /* ----- CARTES ARRONDIES & ELEMENTS APP-LIKE ----- */
+    .baroque-card,
+    .menu-card,
+    .review-card {
+        border-radius: 20px !important;
+        /* Design Freepik */
+        border: none !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .baroque-img-container {
+        border-radius: 20px 20px 0 0 !important;
+        overflow: hidden;
+    }
+
+    .btn {
+        width: 100%;
+        border-radius: 25px !important;
+        /* Pilules rectangulaires arrondies */
+        text-align: center;
+        box-sizing: border-box;
+        padding: 14px 15px;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    /* Typographie & Espacements */
+    h1 {
+        font-size: 2rem !important;
+    }
+
+    h2 {
+        font-size: 1.8rem !important;
+    }
+
+    h3 {
+        font-size: 1.5rem !important;
+    }
+
+    /* Espacements globaux */
+    .container {
+        padding: 15px;
+    }
+
+    /* Header et Navigation */
+    header .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 10px !important;
+    }
+
+    nav ul#auth-menu {
+        margin-left: 0 !important;
+        margin-top: 10px;
+    }
+
+    .logo a {
+        font-size: 1.5rem !important;
+    }
+
+    /* Boutons et éléments tactiles plus larges */
+    .btn {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 12px 15px;
+        margin-bottom: 5px;
+    }
+
+    /* Sections avec flexbox / grilles empilées */
+    section .container>div[style*="display: flex"] {
+        flex-direction: column !important;
+        gap: 2rem !important;
+    }
+
+    /* Stats et Tableaux (Admin Dashboard) */
+    .card[style*="display: flex"] {
+        flex-direction: column !important;
+        gap: 15px !important;
+    }
+
+    .topbar {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .topbar h1 {
+        font-size: 1.2rem;
+    }
+
+    /* Forms */
+    form div[style*="display: flex"] {
+        flex-direction: column !important;
+    }
+
+    /* Review Cards dans le carousel */
+    .review-card {
+        min-width: 280px;
+        max-width: 280px;
+        padding: 1.5rem 1rem 1rem;
+    }
+
+    /* Footer */
+    footer .container>div[style*="display: flex"] {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center;
+        gap: 2rem !important;
+    }
 }
