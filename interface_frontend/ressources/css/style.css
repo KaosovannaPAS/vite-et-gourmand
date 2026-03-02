@@ -266,8 +266,9 @@ footer div[style*="font-size: 0.8rem"] {
    Mobile Responsiveness (Ergonomie Mobile App-Like)
    ========================================================================= */
 
-/* Par défaut, cacher la navigation basse */
-.mobile-bottom-nav {
+/* Par défaut, cacher la navigation mobile sur Desktop */
+.mobile-bottom-nav,
+.mobile-header-nav {
     display: none;
 }
 
