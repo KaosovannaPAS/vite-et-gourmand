@@ -40,31 +40,22 @@ Le projet a été refondu pour adopter une solide séparation **Frontend / Backe
 
 ## Déploiement Local (Docker)
 
-L'application est entièrement Dockerisée pour une mise en route simple et rapide, sans prérequis majeurs hormis Docker.
+L'application est entièrement Dockerisée avec une architecture allégée (un seul conteneur `php:8.2-apache`) qui se connecte directement à la base de données distante de production (TiDB).
 
-1. **Prérequis** : Avoir [Docker](https://www.docker.com/) et Docker Compose installés sur votre machine (Windows, Mac ou Linux).
-2. **Cloner le projet** (si pertinent) ou vous placer dans le dossier racine :
-   ```bash
-   cd Vite-et-gourmand
-   ```
+1. **Prérequis** : Avoir [Docker](https://www.docker.com/) et Docker Desktop en cours d'exécution sur votre machine.
+2. **Variables d'environnement** : Vous devez avoir le fichier `.env.production` à la racine de votre projet. Celui-ci contient les accès sécurisés à la base TiDB exploités par Vercel.
 3. **Lancement via Docker Compose** :
    Dans le terminal, à la racine du projet, tapez simplement :
    ```bash
    docker-compose up -d --build
    ```
-   *Ce processus va compiler l'image PHP/Apache, télécharger l'image de MongoDB et de MySQL, configurer les extensions (PDO, MongoDB driver) et lancer les conteneurs.*
+   *Ce processus va compiler l'image PHP/Apache, configurer les extensions (PDO MySQL) et monter automatiquement le code de votre machine dans le conteneur.*
 
-4. **Installation de la Base de Données** :
-   Dans un premier temps, importez le fichier `database.sql` dans votre instance de base de données (si ce n'est pas fait automatiquement). Vous pouvez accéder à la db locale via PhpMyAdmin ou tout outil GBD avec les infos :
-   - Host : `127.0.0.1` (ou `localhost`)
-   - Port : `3306`
-   - User : `root`
-   - Password : `root`
+4. **Développement Fluide** :
+   Le projet utilise un volume partagé. Toute modification effectuée sur vos fichiers HTML, CSS, JS ou PHP sur votre machine sera immédiatement répercutée dans le conteneur sans avoir besoin de le reconstruire.
 
 5. **Accéder à l'application** :
    L'application sera disponible sur votre navigateur via : **http://localhost:8080**
-
-*(Alternative XAMPP/WAMP) : Si vous n'utilisez pas Docker, placez le dossier à la racine de votre serveur local, configurez `noyau_backend/configuration/config.php` et importez `database.sql`.*
 
 ## Comptes de Démonstration
 

@@ -1,3 +1,0 @@
-<?php
-die("HANDSHAKE_SUCCESS_VER_500");
-?>

@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: vite_gourmand_web
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    env_file:
+      - .env.production
+    environment:
+      - PHP_INI_DIR=/usr/local/etc/php
+    restart: unless-stopped
