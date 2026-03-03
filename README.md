@@ -2,13 +2,14 @@
 
 Ce projet répond au cahier des charges final pour le titre professionnel, implémentant une architecture moderne, sécurisée, avec une gestion complète des menus, commandes et employés.
 
+## 🛠️ Stack Technique
+
+*   **Frontend :** HTML5, CSS3 (Bootstrap), JavaScript natif.
+*   **Backend :** PHP 8.2 avec l'extension PDO pour la sécurité (anti-injection SQL).
+*   **Bases de données :** Utilisation d'une base relationnelle (MySQL/TiDB) ET d'une base NoSQL (MongoDB).
+*   **Environnement :** Docker (Dockerfile et docker-compose.yml)
+
 ## Architecture du Projet
-
-Le projet a été refondu pour adopter une solide séparation **Frontend / Backend** :
-
-- **Approche MVC / API-Centric** : Le backend (`noyau_backend/`) gère exclusivement la logique métier et expose des API REST (`/api/v1/`). Il n'y a plus de rendu de vues côté serveur.
-- **Séparation Front/Back** : Le frontend (`interface_frontend/`) est composé de fichiers HTML/CSS purs et s'appuie sur JavaScript (`fetch`) pour communiquer avec le backend.
-- **Programmation Orientée Objet (POO)** : Le code PHP a été refondu en classes MVC (ex: `models/Menu.php`, `models/Order.php`, `models/User.php`).
 
 ### 📂 Structure des dossiers
 
