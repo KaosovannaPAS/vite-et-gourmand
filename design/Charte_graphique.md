@@ -33,94 +33,14 @@ Nous utilisons un contraste entre une police Serif prestigieuse pour les titres 
 
 ---
 
-## 5. Maquettes & Wireframes (Desktop 1440px)
+## 5. Maquettes Officielles
 
-### 🏠 Accueil
-````carousel
-```markdown
-Structure (Wireframe)
-```
-![Desktop Accueil Wireframe](wireframes/desktop_accueil.png)
-<!-- slide -->
-```markdown
-Rendu Haute Fidélité
-```
-![Desktop Accueil Mockup](images/desktop_accueil.png)
-````
-
-### 🍽️ Nos Menus
-````carousel
-```markdown
-Structure (Wireframe)
-```
-![Desktop Menus Wireframe](wireframes/desktop_menus.png)
-<!-- slide -->
-```markdown
-Rendu Haute Fidélité
-```
-![Desktop Menus Mockup](images/desktop_menus.png)
-````
-
-### ⚙️ Administration
-````carousel
-```markdown
-Structure (Wireframe)
-```
-![Desktop Admin Wireframe](wireframes/desktop_admin.png)
-<!-- slide -->
-```markdown
-Rendu Haute Fidélité
-```
-![Desktop Admin Mockup](images/desktop_admin.png)
-````
+### 🏠 Accueil (Desktop 1440px)
+![Desktop Accueil Official](images/desktop_accueil.png)
 
 ---
 
-## 6. Maquettes & Wireframes (Mobile 375px)
-
-### 🏠 Accueil
-````carousel
-```markdown
-Structure (Wireframe)
-```
-![Mobile Accueil Wireframe](wireframes/mobile_accueil.png)
-<!-- slide -->
-```markdown
-Rendu Haute Fidélité
-```
-![Mobile Accueil Mockup](images/mobile_accueil.png)
-````
-
-### 🍽️ Nos Menus
-````carousel
-```markdown
-Structure (Wireframe)
-```
-![Mobile Menus Wireframe](wireframes/mobile_menus.png)
-<!-- slide -->
-```markdown
-Rendu Haute Fidélité
-```
-![Mobile Menus Mockup](images/mobile_menus.png)
-````
-
-### ⚙️ Administration
-````carousel
-```markdown
-Structure (Wireframe)
-```
-![Mobile Admin Wireframe](wireframes/mobile_admin.png)
-<!-- slide -->
-```markdown
-Rendu Haute Fidélité
-```
-![Mobile Admin Mockup](images/mobile_admin.png)
-````
-
----
-
-## 7. Exportation GitHub
+## 6. Exportation GitHub
 Tous les fichiers sources sont disponibles dans le dossier `/design` :
 - `/images` : Maquettes officielles exportées.
-- `/wireframes` : Structures filaires (layouts).
 - `Charte_graphique.md` : Ce document de référence.
