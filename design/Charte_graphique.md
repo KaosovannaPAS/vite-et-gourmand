@@ -1,7 +1,7 @@
 # Charte Graphique - Vite & Gourmand
 
 ## 1. Identité de Marque
-**Vite & Gourmand** est un service de traiteur haut de gamme alliant la tradition culinaire française (Julie) à l'excellence du service (José). L'identité visuelle doit refléter le luxe, le raffinement et l'aspect artisanal "fait maison".
+**Vite & Gourmand** est un service de traiteur haut de gamme alliant la tradition culinaire française (Julie) à l'excellence du service (José). L'identité visuelle reflète le luxe, le raffinement et l'aspect artisanal "fait maison".
 
 ---
 
@@ -28,29 +28,99 @@ Nous utilisons un contraste entre une police Serif prestigieuse pour les titres 
 ---
 
 ## 4. Éléments d'Interface (UI)
-### Boutons
-- **Primaire** : Fond Bordeaux (#800020), Texte Blanc, Bordures carrées (Luxe).
-- **Secondaire** : Fond Or (#D4AF37), Texte Noir, Bordures carrées.
-
-### Cartes Menus (Style Baroque)
-Les cartes menus utilisent un style distinctif :
-- Fond Bordeaux intense.
-- Bordures Or (3px) avec détails ornementaux.
-- Ombre portée prononcée pour un effet de relief.
+- **Boutons** : Bordures carrées pour le luxe sur desktop, arrondis (pilules) pour l'ergonomie mobile.
+- **Cartes** : Style Baroque avec bordures dorées et fond bordeaux.
 
 ---
 
-## 5. Maquettes Haute Fidélité
+## 5. Maquettes & Wireframes (Desktop 1440px)
 
-### Desktop - Accueil (1440px)
-![Desktop Accueil Official](images/desktop_accueil.png)
+### 🏠 Accueil
+````carousel
+```markdown
+Structure (Wireframe)
+```
+![Desktop Accueil Wireframe](wireframes/desktop_accueil.png)
+<!-- slide -->
+```markdown
+Rendu Haute Fidélité
+```
+![Desktop Accueil Mockup](images/desktop_accueil.png)
+````
 
-*Note: Les autres maquettes (Menus, Admin, Mobile) sont en cours de finalisation suite à une maintenance temporaire de l'outil de rendu haute-fidélité.*
+### 🍽️ Nos Menus
+````carousel
+```markdown
+Structure (Wireframe)
+```
+![Desktop Menus Wireframe](wireframes/desktop_menus.png)
+<!-- slide -->
+```markdown
+Rendu Haute Fidélité
+```
+![Desktop Menus Mockup](images/desktop_menus.png)
+````
+
+### ⚙️ Administration
+````carousel
+```markdown
+Structure (Wireframe)
+```
+![Desktop Admin Wireframe](wireframes/desktop_admin.png)
+<!-- slide -->
+```markdown
+Rendu Haute Fidélité
+```
+![Desktop Admin Mockup](images/desktop_admin.png)
+````
 
 ---
 
-## 6. Structure des Dossiers (Design)
-Le dossier `/design` sur GitHub contient :
-- `Charte_graphique.md` : Ce document.
-- `/images` : Dossier contenant les maquettes exportées.
-- `/wireframes` : Dossier contenant les structures filaires.
+## 6. Maquettes & Wireframes (Mobile 375px)
+
+### 🏠 Accueil
+````carousel
+```markdown
+Structure (Wireframe)
+```
+![Mobile Accueil Wireframe](wireframes/mobile_accueil.png)
+<!-- slide -->
+```markdown
+Rendu Haute Fidélité
+```
+![Mobile Accueil Mockup](images/mobile_accueil.png)
+````
+
+### 🍽️ Nos Menus
+````carousel
+```markdown
+Structure (Wireframe)
+```
+![Mobile Menus Wireframe](wireframes/mobile_menus.png)
+<!-- slide -->
+```markdown
+Rendu Haute Fidélité
+```
+![Mobile Menus Mockup](images/mobile_menus.png)
+````
+
+### ⚙️ Administration
+````carousel
+```markdown
+Structure (Wireframe)
+```
+![Mobile Admin Wireframe](wireframes/mobile_admin.png)
+<!-- slide -->
+```markdown
+Rendu Haute Fidélité
+```
+![Mobile Admin Mockup](images/mobile_admin.png)
+````
+
+---
+
+## 7. Exportation GitHub
+Tous les fichiers sources sont disponibles dans le dossier `/design` :
+- `/images` : Maquettes officielles exportées.
+- `/wireframes` : Structures filaires (layouts).
+- `Charte_graphique.md` : Ce document de référence.
