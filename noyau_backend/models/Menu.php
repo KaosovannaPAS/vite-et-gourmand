@@ -1,0 +1,167 @@
+<?php
+class Menu
+{
+    private $pdo;
+
+    public function __construct()
+    {
+        // On s'assure que db.php est inclus et que $pdo est initialisé
+        require __DIR__ . '/../configuration/db.php';
+        global $pdo;
+        $this->pdo = $pdo;
+    }
+
+    public function getAllActive($filters = [])
+    {
+        $sql = "SELECT * FROM menus WHERE actif = 1";
+        $params = [];
+
+        if (!empty($filters['theme'])) {
+            $sql .= " AND theme = ?";
+            $params[] = $filters['theme'];
+        }
+        if (!empty($filters['regime'])) {
+            if ($filters['regime'] === 'Classique') {
+                $sql .= " AND (regime = 'Classique' OR regime IS NULL OR regime = '')";
+            }
+            else {
+                $sql .= " AND regime LIKE ?";
+                $params[] = '%' . $filters['regime'] . '%';
+            }
+        }
+        if (!empty($filters['max_price'])) {
+            $sql .= " AND prix <= ?";
+            $params[] = $filters['max_price'];
+        }
+        if (!empty($filters['min_people'])) {
+            $sql .= " AND min_personnes >= ?";
+            $params[] = $filters['min_people'];
+        }
+
+        $sql .= " ORDER BY id DESC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->attachDishes($menus);
+    }
+
+    public function getAll()
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM menus ORDER BY id DESC");
+        $stmt->execute();
+        $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->attachDishes($menus);
+    }
+
+    private function cleanDescription($desc)
+    {
+        if (empty($desc))
+            return $desc;
+        $parts = preg_split('/En\s+attente\s+du\s+retour/iu', $desc);
+        return trim($parts[0] ?? '');
+    }
+
+    private function attachDishes($menus)
+    {
+        if (empty($menus))
+            return [];
+        $menuIds = array_column($menus, 'id');
+        if (empty($menuIds))
+            return $menus;
+        $inQuery = implode(',', array_fill(0, count($menuIds), '?'));
+
+        $stmt = $this->pdo->prepare("
+            SELECT md.menu_id, d.type, d.nom
+            FROM menu_dishes md
+            JOIN dishes d ON md.dish_id = d.id
+            WHERE md.menu_id IN ($inQuery)
+            ORDER BY d.id ASC
+        ");
+        $stmt->execute($menuIds);
+
+        $dishesByMenu = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $mid = $row['menu_id'];
+            $type = $row['type'];
+            if (!isset($dishesByMenu[$mid]))
+                $dishesByMenu[$mid] = [];
+            if (!isset($dishesByMenu[$mid][$type])) {
+                $dishesByMenu[$mid][$type] = $row['nom'];
+            }
+        }
+
+        foreach ($menus as &$menu) {
+            $menu['condensed_dishes'] = $dishesByMenu[$menu['id']] ?? null;
+            if (isset($menu['description'])) {
+                $menu['description'] = $this->cleanDescription($menu['description']);
+            }
+        }
+        return $menus;
+    }
+
+    public function getById($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM menus WHERE id = ?");
+        $stmt->execute([$id]);
+        $menu = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($menu) {
+            if (isset($menu['description'])) {
+                $menu['description'] = $this->cleanDescription($menu['description']);
+            }
+            $stmt = $this->pdo->prepare("
+                SELECT d.*
+                FROM dishes d
+                JOIN menu_dishes md ON d.id = md.dish_id
+                WHERE md.menu_id = ?
+                ORDER BY d.id ASC
+            ");
+            $stmt->execute([$id]);
+            $menu['allDishes'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return $menu;
+    }
+
+    public function create($data)
+    {
+        $desc = $this->cleanDescription($data['description'] ?? '');
+        $stmt = $this->pdo->prepare("INSERT INTO menus (titre, description, prix, min_personnes, stock, theme, regime, image_url, actif) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        return $stmt->execute([
+            $data['titre'],
+            $desc,
+            $data['prix'],
+            $data['min_personnes'] ?? 1,
+            $data['stock'] ?? 0,
+            $data['theme'] ?? null,
+            $data['regime'] ?? 'classique',
+            $data['image_url'] ?? null,
+            $data['actif'] ?? 1
+        ]);
+    }
+
+    public function update($id, $data)
+    {
+        $desc = $this->cleanDescription($data['description'] ?? '');
+        $stmt = $this->pdo->prepare("UPDATE menus SET titre=?, description=?, prix=?, min_personnes=?, stock=?, theme=?, regime=?, image_url=?, actif=? WHERE id=?");
+        return $stmt->execute([
+            $data['titre'],
+            $desc,
+            $data['prix'],
+            $data['min_personnes'],
+            $data['stock'],
+            $data['theme'],
+            $data['regime'],
+            $data['image_url'],
+            $data['actif'],
+            $id
+        ]);
+    }
+
+    public function delete($id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM menus WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
+}

@@ -1,0 +1,486 @@
+/* ===== MENU DETAIL PAGE ===== */
+.detail-hero {
+    position: relative;
+    height: 380px;
+    overflow: hidden;
+    border-radius: 0 0 24px 24px;
+    margin-bottom: 3rem;
+}
+
+.detail-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.detail-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, rgba(80, 0, 20, 0.75) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2.5rem 3rem;
+}
+
+.detail-hero-overlay h1 {
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    font-size: 2.8rem;
+    margin: 0 0 0.5rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.detail-hero-overlay .hero-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.hero-badge {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    font-weight: 800;
+    font-size: 1.4rem;
+    padding: 6px 18px;
+    border-radius: 8px;
+}
+
+.hero-pill {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Layout */
+.detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 3rem;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .detail-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Section titles */
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 2.5rem 0 1.5rem;
+}
+
+.section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--secondary-color), transparent);
+}
+
+.section-label span {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    white-space: nowrap;
+}
+
+.section-label i {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+}
+
+/* Diet section headers */
+.diet-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin: 2rem 0 1rem;
+    width: fit-content;
+}
+
+.diet-header.vegan {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1.5px solid #a5d6a7;
+}
+
+.diet-header.glutenfree {
+    background: #fff3e0;
+    color: #e65100;
+    border: 1.5px solid #ffcc80;
+}
+
+/* Dish cards (Baroque) */
+.dish-card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background: #5a0015;
+    /* Bordeaux BG */
+    border-radius: 4px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--secondary-color);
+    transition: box-shadow 0.25s, transform 0.25s;
+    position: relative;
+    color: #eee;
+}
+
+.dish-card::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    pointer-events: none;
+}
+
+.dish-card:hover {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+    transform: translateY(-2px);
+    border-color: #fff;
+}
+
+.dish-card.vegan-card {
+    border-left: 4px solid #66bb6a;
+}
+
+.dish-card.gluten-card {
+    border-left: 4px solid #ffa726;
+}
+
+.dish-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.dish-img-placeholder {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f5e6c8, #e8d5b0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+}
+
+.dish-info {
+    flex: 1;
+}
+
+.dish-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--secondary-color);
+    margin: 0 0 0.4rem;
+    font-weight: 700;
+}
+
+.dish-desc {
+    font-size: 0.88rem;
+    color: #ccc;
+    line-height: 1.5;
+    margin: 0 0 0.6rem;
+}
+
+.dish-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.dish-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tag-vegan {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.tag-gluten {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.tag-allergen {
+    background: #fce4ec;
+    color: #c62828;
+}
+
+/* Sidebar */
+.sidebar-card {
+    background: #5a0015;
+    /* Bordeaux BG */
+    border-radius: 4px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--secondary-color);
+    position: relative;
+    color: #fff;
+}
+
+.sidebar-card::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 1px solid var(--secondary-color);
+    pointer-events: none;
+}
+
+.sidebar-price {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--secondary-color);
+    line-height: 1;
+}
+
+.sidebar-price span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ccc;
+}
+
+.sidebar-divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 1.5rem 0;
+}
+
+.simulator-label {
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.simulator-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 0.75rem;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #555;
+    z-index: 20;
+    position: relative;
+}
+
+.price-row.total {
+    padding-top: 0.75rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+}
+
+.price-row.discount {
+    color: #27ae60;
+    font-weight: 700;
+}
+
+.cta-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 16px;
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    font-weight: 800;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    text-decoration: none;
+    margin-top: 1.5rem;
+    transition: background 0.25s, transform 0.2s;
+    position: relative;
+    z-index: 20;
+}
+
+.cta-btn:hover {
+    background: #5a0015;
+    transform: translateY(-2px);
+}
+
+.info-box {
+    background: #fffcf0;
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-size: 0.8rem;
+    color: #555;
+    line-height: 1.5;
+    margin-top: 1.25rem;
+}
+
+.info-box strong {
+    color: var(--primary-color);
+}
+
+/* Gold slider */
+.gold-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #eee;
+    border-radius: 5px;
+    outline: none;
+    position: relative;
+    z-index: 20;
+}
+
+.gold-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 18px;
+    border-radius: 9px;
+    background: var(--secondary-color);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+.gold-slider::-moz-range-thumb {
+    width: 28px;
+    height: 18px;
+    border-radius: 9px;
+    background: var(--secondary-color);
+    cursor: pointer;
+    border: 2px solid white;
+}
+
+/* 2-column dish grid */
+.dish-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 700px) {
+    .dish-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dish-card {
+    margin-bottom: 0;
+}
+
+/* Quantity stepper (Custom Image Design) */
+.qty-stepper-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+    margin: 0.5rem 0 1.5rem;
+}
+
+.qty-stepper-row label {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    /* Gold label on dark card */
+    margin-right: 12px;
+    font-weight: 700;
+}
+
+.qty-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 2px solid var(--secondary-color);
+    border-radius: 50px;
+    /* Pill shape */
+    background: #fff;
+    overflow: hidden;
+    height: 38px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.qty-btn {
+    width: 40px;
+    height: 100%;
+    border: none;
+    background: #fff;
+    color: #000;
+    font-size: 1.4rem;
+    font-weight: 600;
+    /* Thinner plus/minus */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    line-height: 0;
+    padding-bottom: 4px;
+    /* Centering adjustment */
+}
+
+.qty-btn:hover {
+    background: #f5f5f5;
+}
+
+.qty-num {
+    height: 100%;
+    min-width: 45px;
+    background: #fffcf0;
+    /* Cream center */
+    color: #5a0015;
+    /* Bordeaux number */
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--secondary-color);
+    border-right: 1px solid var(--secondary-color);
+}
+
+/* Gold discount info */
+.discount-info-text {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    font-style: italic;
+}

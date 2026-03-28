@@ -1,0 +1,9 @@
+.git
+.gitignore
+.vercel
+node_modules
+Charte graphique.pdf
+*.md
+.gemini
+package-lock.json
+package.json
